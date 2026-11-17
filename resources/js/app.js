@@ -95,31 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 4. Interactive Timeline Station Preview
-    const timelineButtons = document.querySelectorAll('.timeline-station-btn');
-    const timelineInfoBox = document.getElementById('timelineStationInfo');
-    if (timelineButtons.length && timelineInfoBox) {
-        timelineButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const title = btn.getAttribute('data-title') || '';
-                const desc = btn.getAttribute('data-desc') || '';
-                const icon = btn.getAttribute('data-icon') || '';
-                const step = btn.getAttribute('data-step') || '';
-
-                timelineButtons.forEach(b => b.classList.remove('ring-4', 'ring-amber-400', 'scale-110'));
-                btn.classList.add('ring-4', 'ring-amber-400', 'scale-110');
-
-                timelineInfoBox.innerHTML = `
-                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-xs font-bold mb-2">
-                        المحطة ${step} من 7
-                    </div>
-                    <h4 class="text-xl font-bold text-white mb-2">${title}</h4>
-                    <p class="text-white/80 text-sm leading-relaxed">${desc}</p>
-                `;
-            });
-        });
-    }
-
     // 5. Global Booking Calculator
     const bookingForm = document.getElementById('bookingForm');
     if (bookingForm) {
@@ -235,30 +210,142 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+});
 
-    // 9. Mountain Road Waypoint Interactive Nodes (Summit Journey)
-    const waypointButtons = document.querySelectorAll('.waypoint-node');
-    const summitCard = document.getElementById('summitJourneyDisplay');
-    if (waypointButtons.length && summitCard) {
-        waypointButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const title = btn.getAttribute('data-title') || '';
-                const desc = btn.getAttribute('data-desc') || '';
-                const step = btn.getAttribute('data-step') || '';
-                const icon = btn.getAttribute('data-icon') || 'fa-mountain';
+/* =====================================================================
+   MATAL · UI ENGINE  (append to the END of resources/js/app.js)
+   Scroll reveal · 3D tilt + glare · parallax · accordion · gallery · magnetic buttons
+   ===================================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-                waypointButtons.forEach(b => b.classList.remove('is-active'));
-                btn.classList.add('is-active');
+    // 1. Auto stagger: children of [data-stagger] get an increasing delay
+    document.querySelectorAll('[data-stagger]').forEach(parent => {
+        const step = parseFloat(parent.getAttribute('data-stagger')) || 0.09;
+        Array.from(parent.children).forEach((child, i) => child.style.setProperty('--d', `${(i * step).toFixed(2)}s`));
+    });
 
-                summitCard.innerHTML = `
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2EC4C9]/20 text-[#2EC4C9] text-xs font-bold mb-3 border border-[#2EC4C9]/30">
-                        <i class="fa-solid ${icon}"></i>
-                        <span>المحطة ${step} من 7</span>
-                    </div>
-                    <h3 class="text-2xl sm:text-3xl font-black text-white mb-2 font-display">${title}</h3>
-                    <p class="text-sky-100/90 text-sm sm:text-base leading-relaxed">${desc}</p>
-                `;
+    // 2. Scroll reveal
+    const revealEls = document.querySelectorAll('.mg-reveal');
+    if ('IntersectionObserver' in window && !reduce) {
+        const io = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-in');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+        revealEls.forEach(el => io.observe(el));
+    } else {
+        revealEls.forEach(el => el.classList.add('is-in'));
+    }
+
+    // 3. 3D tilt with moving glare for every .mg-card
+    if (canHover && !reduce) {
+        document.querySelectorAll('.mg-card:not([data-no-tilt])').forEach(card => {
+            if (!card.querySelector(':scope > .mg-glare')) {
+                const glare = document.createElement('span');
+                glare.className = 'mg-glare';
+                glare.setAttribute('aria-hidden', 'true');
+                card.appendChild(glare);
+            }
+            const max = parseFloat(card.getAttribute('data-tilt-max')) || 7;
+            card.addEventListener('mousemove', e => {
+                const r = card.getBoundingClientRect();
+                const px = (e.clientX - r.left) / r.width;
+                const py = (e.clientY - r.top) / r.height;
+                card.style.setProperty('--ry', `${((px - 0.5) * max * 2).toFixed(2)}deg`);
+                card.style.setProperty('--rx', `${((0.5 - py) * max * 2).toFixed(2)}deg`);
+                card.style.setProperty('--mx', `${(px * 100).toFixed(1)}%`);
+                card.style.setProperty('--my', `${(py * 100).toFixed(1)}%`);
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.setProperty('--rx', '0deg');
+                card.style.setProperty('--ry', '0deg');
             });
         });
     }
+
+    // 4. Magnetic buttons
+    if (canHover && !reduce) {
+        document.querySelectorAll('[data-magnetic]').forEach(btn => {
+            btn.addEventListener('mousemove', e => {
+                const r = btn.getBoundingClientRect();
+                const x = (e.clientX - (r.left + r.width / 2)) * 0.18;
+                const y = (e.clientY - (r.top + r.height / 2)) * 0.28;
+                btn.style.transform = `translate(${x}px, ${y}px)`;
+            });
+            btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+        });
+    }
+
+    // 5. Scroll parallax for [data-speed] elements (orbs, floating cards, backgrounds)
+    const parallaxEls = Array.from(document.querySelectorAll('[data-speed]'));
+    if (parallaxEls.length && !reduce) {
+        let ticking = false;
+        const update = () => {
+            const vh = window.innerHeight;
+            parallaxEls.forEach(el => {
+                const r = el.parentElement.getBoundingClientRect();
+                if (r.bottom < -200 || r.top > vh + 200) return;
+                const speed = parseFloat(el.getAttribute('data-speed')) || 0.1;
+                const offset = (r.top + r.height / 2 - vh / 2) * speed * -1;
+                el.style.translate = `0 ${offset.toFixed(1)}px`;
+            });
+            ticking = false;
+        };
+        window.addEventListener('scroll', () => {
+            if (!ticking) { requestAnimationFrame(update); ticking = true; }
+        }, { passive: true });
+        update();
+    }
+
+    // 6. Accordion (.mg-acc > .mg-acc-trigger) , optional single-open via [data-acc-single] on a parent
+    document.querySelectorAll('.mg-acc').forEach(item => {
+        const trigger = item.querySelector('.mg-acc-trigger');
+        if (!trigger) return;
+        trigger.addEventListener('click', e => {
+            e.preventDefault();
+            const willOpen = !item.classList.contains('is-open');
+            const group = item.closest('[data-acc-single]');
+            if (group && willOpen) {
+                group.querySelectorAll('.mg-acc.is-open').forEach(o => {
+                    o.classList.remove('is-open');
+                    const t = o.querySelector('.mg-acc-trigger');
+                    if (t) t.setAttribute('aria-expanded', 'false');
+                });
+            }
+            item.classList.toggle('is-open', willOpen);
+            trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        });
+    });
+
+    // 7. Expanding gallery panels
+    const panels = document.querySelectorAll('.mg-panel');
+    panels.forEach(panel => {
+        const activate = () => {
+            panels.forEach(p => p.classList.remove('is-active'));
+            panel.classList.add('is-active');
+        };
+        panel.addEventListener('mouseenter', activate);
+        panel.addEventListener('focus', activate);
+    });
+
+    // 8. Generic filter chips: [data-filter-group="<css selector of items>"] > .mg-chip[data-filter]
+    //    items need [data-cat="slug1 slug2"]
+    document.querySelectorAll('[data-filter-group]').forEach(group => {
+        const chips = group.querySelectorAll('.mg-chip[data-filter]');
+        const items = document.querySelectorAll(group.getAttribute('data-filter-group'));
+        chips.forEach(chip => chip.addEventListener('click', () => {
+            const f = chip.getAttribute('data-filter');
+            chips.forEach(c => c.classList.toggle('is-active', c === chip));
+            items.forEach(it => {
+                const show = f === 'all' || (it.getAttribute('data-cat') || '').split(' ').includes(f);
+                it.style.display = show ? '' : 'none';
+                if (show) { it.classList.remove('is-in'); requestAnimationFrame(() => it.classList.add('is-in')); }
+            });
+        }));
+    });
 });
