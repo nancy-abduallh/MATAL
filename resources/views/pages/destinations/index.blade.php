@@ -5,154 +5,139 @@
 
 @section('content')
 
-<!-- Hero Banner matching Destinations.png -->
-<section class="relative py-24 bg-cover bg-center text-white" style="background-image: url('/images/coastal_beach.jpg');">
-    <div class="absolute inset-0 bg-gradient-to-b from-[#164E63]/85 via-[#0e3b4d]/80 to-[#164E63]/90 backdrop-blur-sm"></div>
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-        <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight font-heading">
-            الوجهات والمعالم
-        </h1>
-        <p class="text-lg sm:text-xl text-sky-100 max-w-2xl mx-auto font-normal leading-relaxed">
-            استكشف مواقع جازان الطبيعية والتراثية من أعاليها إلى سواحلها.
-        </p>
+@php $keep = request()->except('page'); @endphp
+
+<x-mg.page-hero title="الوجهات والمعالم" subtitle="استكشف مواقع جازان الطبيعية والتراثية من أعاليها إلى سواحلها."
+    image="/images/jazan_alreeth_viewpoint.jpg" :crumbs="['الوجهات والمعالم' => null]">
+    <div class="mt-8 flex flex-wrap gap-3 mg-reveal" style="--d: .22s">
+        <span class="mg-badge"><i class="fa-solid fa-location-dot text-[#38BDF8]"></i> {{ $destinations->total() }} وجهة</span>
+        <span class="mg-badge"><i class="fa-solid fa-star text-[#38BDF8]"></i> مرتبة حسب أعلى تقييم</span>
     </div>
-</section>
+</x-mg.page-hero>
 
-<!-- Content with Sidebar Filter matching Destinations.png -->
-<section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        <!-- Left Sidebar Filter (matching Destinations.png layout) -->
+<section class="relative px-4 pb-24 -mt-2 overflow-hidden">
+    <div class="mg-orb mg-orb-cyan w-96 h-96 top-20 -right-24" data-speed="0.08"></div>
+    <div class="mg-orb mg-orb-sky w-80 h-80 bottom-20 -left-20" data-speed="0.06"></div>
+
+    <div class="relative z-[2] max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        {{-- ============ FILTER SIDEBAR ============ --}}
         <aside class="lg:col-span-3 order-1 lg:order-2">
-            <div class="bg-white rounded-3xl p-6 shadow-xl border border-sky-100 text-right sticky top-28 space-y-6">
-                <div class="border-b border-sky-100 pb-3 flex items-center justify-between">
-                    <h3 class="font-bold text-lg text-[#164E63] font-heading">تصفية الوجهات</h3>
-                    <a href="{{ route('destinations.index') }}" class="text-xs text-[#06B6D4] hover:text-[#0891b2] font-bold transition">إعادة ضبط</a>
+            <details id="filterBox" class="group rounded-3xl bg-white border border-[#06B6D4]/20 shadow-xl shadow-[#164E63]/10 lg:sticky lg:top-28 overflow-hidden mg-reveal mg-reveal-left">
+                <summary class="lg:hidden flex items-center justify-between p-5 font-black text-[#164E63] cursor-pointer list-none">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-sliders text-[#06B6D4]"></i> تصفية الوجهات</span>
+                    <i class="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+                </summary>
+
+                <div class="h-1.5 hidden lg:block bg-gradient-to-r from-[#164E63] via-[#06B6D4] to-[#38BDF8]"></div>
+
+                <div class="p-6 pt-3 lg:pt-6 space-y-6 text-right">
+                    <div class="hidden lg:flex items-center justify-between pb-3 border-b border-[#06B6D4]/15">
+                        <h3 class="font-black text-[#164E63] flex items-center gap-2"><i class="fa-solid fa-sliders text-[#06B6D4]"></i> تصفية الوجهات</h3>
+                        <a href="{{ route('destinations.index') }}" class="text-xs font-bold text-[#0891B2] hover:text-[#164E63] transition">إعادة ضبط</a>
+                    </div>
+
+                    <form action="{{ route('destinations.index') }}" method="GET" class="space-y-6">
+                        @foreach(['category', 'difficulty', 'family_only'] as $k)
+                            @if(request($k))
+                                <input type="hidden" name="{{ $k }}" value="{{ request($k) }}">
+                            @endif
+                        @endforeach
+
+                        <div>
+                            <label class="mg-label">بحث بالاسم</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-[#06B6D4] text-sm pointer-events-none"></i>
+                                <input type="text" name="q" value="{{ request('q') }}" placeholder="ابحث عن معلم..." class="mg-field !pr-11 !py-2.5 text-sm">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="mg-label">النوع والتصنيف</label>
+                            <div class="flex flex-wrap gap-2">
+                                @foreach($categories as $cat)
+                                    @php $on = request('category') == $cat->slug; @endphp
+                                    <a href="{{ route('destinations.index', array_merge($keep, ['category' => $on ? null : $cat->slug])) }}"
+                                       class="mg-chip !px-3.5 !py-1.5 !text-xs {{ $on ? 'is-active' : '' }}">{{ $cat->name }}</a>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="mg-label">مستوى الصعوبة</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                @foreach(['سهل', 'متوسط', 'صعب'] as $lvl)
+                                    @php $on = request('difficulty') == $lvl; @endphp
+                                    <a href="{{ route('destinations.index', array_merge($keep, ['difficulty' => $on ? null : $lvl])) }}"
+                                       class="mg-chip !justify-center !px-2 !py-2 !text-xs {{ $on ? 'is-active' : '' }}">{{ $lvl }}</a>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="mg-label">مناسب للعائلة</label>
+                            @php $fam = (bool) request('family_only'); @endphp
+                            <a href="{{ route('destinations.index', array_merge($keep, ['family_only' => $fam ? null : 1])) }}"
+                               class="flex items-center justify-between gap-3 p-3 rounded-2xl border transition-all duration-300 {{ $fam ? 'bg-gradient-to-r from-[#164E63] to-[#0e3b4d] text-white border-transparent shadow-lg shadow-[#164E63]/30' : 'bg-[#F8FCFD] text-[#164E63] border-[#06B6D4]/20 hover:border-[#06B6D4]' }}">
+                                <span class="flex items-center gap-2 text-xs font-bold"><i class="fa-solid fa-people-roof {{ $fam ? 'text-[#38BDF8]' : 'text-[#06B6D4]' }}"></i> نعم، مناسب للعائلات</span>
+                                <span class="w-10 h-6 rounded-full p-0.5 flex {{ $fam ? 'bg-[#06B6D4] justify-start' : 'bg-[#164E63]/20 justify-end' }}"><span class="w-5 h-5 rounded-full bg-white shadow"></span></span>
+                            </a>
+                        </div>
+
+                        <button type="submit" class="mg-btn w-full"><i class="fa-solid fa-filter"></i><span>تطبيق التصفية</span></button>
+                    </form>
                 </div>
-
-                <form action="{{ route('destinations.index') }}" method="GET" class="space-y-6">
-                    
-                    <!-- Search Input -->
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-2">بحث بالاسم</label>
-                        <input type="text" name="q" value="{{ request('q') }}" placeholder="ابحث عن معلم..." 
-                               class="w-full p-2.5 rounded-xl border border-sky-100 bg-sky-50/50 focus:bg-white text-xs focus:outline-none focus:border-[#06B6D4] transition">
-                    </div>
-
-                    <!-- Categories Filter Pills -->
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-2.5">النوع والتصنيف</label>
-                        <div class="flex flex-wrap gap-1.5">
-                            @foreach($categories as $cat)
-                                <a href="{{ route('destinations.index', array_merge(request()->query(), ['category' => $cat->slug])) }}" 
-                                   class="px-3 py-1.5 rounded-full text-xs font-medium transition {{ request('category') == $cat->slug ? 'bg-gradient-to-r from-[#06B6D4] to-[#38BDF8] text-white font-bold shadow-sm' : 'bg-sky-50/70 text-slate-600 hover:bg-sky-100/70' }}">
-                                    {{ $cat->name }}
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <!-- Difficulty Filter -->
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-2.5">مستوى الصعوبة</label>
-                        <div class="flex items-center gap-2">
-                            <a href="{{ route('destinations.index', array_merge(request()->query(), ['difficulty' => 'سهل'])) }}"
-                               class="px-3.5 py-1.5 rounded-full text-xs font-medium transition {{ request('difficulty') == 'سهل' ? 'bg-emerald-600 text-white font-bold shadow-sm' : 'bg-sky-50/70 text-slate-600 hover:bg-sky-100/70' }}">
-                                سهل
-                            </a>
-                            <a href="{{ route('destinations.index', array_merge(request()->query(), ['difficulty' => 'متوسط'])) }}"
-                               class="px-3.5 py-1.5 rounded-full text-xs font-medium transition {{ request('difficulty') == 'متوسط' ? 'bg-amber-500 text-slate-950 font-bold shadow-sm' : 'bg-sky-50/70 text-slate-600 hover:bg-sky-100/70' }}">
-                                متوسط
-                            </a>
-                            <a href="{{ route('destinations.index', array_merge(request()->query(), ['difficulty' => 'صعب'])) }}"
-                               class="px-3.5 py-1.5 rounded-full text-xs font-medium transition {{ request('difficulty') == 'صعب' ? 'bg-rose-600 text-white font-bold shadow-sm' : 'bg-sky-50/70 text-slate-600 hover:bg-sky-100/70' }}">
-                                صعب
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Family Friendly Filter -->
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-2">مناسب للعائلة</label>
-                        <a href="{{ route('destinations.index', array_merge(request()->query(), ['family_only' => request('family_only') ? 0 : 1])) }}"
-                           class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition {{ request('family_only') ? 'bg-gradient-to-r from-[#06B6D4] to-[#38BDF8] text-white shadow-sm' : 'bg-sky-50/70 text-slate-600 hover:bg-sky-100/70' }}">
-                            <i class="fa-solid fa-users"></i>
-                            <span>نعم، مناسب للعائلات</span>
-                        </a>
-                    </div>
-
-                    <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#38BDF8] hover:from-[#0891b2] hover:to-[#0284c7] text-white font-bold text-xs shadow-md shadow-cyan-500/25 transition">
-                        تطبيق التصفية
-                    </button>
-                </form>
-
-            </div>
+            </details>
         </aside>
 
-        <!-- Right Grid of Destinations (matching Destinations.png) -->
-        <main class="lg:col-span-9 order-2 lg:order-1">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                
+        {{-- ============ DESTINATIONS GRID ============ --}}
+        <main class="lg:col-span-9 order-2 lg:order-1 min-w-0">
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mg-perspective" data-stagger="0.08">
                 @forelse($destinations as $dest)
-                    <a href="{{ route('destinations.show', $dest->slug) }}" class="bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:shadow-cyan-500/15 border border-sky-100 hover:border-cyan-300 group tilt-card card-shimmer flex flex-col text-right block transition-all duration-400">
-                        
-                        <!-- Image -->
-                        <div class="relative h-60 overflow-hidden">
-                            <img src="{{ $dest->image }}" alt="{{ $dest->title }}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#164E63]/85 via-black/20 to-transparent"></div>
-                            
-                            <!-- Badges -->
-                            <div class="absolute top-3 right-3">
-                                <span class="px-3 py-1 rounded-full bg-slate-900/60 backdrop-blur-md text-white text-[11px] font-bold border border-white/20 shadow-sm">
-                                    {{ $dest->region }}
-                                </span>
-                            </div>
+                    <a href="{{ route('destinations.show', $dest->slug) }}" class="mg-card mg-reveal group flex flex-col overflow-hidden">
+                        <div class="mg-photo mg-photo-tint h-56 rounded-t-[1.75rem] rounded-b-none">
+                            <img src="{{ $dest->image }}" alt="{{ $dest->title }}" loading="lazy">
+                            <span class="mg-badge absolute top-4 right-4 z-10"><i class="fa-solid fa-location-dot text-[#38BDF8]"></i> {{ $dest->region }}</span>
+                            <span class="mg-badge mg-badge-cyan absolute bottom-4 left-4 z-10"><i class="fa-solid fa-star"></i> {{ number_format($dest->rating, 1) }}</span>
                         </div>
-
-                        <!-- Card Body -->
-                        <div class="p-5 flex-grow flex flex-col justify-between space-y-3">
-                            <div>
-                                <h3 class="text-xl font-bold text-[#164E63] group-hover:text-[#06B6D4] transition duration-300 font-heading">
-                                    {{ $dest->title }}
-                                </h3>
-                                <p class="text-[#183746]/70 text-xs mt-1">
-                                    {{ $dest->tagline ?? $dest->category?->name }}
-                                </p>
-                            </div>
-
-                            <!-- Footer Badges: Difficulty, Rating, Arrow -->
-                            <div class="pt-3 border-t border-sky-100 flex items-center justify-between text-xs">
+                        <div class="p-5 flex flex-col flex-grow text-right">
+                            <h3 class="text-lg font-black text-[#164E63] mb-1.5 group-hover:text-[#0891B2] transition-colors">{{ $dest->title }}</h3>
+                            <p class="text-sm text-[#183746]/70 leading-relaxed line-clamp-2 mb-4">{{ $dest->tagline ?? $dest->category?->name }}</p>
+                            <div class="mt-auto pt-4 border-t border-[#06B6D4]/15 flex items-center justify-between">
                                 <div class="flex items-center gap-2">
-                                    <span class="px-2.5 py-1 bg-sky-50 text-[#164E63] rounded-lg font-medium border border-sky-100">
-                                        {{ $dest->difficulty }}
-                                    </span>
-                                    <span class="text-amber-500 font-bold flex items-center gap-1 group-hover:scale-105 transition">
-                                        <i class="fa-solid fa-star text-amber-400"></i> {{ number_format($dest->rating, 1) }}
-                                    </span>
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#E0F2FE] text-[#164E63] text-[11px] font-black"><i class="fa-solid fa-gauge-high text-[#06B6D4]"></i> {{ $dest->difficulty }}</span>
+                                    @if($dest->is_family_friendly)
+                                        <span class="w-7 h-7 rounded-lg bg-[#E0F2FE] text-[#06B6D4] flex items-center justify-center text-xs" title="مناسب للعائلة"><i class="fa-solid fa-people-roof"></i></span>
+                                    @endif
                                 </div>
-                                <span class="w-8 h-8 rounded-full bg-sky-50 group-hover:bg-[#06B6D4] text-[#06B6D4] group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-2xs">
-                                    <i class="fa-solid fa-arrow-left text-xs card-arrow-icon"></i>
-                                </span>
+                                <span class="w-9 h-9 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white flex items-center justify-center text-xs shadow-md shadow-[#06B6D4]/40 group-hover:-translate-x-1.5 transition-transform duration-300"><i class="fa-solid fa-arrow-left"></i></span>
                             </div>
                         </div>
-
                     </a>
                 @empty
-                    <div class="col-span-full py-16 text-center text-slate-500">
-                        <i class="fa-solid fa-map-location-dot text-4xl text-slate-300 mb-3"></i>
-                        <p>لا توجد وجهات مطابقة للمعايير المحددة.</p>
+                    <div class="col-span-full text-center py-20 rounded-[2rem] bg-white border-2 border-dashed border-[#06B6D4]/30 mg-reveal">
+                        <span class="mg-icon-tile mx-auto mb-5 mg-float-a"><i class="fa-solid fa-mountain-sun"></i></span>
+                        <p class="text-[#164E63] font-black text-lg">لا توجد وجهات مطابقة للمعايير المحددة.</p>
+                        <a href="{{ route('destinations.index') }}" class="mg-btn mt-6"><span>إعادة ضبط التصفية</span><i class="fa-solid fa-arrow-left text-xs"></i></a>
                     </div>
                 @endforelse
-
             </div>
 
-            <!-- Pagination -->
-            <div class="mt-12 flex justify-center">
-                {{ $destinations->links() }}
+            <div class="mt-14">
+                {{ $destinations->links('vendor.pagination.mg') }}
             </div>
         </main>
-
     </div>
 </section>
 
 @endsection
+
+@push('scripts')
+<script>
+    // Filter panel: always open on desktop, collapsible on mobile
+    document.addEventListener('DOMContentLoaded', () => {
+        const box = document.getElementById('filterBox');
+        if (box && window.matchMedia('(min-width: 1024px)').matches) box.open = true;
+    });
+</script>
+@endpush
