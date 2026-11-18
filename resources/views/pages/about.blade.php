@@ -5,125 +5,158 @@
 
 @section('content')
 
-<!-- Hero Banner matching About + Contact.png -->
-<section class="relative py-28 bg-cover bg-center text-white" style="background-image: url('/images/mountain_terraces.jpg');">
-    <div class="absolute inset-0 bg-gradient-to-b from-[#164E63]/85 via-[#0e3b4d]/80 to-[#164E63]/90 backdrop-blur-sm"></div>
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-        <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight font-heading">
-            من نحن
-        </h1>
-        <p class="text-lg sm:text-xl text-sky-100 max-w-2xl mx-auto font-normal leading-relaxed">
-            منصة رقمية لاكتشاف جازان من أعاليها إلى سواحلها.
-        </p>
+@php
+    $pillars = [
+        ['n' => '01', 'icon' => 'fa-eye', 'title' => 'الرؤية',
+         'text' => 'أن يصبح تطبيق «مَطَلّ» المنصة الرقمية الأولى لاكتشاف التجارب والمسارات السياحية الأصيلة في منطقة جازان، وربط السائح بالمكان والمجتمع المحلي ومقدمي الخدمات السياحية بكفاءة واستدامة.'],
+        ['n' => '02', 'icon' => 'fa-bullseye', 'title' => 'الرسالة',
+         'text' => 'تقديم تجربة سياحية رقمية سهلة وآمنة وموثوقة، تساعد الزائر على: اكتشاف جازان، التخطيط لرحلته، حجز تجاربه، والتنقل بين مساراتها السياحية مع دعم المشاريع المحلية وتحقيق الاستدامة الاقتصادية.'],
+    ];
+    $steps = [
+        ['fa-compass', 'اكتشف جازان'],
+        ['fa-calendar-days', 'خطط لرحلتك'],
+        ['fa-ticket', 'احجز تجاربك'],
+        ['fa-route', 'تنقّل بين المسارات'],
+    ];
+    $partnerIcons = ['fa-landmark', 'fa-bullhorn', 'fa-crown', 'fa-city', 'fa-monument', 'fa-handshake-angle', 'fa-store', 'fa-seedling', 'fa-user-tie', 'fa-ship', 'fa-hands-holding'];
+    $half = (int) ceil(count($partners) / 2);
+    $rowA = array_slice($partners, 0, $half, true);
+    $rowB = array_slice($partners, $half, null, true);
+@endphp
+
+{{-- ================= HERO ================= --}}
+<x-mg.page-hero title="من نحن" subtitle="منصة رقمية لاكتشاف جازان من أعاليها إلى سواحلها."
+    image="/images/mountain_terraces.jpg" :crumbs="['من نحن' => null]">
+    <div class="mt-8 flex flex-wrap gap-3 mg-reveal" style="--d: .22s">
+        <a href="#contact" class="mg-btn" data-magnetic><span>تواصل معنا</span><i class="fa-solid fa-arrow-left text-xs"></i></a>
+        <a href="{{ route('routes.index') }}" class="mg-btn-ghost !text-white !bg-white/10 !border-white/35"><i class="fa-solid fa-route"></i><span>استكشف المسارات</span></a>
     </div>
-</section>
+</x-mg.page-hero>
 
-<!-- Vision & Mission Section matching About + Contact.png -->
-<section class="py-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-right">
-    
-    <div class="text-center space-y-3 mb-14">
-        <h2 class="text-3xl sm:text-4xl font-black text-[#164E63] tracking-tight font-heading">
-            رؤيتنا ورسالتنا
-        </h2>
-        <p class="text-[#183746]/60 text-sm">البوصلة التي تقود تجربة السياحة الرقمية المستدامة في جازان</p>
-    </div>
+{{-- ================= VISION & MISSION ================= --}}
+<section class="mg-section mg-bg-dark mg-grid-pattern">
+    <div class="mg-orb mg-orb-cyan w-[30rem] h-[30rem] -top-32 -right-20" data-speed="0.1"></div>
+    <div class="mg-orb mg-orb-sky w-96 h-96 bottom-0 -left-24" data-speed="0.08"></div>
+    <div class="mg-wrap">
+        <x-mg.section-head eyebrow="هويتنا وتوجهنا" icon="fa-compass" title="رؤيتنا ورسالتنا"
+            text="البوصلة التي تقود تجربة السياحة الرقمية المستدامة في جازان" />
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-        <!-- الرؤية -->
-        <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-md hover:shadow-2xl hover:shadow-cyan-500/15 border border-sky-100 hover:border-cyan-300 tilt-card card-shimmer card-3d-lift space-y-4 group transition-all duration-400">
-            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white flex items-center justify-center text-2xl mb-4 shadow-md shadow-cyan-500/25 group-hover:scale-110 group-hover:rotate-6 transition duration-300">
-                <i class="fa-solid fa-eye"></i>
-            </div>
-            <h3 class="text-2xl font-black text-[#164E63] group-hover:text-[#06B6D4] transition font-heading">الرؤية</h3>
-            <p class="text-[#183746]/80 leading-relaxed text-sm sm:text-base">
-                أن يصبح تطبيق «مَطَلّ» المنصة الرقمية الأولى لاكتشاف التجارب والمسارات السياحية الأصيلة في منطقة جازان، وربط السائح بالمكان والمجتمع المحلي ومقدمي الخدمات السياحية بكفاءة واستدامة.
-            </p>
-        </div>
-
-        <!-- الرسالة -->
-        <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-md hover:shadow-2xl hover:shadow-cyan-500/15 border border-sky-100 hover:border-cyan-300 tilt-card card-shimmer card-3d-lift space-y-4 group transition-all duration-400">
-            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white flex items-center justify-center text-2xl mb-4 shadow-md shadow-cyan-500/25 group-hover:scale-110 group-hover:rotate-6 transition duration-300">
-                <i class="fa-solid fa-bullseye"></i>
-            </div>
-            <h3 class="text-2xl font-black text-[#164E63] group-hover:text-[#06B6D4] transition font-heading">الرسالة</h3>
-            <p class="text-[#183746]/80 leading-relaxed text-sm sm:text-base">
-                تقديم تجربة سياحية رقمية سهلة وآمنة وموثوقة، تساعد الزائر على: اكتشاف جازان، التخطيط لرحلته، حجز تجاربه، والتنقل بين مساراتها السياحية مع دعم المشاريع المحلية وتحقيق الاستدامة الاقتصادية.
-            </p>
-        </div>
-
-    </div>
-
-</section>
-
-<!-- Partners Section matching About + Contact.png -->
-<section class="py-16 bg-[#F8FCFD] border-y border-sky-100 text-center">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <h3 class="text-2xl font-black text-[#164E63] mb-3 font-heading">شركاؤنا</h3>
-        <p class="text-[#183746]/60 text-sm mb-8">شراكات تكاملية بين القطاعين الحكومي والخاص والمجتمع المحلي</p>
-
-        <div class="bg-white rounded-3xl p-6 shadow-md border border-sky-100 flex flex-wrap items-center justify-center gap-3">
-            @foreach($partners as $partner)
-                <span class="px-4 py-2 rounded-xl bg-sky-50/70 text-[#164E63] font-semibold text-xs sm:text-sm border border-sky-100 shadow-2xs">
-                    {{ $partner }}
-                </span>
+        <div class="grid lg:grid-cols-2 gap-7 mg-perspective" data-stagger="0.15">
+            @foreach($pillars as $p)
+                <div class="mg-card mg-card-glass mg-reveal group p-8 sm:p-10 overflow-hidden" data-tilt-max="6">
+                    <span class="mg-outline-num absolute -top-3 left-6 text-[8rem] pointer-events-none select-none">{{ $p['n'] }}</span>
+                    <div class="mg-icon-tile mg-pop !w-16 !h-16 !text-2xl mb-6"><i class="fa-solid {{ $p['icon'] }}"></i></div>
+                    <h3 class="text-2xl sm:text-3xl font-black mb-4">{{ $p['title'] }}</h3>
+                    <p class="text-sky-100/85 leading-loose">{{ $p['text'] }}</p>
+                    <div class="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-[#164E63] via-[#06B6D4] to-[#38BDF8]"></div>
+                </div>
             @endforeach
         </div>
 
+        {{-- Journey steps taken from the mission statement --}}
+        <div class="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-4 relative" data-stagger="0.12">
+            @foreach($steps as $i => $s)
+                <div class="mg-reveal relative text-center p-5 rounded-3xl bg-white/5 border border-white/15 backdrop-blur hover:bg-white/10 hover:-translate-y-1.5 hover:border-[#38BDF8]/60 transition-all duration-300">
+                    <span class="mg-icon-tile mx-auto mb-3"><i class="fa-solid {{ $s[0] }}"></i></span>
+                    <div class="text-[11px] font-black text-[#38BDF8] mb-1">الخطوة 0{{ $i + 1 }}</div>
+                    <div class="font-black text-sm sm:text-base">{{ $s[1] }}</div>
+                    @if(!$loop->last)
+                        <i class="fa-solid fa-angles-left hidden lg:block absolute top-1/2 -left-3.5 -translate-y-1/2 text-[#38BDF8]/60 text-sm z-10"></i>
+                    @endif
+                </div>
+            @endforeach
+        </div>
     </div>
 </section>
 
-<!-- Contact Us Form matching About + Contact.png -->
-<section id="contact" class="py-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-right">
-    
-    <div class="text-center space-y-3 mb-12">
-        <h2 class="text-3xl sm:text-4xl font-black text-[#164E63] tracking-tight font-heading">
-            تواصل معنا
-        </h2>
-        <p class="text-[#183746]/60 text-sm">يسعدنا استقبال استفساراتكم واقتراحاتكم وطلبات الانضمام كشركاء</p>
-    </div>
+{{-- ================= PARTNERS ================= --}}
+<section class="mg-section mg-bg-white">
+    <div class="mg-orb mg-orb-cyan w-96 h-96 top-10 -left-24" data-speed="0.08"></div>
+    <div class="mg-wrap">
+        <x-mg.section-head eyebrow="منظومة متكاملة" icon="fa-handshake" title="شركاؤنا"
+            text="شراكات تكاملية بين القطاعين الحكومي والخاص والمجتمع المحلي" />
 
-    <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-2xl hover:shadow-cyan-500/10 border border-sky-100 transition-all">
-        
-        <form action="{{ route('contact.submit') }}" method="POST" class="space-y-6">
-            @csrf
-
-            <div>
-                <label class="block text-xs font-bold text-slate-700 mb-2">الاسم الكامل *</label>
-                <input type="text" name="name" required placeholder="اسمك الكريم" 
-                       class="w-full p-3.5 rounded-xl border border-sky-100 text-sm focus:outline-none focus:border-[#06B6D4] bg-sky-50/50 focus:bg-white transition">
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">البريد الإلكتروني *</label>
-                    <input type="email" name="email" required placeholder="example@domain.com" 
-                           class="w-full p-3.5 rounded-xl border border-sky-100 text-sm focus:outline-none focus:border-[#06B6D4] bg-sky-50/50 focus:bg-white transition">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">رقم الجوال (اختياري)</label>
-                    <input type="tel" name="phone" placeholder="05XXXXXXXX" 
-                           class="w-full p-3.5 rounded-xl border border-sky-100 text-sm focus:outline-none focus:border-[#06B6D4] bg-sky-50/50 focus:bg-white transition">
+        <div class="space-y-5">
+            <div class="mg-marquee" dir="rtl">
+                <div class="mg-marquee-track py-2">
+                    @foreach([false, true] as $dup)
+                        @foreach($rowA as $k => $partner)
+                            <div class="group flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-white border border-[#06B6D4]/20 shadow-sm hover:border-[#06B6D4] hover:-translate-y-1 hover:shadow-xl hover:shadow-[#06B6D4]/20 transition-all duration-300 whitespace-nowrap" @if($dup) aria-hidden="true" @endif>
+                                <span class="mg-icon-tile !w-10 !h-10 !text-sm !rounded-xl"><i class="fa-solid {{ $partnerIcons[$k % count($partnerIcons)] }}"></i></span>
+                                <span class="font-black text-[#164E63] text-sm">{{ $partner }}</span>
+                            </div>
+                        @endforeach
+                    @endforeach
                 </div>
             </div>
-
-            <div>
-                <label class="block text-xs font-bold text-slate-700 mb-2">رسالتك *</label>
-                <textarea name="message" rows="5" required placeholder="اكتب تفاصيل استفسارك أو اقتراحك هنا..." 
-                          class="w-full p-3.5 rounded-xl border border-sky-100 text-sm focus:outline-none focus:border-[#06B6D4] bg-sky-50/50 focus:bg-white leading-relaxed transition"></textarea>
+            <div class="mg-marquee" dir="rtl">
+                <div class="mg-marquee-track py-2 [animation-direction:reverse]">
+                    @foreach([false, true] as $dup)
+                        @foreach($rowB as $k => $partner)
+                            <div class="group flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-white border border-[#06B6D4]/20 shadow-sm hover:border-[#06B6D4] hover:-translate-y-1 hover:shadow-xl hover:shadow-[#06B6D4]/20 transition-all duration-300 whitespace-nowrap" @if($dup) aria-hidden="true" @endif>
+                                <span class="mg-icon-tile mg-icon-tile-dark !w-10 !h-10 !text-sm !rounded-xl"><i class="fa-solid {{ $partnerIcons[$k % count($partnerIcons)] }}"></i></span>
+                                <span class="font-black text-[#164E63] text-sm">{{ $partner }}</span>
+                            </div>
+                        @endforeach
+                    @endforeach
+                </div>
             </div>
-
-            <div class="pt-2">
-                <button type="submit" class="w-full sm:w-auto px-10 py-3.5 rounded-2xl bg-gradient-to-r from-[#06B6D4] to-[#38BDF8] hover:from-[#0891b2] hover:to-[#0284c7] text-white font-black text-sm shadow-xl shadow-cyan-500/25 transition transform hover:scale-105">
-                    إرسال الرسالة
-                </button>
-            </div>
-
-        </form>
-
+        </div>
     </div>
+</section>
 
+{{-- ================= CONTACT ================= --}}
+<section id="contact" class="mg-section mg-bg-light mg-grid-pattern">
+    <div class="mg-orb mg-orb-cyan w-[28rem] h-[28rem] -top-24 right-0" data-speed="0.1"></div>
+    <div class="mg-wrap">
+        <x-mg.section-head eyebrow="يسعدنا سماعك" icon="fa-envelope-open-text" title="تواصل معنا"
+            text="يسعدنا استقبال استفساراتكم واقتراحاتكم وطلبات الانضمام كشركاء" />
+
+        <div class="grid lg:grid-cols-5 gap-7 items-stretch">
+            {{-- Info panel --}}
+            <div class="lg:col-span-2 mg-aurora relative overflow-hidden rounded-[2rem] p-8 sm:p-10 text-white shadow-2xl shadow-[#164E63]/30 mg-reveal mg-reveal-right">
+                <div class="mg-orb mg-orb-sky w-64 h-64 -top-20 -left-16"></div>
+                <div class="relative space-y-7">
+                    <div>
+                        <h3 class="text-2xl font-black mb-2">معلومات التواصل</h3>
+                        <p class="text-sm text-sky-100/85 leading-relaxed">فريق مَطَلّ جاهز للإجابة على تساؤلاتكم وتنسيق رحلاتكم في جازان.</p>
+                    </div>
+                    @foreach([
+                        ['fa-envelope', 'البريد الإلكتروني', 'info@matal.sa', 'mailto:info@matal.sa'],
+                        ['fa-phone', 'الهاتف الموحد', '920000000', 'tel:920000000'],
+                        ['fa-location-dot', 'المقر الرئيسي', 'مدينة جازان، الكورنيش الشمالي', null],
+                    ] as $c)
+                        <div class="flex items-center gap-4 group">
+                            <span class="mg-icon-tile !bg-white/10 !shadow-none border border-white/20"><i class="fa-solid {{ $c[0] }}"></i></span>
+                            <div>
+                                <div class="text-[11px] font-black text-[#38BDF8]">{{ $c[1] }}</div>
+                                @if($c[3])
+                                    <a href="{{ $c[3] }}" class="font-bold hover:text-[#38BDF8] transition">{{ $c[2] }}</a>
+                                @else
+                                    <div class="font-bold">{{ $c[2] }}</div>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+
+                    <div class="pt-6 border-t border-white/15 flex items-center gap-3">
+                        @foreach([['fa-x-twitter', 'https://twitter.com/matal_jazan'], ['fa-instagram', 'https://instagram.com/matal_jazan'], ['fa-tiktok', 'https://tiktok.com/@matal_jazan'], ['fa-youtube', 'https://youtube.com/@matal_jazan']] as $s)
+                            <a href="{{ $s[1] }}" target="_blank" rel="noopener" class="w-10 h-10 rounded-full bg-white/10 border border-white/15 hover:bg-gradient-to-br hover:from-[#06B6D4] hover:to-[#38BDF8] hover:-translate-y-1 flex items-center justify-center transition-all duration-300">
+                                <i class="fa-brands {{ $s[0] }}"></i>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+            {{-- Form --}}
+            <div class="lg:col-span-3 rounded-[2rem] p-1 bg-gradient-to-br from-[#164E63] via-[#06B6D4] to-[#38BDF8] shadow-2xl shadow-[#06B6D4]/20 mg-reveal mg-reveal-left">
+                <div class="rounded-[1.85rem] bg-white p-7 sm:p-10 h-full">
+                    <x-mg.contact-form :subject="false" />
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 @endsection

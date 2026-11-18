@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Destination;
+use App\Models\Event;
 use App\Models\TouristRoute;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -88,6 +89,13 @@ class MatalApplicationTest extends TestCase
         $response = $this->get(route('events.index'));
         $response->assertStatus(200);
         $response->assertSee('الفعاليات والمهرجانات');
+
+        $event = Event::first();
+        if ($event) {
+            $detailResponse = $this->get(route('events.show', $event->slug));
+            $detailResponse->assertStatus(200);
+            $detailResponse->assertSee($event->title);
+        }
     }
 
     public function test_booking_submission_flow_creates_booking_and_shows_ticket(): void
