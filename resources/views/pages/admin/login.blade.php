@@ -26,7 +26,7 @@
         }
 
         .admin-login-card {
-            background: linear-gradient(145deg, rgba(14, 38, 55, 0.9) 0%, rgba(8, 22, 33, 0.98) 100%);
+            background: linear-gradient(145deg, rgba(14, 38, 55, 0.92) 0%, rgba(8, 22, 33, 0.98) 100%);
             border: 1px solid rgba(6, 182, 212, 0.25);
             box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px rgba(6, 182, 212, 0.15);
             backdrop-filter: blur(20px);
@@ -39,19 +39,21 @@
         .pulse-glow { animation: pulseGlow 8s ease-in-out infinite; }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 sm:p-6 relative overflow-hidden selection:bg-[#06B6D4] selection:text-white">
+<body class="min-h-screen flex flex-col justify-center items-center py-10 px-4 sm:px-6 relative overflow-x-hidden overflow-y-auto selection:bg-[#06B6D4] selection:text-white">
 
-    <!-- Ambient glowing high-tech orbs -->
-    <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-cyan-600/20 blur-[100px] pointer-events-none pulse-glow"></div>
-    <div class="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-sky-600/20 blur-[100px] pointer-events-none pulse-glow" style="animation-delay: -4s;"></div>
-    <div class="absolute inset-0 pointer-events-none opacity-20" style="background-image: radial-gradient(rgba(6, 182, 212, 0.4) 1px, transparent 1px); background-size: 32px 32px;"></div>
+    <!-- Ambient glowing high-tech orbs (fixed in background so they never distort page height) -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-cyan-600/20 blur-[100px] pulse-glow"></div>
+        <div class="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-sky-600/20 blur-[100px] pulse-glow" style="animation-delay: -4s;"></div>
+        <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(rgba(6, 182, 212, 0.4) 1px, transparent 1px); background-size: 32px 32px;"></div>
+    </div>
 
-    <div class="relative z-10 w-full max-w-lg">
+    <div class="relative z-10 w-full max-w-lg my-auto">
         
         <!-- Header Brand -->
-        <div class="text-center mb-8">
+        <div class="text-center mb-6">
             <a href="{{ route('home') }}" class="inline-block group mb-3" title="العودة للرئيسية">
-                <img src="/images/matal_logo_white_text.png" alt="مَطَلّ MATAL" class="h-16 w-auto mx-auto drop-shadow-lg transition-transform duration-300 group-hover:scale-105">
+                <img src="/images/matal_logo_white_text.png" alt="مَطَلّ MATAL" class="h-14 sm:h-16 w-auto mx-auto drop-shadow-lg transition-transform duration-300 group-hover:scale-105">
             </a>
             <div class="flex items-center justify-center gap-2 mt-2">
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-cyan-500/15 text-[#38BDF8] border border-cyan-500/30">
@@ -63,10 +65,10 @@
         </div>
 
         <!-- Login Card -->
-        <div class="admin-login-card rounded-3xl p-6 sm:p-10 relative">
+        <div class="admin-login-card rounded-3xl p-6 sm:p-9 relative">
 
             <!-- Security Badge Alert -->
-            <div class="mb-6 p-3.5 rounded-2xl bg-cyan-950/40 border border-cyan-500/20 flex items-start gap-3 text-xs leading-relaxed text-cyan-200">
+            <div class="mb-5 p-3 rounded-2xl bg-cyan-950/40 border border-cyan-500/20 flex items-start gap-3 text-xs leading-relaxed text-cyan-200">
                 <i class="fa-solid fa-lock text-cyan-400 mt-0.5 text-sm shrink-0"></i>
                 <div>
                     <span class="font-bold text-white block mb-0.5">منطقة وصول إدارية مقيدة</span>
@@ -74,12 +76,12 @@
                 </div>
             </div>
 
-            <form action="{{ route('admin.login.submit') }}" method="POST" class="space-y-5">
+            <form action="{{ route('admin.login.submit') }}" method="POST" class="space-y-4">
                 @csrf
 
                 <!-- Email -->
                 <div>
-                    <label for="admin_email" class="block text-xs font-black text-slate-300 mb-2">
+                    <label for="admin_email" class="block text-xs font-black text-slate-300 mb-1.5">
                         البريد الإلكتروني الإداري <span class="text-cyan-400">*</span>
                     </label>
                     <div class="relative">
@@ -88,7 +90,7 @@
                                value="{{ old('email', app()->environment('local') ? 'admin@matal.sa' : '') }}" 
                                required 
                                placeholder="admin@matal.sa" 
-                               class="w-full rounded-xl bg-slate-900/80 border border-cyan-500/30 text-white placeholder-slate-500 text-sm pr-11 pl-4 py-3 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition" 
+                               class="w-full rounded-xl bg-slate-900/80 border border-cyan-500/30 text-white placeholder-slate-500 text-sm pr-11 pl-4 py-2.5 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition" 
                                dir="ltr" style="text-align: right;">
                     </div>
                     @error('email')
@@ -100,7 +102,7 @@
 
                 <!-- Password -->
                 <div>
-                    <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center justify-between mb-1.5">
                         <label for="admin_password" class="block text-xs font-black text-slate-300">
                             كلمة المرور المشفرة <span class="text-cyan-400">*</span>
                         </label>
@@ -111,7 +113,7 @@
                                @if(app()->environment('local')) value="password123" @endif 
                                required 
                                placeholder="••••••••••••" 
-                               class="w-full rounded-xl bg-slate-900/80 border border-cyan-500/30 text-white placeholder-slate-500 text-sm pr-11 pl-11 py-3 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition" 
+                               class="w-full rounded-xl bg-slate-900/80 border border-cyan-500/30 text-white placeholder-slate-500 text-sm pr-11 pl-11 py-2.5 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition" 
                                dir="ltr" style="text-align: right;">
                         <button type="button" id="togglePwBtn" class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-white/5 transition flex items-center justify-center" aria-label="إظهار كلمة المرور">
                             <i class="fa-regular fa-eye text-sm"></i>
@@ -125,7 +127,7 @@
                 </div>
 
                 <!-- Remember Me & Security Policy -->
-                <div class="flex items-center justify-between text-xs font-semibold text-slate-400">
+                <div class="flex items-center justify-between text-xs font-semibold text-slate-400 pt-1">
                     <label class="inline-flex items-center gap-2 cursor-pointer hover:text-slate-200 transition">
                         <input type="checkbox" name="remember" class="w-4 h-4 rounded accent-cyan-500 bg-slate-900 border-cyan-500/40">
                         <span>إبقاء الجلسة نشطة بأمان</span>
@@ -134,15 +136,17 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#0891B2] via-[#0284C7] to-[#0369A1] hover:from-[#06B6D4] hover:to-[#0284C7] text-white font-black text-sm shadow-xl shadow-cyan-900/40 border border-cyan-400/40 hover:shadow-cyan-500/25 transition-all duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-0.5 cursor-pointer">
-                    <i class="fa-solid fa-right-to-bracket text-base"></i>
-                    <span>دخول مصرح للوحة الإدارة والتحليلات</span>
-                </button>
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3 px-6 rounded-2xl bg-gradient-to-r from-[#0891B2] via-[#0284C7] to-[#0369A1] hover:from-[#06B6D4] hover:to-[#0284C7] text-white font-black text-sm shadow-xl shadow-cyan-900/40 border border-cyan-400/40 hover:shadow-cyan-500/25 transition-all duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-0.5 cursor-pointer">
+                        <i class="fa-solid fa-right-to-bracket text-base"></i>
+                        <span>دخول مصرح للوحة الإدارة والتحليلات</span>
+                    </button>
+                </div>
 
             </form>
 
             @if(app()->environment('local'))
-                <div class="mt-6 pt-5 border-t border-cyan-500/15 text-center">
+                <div class="mt-5 pt-4 border-t border-cyan-500/15 text-center">
                     <button type="button" onclick="document.getElementById('admin_email').value='admin@matal.sa'; document.getElementById('admin_password').value='password123';" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-cyan-500/10 border border-cyan-500/25 text-cyan-300 hover:bg-cyan-500/20 text-xs font-bold transition">
                         <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i>
                         <span>ملء بيانات الحساب التجريبي للإدارة تلقائياً (Local Demo)</span>
@@ -153,7 +157,7 @@
         </div>
 
         <!-- Footer Back link -->
-        <div class="text-center mt-6">
+        <div class="text-center mt-5 mb-2">
             <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-cyan-300 transition">
                 <i class="fa-solid fa-arrow-right"></i>
                 <span>العودة إلى الواجهة العامة لمنصة مَطَلّ</span>
