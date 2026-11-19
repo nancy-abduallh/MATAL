@@ -228,7 +228,7 @@
             text="الساحل والجزر والجبال والأودية والمدرجات الزراعية والتراث، وهو ما يجعل فكرة المسارات السياحية مناسبة لطبيعة المنطقة." />
 
         {{-- Desktop: expanding arch panels --}}
-        <div class="mg-gallery hidden mg-reveal">
+        <div class="mg-gallery hidden lg:flex mg-reveal">
             @foreach($cats as $i => $c)
                 <a href="{{ route('destinations.index', ['category' => $c['slug']]) }}" class="mg-panel group {{ $i === 0 ? 'is-active' : '' }}" aria-label="{{ $c['title'] }}">
                     <img src="{{ $c['img'] }}" alt="{{ $c['name'] }}" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110">
