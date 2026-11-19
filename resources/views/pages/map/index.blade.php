@@ -5,183 +5,154 @@
 
 @section('content')
 
-<div class="h-[calc(100vh-80px)] min-h-[700px] flex flex-col lg:flex-row bg-[#FAF8F5] overflow-hidden" id="aiPlanner">
-    
-    <!-- ============================================== -->
-    <!-- LEFT PANEL: "خطتك" (Itinerary Schedule) matching Smart Map.png -->
-    <!-- ============================================== -->
-    <aside class="w-full lg:w-80 bg-white border-l border-slate-200 p-5 flex flex-col justify-between shrink-0 shadow-lg z-20 overflow-y-auto order-3 lg:order-1 text-right">
-        <div class="space-y-4">
-            <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
-                <h2 class="text-xl font-black text-[#0A3847] flex items-center gap-2">
-                    <i class="fa-solid fa-calendar-check text-amber-500"></i>
-                    <span>خطتك المخصصة</span>
-                </h2>
-                <span id="planDaysBadge" class="text-xs font-bold bg-amber-50 text-amber-700 px-2.5 py-0.5 rounded-full border border-amber-200">
-                    2 أيام
-                </span>
-            </div>
+@php
+    $mapCats = [
+        ['all', 'الكل', '#ffffff'],
+        ['mountains-and-viewpoints', 'الجبال', '#164E63'],
+        ['coffee-and-farms', 'المزارع والبن', '#0e3b4d'],
+        ['sea-and-islands', 'البحر والجزر', '#06B6D4'],
+        ['adventures-and-valleys', 'الأودية', '#38BDF8'],
+    ];
+    $interestChips = [['الجبال', 'fa-mountain'], ['المزارع', 'fa-seedling'], ['العائلة', 'fa-people-roof'], ['البحر', 'fa-umbrella-beach']];
+    $chipBase = 'mg-chip !text-xs !px-3.5 !py-2 !bg-white/10 !text-white !border-white/20 peer-checked:!bg-gradient-to-r peer-checked:!from-[#06B6D4] peer-checked:!to-[#38BDF8] peer-checked:!border-transparent peer-checked:!text-[#072430]';
+@endphp
 
-            <!-- Dynamic Itinerary Container -->
-            <div id="itineraryContainer" class="space-y-4">
-                
-                <!-- Day 1 Card -->
-                <div class="bg-[#FAF8F5] rounded-2xl p-4 border border-slate-200 text-right space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-black text-amber-600 bg-amber-100/60 px-2 py-0.5 rounded">اليوم الأول</span>
-                        <span class="text-[11px] text-slate-400">الجبال والمزارع</span>
-                    </div>
-                    <p class="text-xs font-semibold text-[#0A3847] leading-relaxed" id="day1Stops">
-                        مطل جبل حبس · الغداء الشعبي · مزرعة البن الخولاني · مطل الدرب · إقامة ريفية
-                    </p>
-                </div>
+<div id="aiPlanner" class="mg-bg-dark mg-grid-pattern relative overflow-hidden pt-24 md:pt-32 pb-10 px-3 sm:px-5">
+    <div class="mg-orb mg-orb-cyan w-[30rem] h-[30rem] -top-32 -right-20" data-speed="0.1"></div>
+    <div class="mg-orb mg-orb-sky w-96 h-96 bottom-0 -left-24" data-speed="0.08"></div>
 
-                <!-- Day 2 Card -->
-                <div class="bg-[#FAF8F5] rounded-2xl p-4 border border-slate-200 text-right space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-black text-amber-600 bg-amber-100/60 px-2 py-0.5 rounded">اليوم الثاني</span>
-                        <span class="text-[11px] text-slate-400">التراث والوديان</span>
-                    </div>
-                    <p class="text-xs font-semibold text-[#0A3847] leading-relaxed" id="day2Stops">
-                        قرية العشة التراثية · تذوق القهوة السعودية · مطعم محلي · وادي لجب · العودة
-                    </p>
-                </div>
+    <div class="relative z-[2] max-w-[96rem] mx-auto">
 
-            </div>
+        <div class="text-center mb-8 mg-reveal">
+            <span class="mg-eyebrow"><i class="fa-solid fa-wand-magic-sparkles"></i> الخريطة الذكية ومخطط الرحلات</span>
+            <h1 class="mg-title mt-4 !text-3xl sm:!text-4xl">استكشف جازان على الخريطة، وصمّم رحلتك في ثوانٍ</h1>
         </div>
 
-        <div class="pt-4 border-t border-slate-100 space-y-2">
-            <button type="button" id="saveTripBtn" class="w-full py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-sm shadow-xl transition transform hover:scale-[1.02] flex items-center justify-center gap-2">
-                <i class="fa-solid fa-bookmark"></i>
-                <span>احفظ الخطة</span>
-            </button>
-            <a href="{{ route('booking.create') }}" class="w-full py-2.5 rounded-2xl bg-[#0A3847] hover:bg-teal-900 text-white font-bold text-xs text-center transition block">
-                متابعة حجز الخطة كاملة
-            </a>
-        </div>
-    </aside>
+        <div class="grid lg:grid-cols-[21rem_minmax(0,1fr)_21rem] gap-4 lg:h-[calc(100vh-15rem)] lg:min-h-[660px]">
 
-    <!-- ============================================== -->
-    <!-- CENTER: Full Interactive Leaflet Map -->
-    <!-- ============================================== -->
-    <main class="flex-grow relative h-full order-1 lg:order-2">
-        
-        <!-- Search & Quick 20km Filter matching Smart Map.png -->
-        <div class="absolute top-4 inset-x-4 sm:inset-x-8 z-10 flex flex-col sm:flex-row items-center gap-3">
-            <div class="w-full max-w-lg bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-slate-200 p-2 flex items-center gap-2">
-                <i class="fa-solid fa-location-dot text-amber-500 mr-2"></i>
-                <input type="text" id="mapSearchInput" placeholder="اعرض لي كل المواقع السياحية خلال 20 كم من موقعي..." 
-                       class="w-full bg-transparent text-xs sm:text-sm text-slate-800 placeholder-slate-500 focus:outline-none px-2">
-                <button type="button" id="locateNearMeBtn" class="px-4 py-2 rounded-xl bg-[#0A3847] hover:bg-teal-900 text-white font-bold text-xs shrink-0 transition">
-                    تحديد
+            {{-- ============ AI PLANNER (right in RTL) ============ --}}
+            <aside class="mg-card-glass rounded-3xl p-5 flex flex-col gap-4 lg:overflow-y-auto order-2 lg:order-none mg-reveal mg-reveal-left">
+                <div class="flex items-center gap-3">
+                    <span class="mg-icon-tile !w-11 !h-11 !text-base"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                    <div>
+                        <h2 class="font-black text-lg">مخطط الرحلات الذكي</h2>
+                        <p class="text-[11px] text-sky-100/75">اصنع رحلتك في ثوانٍ بحسب تفضيلاتك ووقتك.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="mg-label !text-[#38BDF8]" for="aiUserPrompt">طلبك للذكاء الاصطناعي</label>
+                    <textarea id="aiUserPrompt" rows="3" class="mg-field resize-none !text-sm">لدي عائلة من 5 أشخاص، معنا أطفال، ونريد رحلة يومين في جازان، ونفضل الجبال والطبيعة والمزارع.</textarea>
+                </div>
+
+                <div>
+                    <span class="mg-label !text-[#38BDF8]">اهتمامات الرحلة</span>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach($interestChips as $k => $ic)
+                            <label class="cursor-pointer">
+                                <input type="checkbox" name="interest" value="{{ $ic[0] }}" class="peer sr-only" {{ $k < 3 ? 'checked' : '' }}>
+                                <span class="{{ $chipBase }}"><i class="fa-solid {{ $ic[1] }} text-[11px]"></i>{{ $ic[0] === 'البحر' ? 'البحر والجزر' : $ic[0] }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="mg-label !text-[#38BDF8]" for="aiGroupSelect">المسافرون</label>
+                        <select id="aiGroupSelect" class="mg-field !text-sm !py-2.5">
+                            <option value="عائلة" selected>عائلة</option>
+                            <option value="أصدقاء">أصدقاء</option>
+                            <option value="زوجان">زوجان</option>
+                            <option value="مغامرون">مغامرون</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mg-label !text-[#38BDF8]" for="aiDaysSelect">مدة الرحلة</label>
+                        <select id="aiDaysSelect" class="mg-field !text-sm !py-2.5">
+                            <option value="1">يوم واحد</option>
+                            <option value="2" selected>يومان</option>
+                            <option value="3">3 أيام</option>
+                        </select>
+                    </div>
+                </div>
+
+                {{-- AI response bubble --}}
+                <div class="rounded-2xl bg-white/10 border border-white/15 p-4">
+                    <div class="flex items-center gap-2 mb-2 text-xs font-black text-[#38BDF8]">
+                        <span class="w-7 h-7 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white flex items-center justify-center text-[11px]"><i class="fa-solid fa-robot"></i></span>
+                        مساعد مَطَلّ الذكي
+                    </div>
+                    <p id="aiResponseText" class="text-sm leading-relaxed text-sky-50 min-h-[3.5rem]">جهزت لك خطة من يومين تجمع المطلات البانورامية، مزارع البن الخولاني، والقرى التراثية بتسلسل مريح ومناسب للأطفال!</p>
+                </div>
+
+                <button type="button" id="generateAiPlanBtn" class="mg-btn w-full mt-auto" data-magnetic>
+                    <i class="fa-solid fa-wand-magic-sparkles"></i><span>أنشئ الخطة الآن</span>
                 </button>
-            </div>
-            
-            <!-- Category Filter Buttons on Top of Map -->
-            <div class="hidden sm:flex items-center gap-2 overflow-x-auto py-1">
-                <button type="button" class="map-cat-filter px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur text-xs font-bold text-slate-700 shadow border border-slate-200 hover:bg-amber-500 hover:text-slate-950 transition active" data-cat="all">الكل</button>
-                <button type="button" class="map-cat-filter px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur text-xs font-bold text-slate-700 shadow border border-slate-200 hover:bg-amber-500 hover:text-slate-950 transition" data-cat="mountains-and-viewpoints">الجبال</button>
-                <button type="button" class="map-cat-filter px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur text-xs font-bold text-slate-700 shadow border border-slate-200 hover:bg-amber-500 hover:text-slate-950 transition" data-cat="coffee-and-farms">المزارع والبن</button>
-                <button type="button" class="map-cat-filter px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur text-xs font-bold text-slate-700 shadow border border-slate-200 hover:bg-amber-500 hover:text-slate-950 transition" data-cat="sea-and-islands">البحر والجزر</button>
-                <button type="button" class="map-cat-filter px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur text-xs font-bold text-slate-700 shadow border border-slate-200 hover:bg-amber-500 hover:text-slate-950 transition" data-cat="adventures-and-valleys">الأودية</button>
-            </div>
-        </div>
+            </aside>
 
-        <!-- The Leaflet Map Canvas -->
-        <div id="fullSmartMap" class="w-full h-full z-0"></div>
+            {{-- ============ MAP (center) ============ --}}
+            <main class="relative order-1 lg:order-none h-[30rem] lg:h-auto rounded-3xl p-1.5 bg-gradient-to-r from-[#164E63] via-[#06B6D4] to-[#38BDF8] shadow-2xl shadow-[#06B6D4]/20 mg-reveal mg-reveal-scale">
+                <div class="relative h-full rounded-[1.4rem] overflow-hidden isolate bg-[#E0F2FE]">
+                    <div id="fullSmartMap" class="absolute inset-0"></div>
 
-        <!-- Selected Place Preview Floating Card (matching Smart Map.png) -->
-        <div id="selectedPlaceCard" class="absolute bottom-6 left-6 z-10 max-w-sm bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-2xl border border-slate-200 flex items-center gap-4 transition-all duration-300">
-            <img id="spImage" src="/images/wadi_lajab.jpg" alt="وادي لجب" class="w-20 h-20 rounded-xl object-cover shrink-0">
-            <div class="text-right">
-                <span id="spBadge" class="text-[11px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">مسار المغامرات</span>
-                <h4 id="spTitle" class="font-bold text-[#0A3847] text-base mt-1">وادي لجب</h4>
-                <div class="text-amber-500 text-xs flex items-center gap-1 mt-0.5 font-bold">
-                    <i class="fa-solid fa-star"></i> <span id="spRating">4.8</span>
+                    {{-- Search + filters --}}
+                    <div class="absolute top-3 inset-x-3 z-[1000] space-y-2">
+                        <div class="flex items-center gap-2 rounded-2xl bg-white/95 backdrop-blur-xl border border-[#06B6D4]/25 shadow-xl shadow-[#072430]/20 p-1.5">
+                            <i class="fa-solid fa-magnifying-glass text-[#06B6D4] mr-3 text-sm"></i>
+                            <input type="text" id="mapSearchInput" placeholder="ابحث عن موقع، أو اضغط «موقعي» لعرض ما حولك (20 كم)..." class="flex-1 min-w-0 bg-transparent text-sm text-[#183746] placeholder:text-[#164E63]/50 focus:outline-none py-2">
+                            <button type="button" id="locateNearMeBtn" class="mg-btn !py-2 !px-4 !text-xs !rounded-xl shrink-0"><i class="fa-solid fa-location-crosshairs"></i><span>موقعي</span></button>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5">
+                            @foreach($mapCats as $i => $c)
+                                <button type="button" data-cat="{{ $c[0] }}" class="map-cat-filter mg-chip !text-xs !px-3 !py-1.5 shadow-md shadow-[#072430]/15 {{ $i === 0 ? 'is-active' : '' }}">
+                                    <span class="w-2.5 h-2.5 rounded-full border border-[#164E63]/30" style="background: {{ $c[2] }};"></span>{{ $c[1] }}
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    {{-- Selected place card --}}
+                    <div id="selectedPlaceCard" class="absolute bottom-3 inset-x-3 sm:inset-x-auto sm:right-3 sm:w-80 z-[1000] rounded-2xl overflow-hidden bg-[#072430]/90 backdrop-blur-xl border border-white/20 shadow-2xl text-white opacity-0 translate-y-6 pointer-events-none transition-all duration-500">
+                        <button type="button" id="spClose" class="absolute top-2 left-2 z-10 w-7 h-7 rounded-full bg-black/40 hover:bg-black/60 text-xs flex items-center justify-center transition" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+                        <div class="flex gap-3 p-3">
+                            <img id="spImage" src="/images/wadi_lajab.jpg" alt="" class="w-24 h-24 rounded-xl object-cover shrink-0">
+                            <div class="min-w-0 text-right flex flex-col">
+                                <span id="spBadge" class="mg-badge mg-badge-cyan self-start !text-[10px]">معلم</span>
+                                <h4 id="spTitle" class="font-black mt-1.5 leading-snug truncate">وادي لجب</h4>
+                                <div class="text-[11px] text-sky-100/80 mt-0.5"><i class="fa-solid fa-star text-[#38BDF8]"></i> <span id="spRating">4.8</span> · <span id="spRegion"></span></div>
+                                <a id="spLink" href="#" class="mt-auto text-[#38BDF8] hover:text-white font-black text-xs transition">عرض تفاصيل المعلم والقصة ←</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <a id="spLink" href="{{ route('destinations.show', 'wadi-lajab-canyon') }}" class="text-xs text-teal-700 font-bold hover:underline block mt-1">
-                    عرض تفاصيل المعلم والقصة ←
-                </a>
-            </div>
-        </div>
+            </main>
 
-    </main>
-
-    <!-- ============================================== -->
-    <!-- RIGHT PANEL: "مخطط الرحلات الذكي" (AI Chat / Prompt Panel) matching Smart Map.png -->
-    <!-- ============================================== -->
-    <aside class="w-full lg:w-96 bg-white border-r border-slate-200 p-5 flex flex-col justify-between shrink-0 shadow-lg z-20 overflow-y-auto order-2 lg:order-3 text-right">
-        
-        <div class="space-y-4">
-            <div class="border-b border-slate-100 pb-3">
-                <h2 class="text-xl font-black text-[#0A3847] flex items-center gap-2">
-                    <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i>
-                    <span>مخطط الرحلات الذكي</span>
-                </h2>
-                <p class="text-slate-500 text-xs mt-1">اصنع رحلتك في ثوانٍ بحسب تفضيلاتك ووقتك.</p>
-            </div>
-
-            <!-- User Question Prompt Bubble matching Smart Map.png -->
-            <div class="p-3.5 rounded-2xl bg-slate-100 border border-slate-200 text-xs text-slate-700 leading-relaxed text-right">
-                <span class="text-slate-400 font-bold text-[10px] block mb-1">طلبك للذكاء الاصطناعي:</span>
-                <textarea id="aiUserPrompt" rows="3" class="w-full bg-white p-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:border-amber-500 font-medium">لدي عائلة من 5 أشخاص، معنا أطفال، ونريد رحلة يومين في جازان، ونفضل الجبال والطبيعة والمزارع.</textarea>
-            </div>
-
-            <!-- Filter Tags matching Smart Map.png: [الجبال] [المزارع] [العائلة] -->
-            <div>
-                <span class="text-xs font-bold text-slate-700 block mb-2">اهتمامات الرحلة:</span>
-                <div class="flex flex-wrap gap-2">
-                    <label class="cursor-pointer">
-                        <input type="checkbox" name="interest" value="الجبال" checked class="peer sr-only">
-                        <span class="px-3 py-1.5 rounded-full border border-slate-200 text-xs font-semibold text-slate-700 peer-checked:bg-[#0A3847] peer-checked:text-white peer-checked:border-[#0A3847] transition inline-block">الجبال</span>
-                    </label>
-                    <label class="cursor-pointer">
-                        <input type="checkbox" name="interest" value="المزارع" checked class="peer sr-only">
-                        <span class="px-3 py-1.5 rounded-full border border-slate-200 text-xs font-semibold text-slate-700 peer-checked:bg-[#0A3847] peer-checked:text-white peer-checked:border-[#0A3847] transition inline-block">المزارع</span>
-                    </label>
-                    <label class="cursor-pointer">
-                        <input type="checkbox" name="interest" value="العائلة" checked class="peer sr-only">
-                        <span class="px-3 py-1.5 rounded-full border border-slate-200 text-xs font-semibold text-slate-700 peer-checked:bg-[#0A3847] peer-checked:text-white peer-checked:border-[#0A3847] transition inline-block">العائلة</span>
-                    </label>
-                    <label class="cursor-pointer">
-                        <input type="checkbox" name="interest" value="البحر" class="peer sr-only">
-                        <span class="px-3 py-1.5 rounded-full border border-slate-200 text-xs font-semibold text-slate-700 peer-checked:bg-[#0A3847] peer-checked:text-white peer-checked:border-[#0A3847] transition inline-block">البحر والجزر</span>
-                    </label>
+            {{-- ============ YOUR PLAN (left in RTL) ============ --}}
+            <aside class="mg-card-glass rounded-3xl p-5 flex flex-col gap-4 order-3 lg:order-none lg:min-h-0 mg-reveal mg-reveal-right">
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <span class="mg-icon-tile mg-icon-tile-dark !w-11 !h-11 !text-base"><i class="fa-solid fa-list-check"></i></span>
+                        <h2 class="font-black text-lg">خطتك المخصصة</h2>
+                    </div>
+                    <span id="planDaysBadge" class="mg-badge mg-badge-cyan">2 أيام</span>
                 </div>
-            </div>
 
-            <!-- Days & Duration Selector -->
-            <div>
-                <span class="text-xs font-bold text-slate-700 block mb-2">مدة الرحلة:</span>
-                <select id="aiDaysSelect" class="w-full p-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:border-amber-500 bg-slate-50 font-semibold">
-                    <option value="1">يوم واحد (جولة مكثفة)</option>
-                    <option value="2" selected>يومان (عطلة نهاية أسبوع مثالية)</option>
-                    <option value="3">3 أيام (استكشاف كامل من القمم للجزر)</option>
-                </select>
-            </div>
-
-            <!-- AI Response Message Bubble matching Smart Map.png -->
-            <div id="aiResponseBubble" class="p-4 rounded-2xl bg-[#0A3847] text-white text-xs leading-relaxed text-right space-y-2 border border-white/10 shadow-md">
-                <div class="flex items-center gap-1.5 text-amber-400 font-bold text-[11px]">
-                    <i class="fa-solid fa-sparkles"></i>
-                    <span>مساعد مَطَلّ الذكي:</span>
+                <div id="itineraryContainer" class="flex-1 min-h-[12rem] lg:overflow-y-auto space-y-3 pl-1">
+                    <div class="rounded-2xl bg-white/10 border border-white/15 p-5 text-center text-sm text-sky-100/80">
+                        <i class="fa-solid fa-spinner fa-spin text-[#38BDF8] text-xl mb-2 block"></i>جاري تجهيز خطتك...
+                    </div>
                 </div>
-                <p id="aiResponseText">
-                    جهزت لك خطة من يومين تجمع المطلات البانورامية، مزارع البن الخولاني، والقرى التراثية بتسلسل مريح ومناسب للأطفال!
-                </p>
-            </div>
 
+                <div class="space-y-2.5">
+                    <button type="button" id="saveTripBtn" class="mg-btn-ghost w-full !text-white !bg-white/10 !border-white/30 !py-3 !text-sm">
+                        <i class="fa-regular fa-bookmark"></i><span>احفظ الخطة</span>
+                    </button>
+                    <a href="{{ route('booking.create') }}" class="mg-btn w-full !py-3 !text-sm"><span>متابعة حجز الخطة كاملة</span><i class="fa-solid fa-arrow-left text-xs"></i></a>
+                </div>
+            </aside>
         </div>
-
-        <div class="pt-4 border-t border-slate-100">
-            <button type="button" id="generateAiPlanBtn" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black text-sm shadow-xl transition transform hover:scale-[1.02] flex items-center justify-center gap-2">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
-                <span>أنشئ الخطة الآن</span>
-            </button>
-        </div>
-
-    </aside>
-
+    </div>
 </div>
 
 @endsection
@@ -189,174 +160,230 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // 1. Initialize Main Leaflet Map
-        const map = L.map('fullSmartMap', {
-            center: [17.15, 42.85],
-            zoom: 9,
-            zoomControl: false,
-        });
-        L.control.zoom({ position: 'bottomright' }).addTo(map);
+        const $ = id => document.getElementById(id);
+        const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: '© OpenStreetMap | منصة مَطَلّ'
-        }).addTo(map);
-
-        let markersLayer = L.layerGroup().addTo(map);
-
-        function loadMapPoints(category = 'all') {
-            markersLayer.clearLayers();
-            fetch(`{{ route("map.points") }}?category=${category}`)
-                .then(r => r.json())
-                .then(res => {
-                    if (res.status === 'success' && res.data) {
-                        res.data.forEach(pt => {
-                            const marker = L.circleMarker([pt.lat, pt.lng], {
-                                radius: 10,
-                                fillColor: '#E59638',
-                                color: '#0A3847',
-                                weight: 3,
-                                opacity: 1,
-                                fillOpacity: 0.95
-                            }).addTo(markersLayer);
-
-                            marker.on('click', () => {
-                                document.getElementById('spTitle').textContent = pt.title;
-                                document.getElementById('spBadge').textContent = pt.category_name;
-                                document.getElementById('spRating').textContent = pt.rating;
-                                document.getElementById('spLink').href = pt.url;
-                                document.getElementById('spImage').src = pt.image;
-                            });
-
-                            const popupHtml = `
-                                <div style="direction: rtl; text-align: right; font-family: 'Cairo', sans-serif;">
-                                    <h4 style="margin: 0; color: #0A3847; font-weight: bold; font-size: 14px;">${pt.title}</h4>
-                                    <div style="color: #64748b; font-size: 11px; margin-top: 2px;">${pt.region} · ⭐ ${pt.rating}</div>
-                                </div>
-                            `;
-                            marker.bindPopup(popupHtml);
-                        });
-                    }
-                });
+        // ---------- Toast ----------
+        function toast(msg, type = 'ok') {
+            let box = $('mapToasts');
+            if (!box) {
+                box = document.createElement('div');
+                box.id = 'mapToasts';
+                box.className = 'fixed top-24 inset-x-4 z-[60] flex flex-col items-center gap-3 pointer-events-none';
+                document.body.appendChild(box);
+            }
+            const t = document.createElement('div');
+            t.className = 'mg-toast pointer-events-auto flex items-center gap-3 px-5 py-3.5 rounded-2xl text-white text-sm font-bold shadow-2xl border border-white/20 bg-gradient-to-r ' + (type === 'ok' ? 'from-[#164E63] to-[#06B6D4]' : 'from-rose-700 to-rose-500');
+            t.innerHTML = `<i class="fa-solid ${type === 'ok' ? 'fa-circle-check' : 'fa-triangle-exclamation'}"></i><span>${esc(msg)}</span>`;
+            box.appendChild(t);
+            setTimeout(() => { t.classList.add('is-leaving'); setTimeout(() => t.remove(), 500); }, 4500);
         }
 
-        loadMapPoints('all');
+        // ---------- Typewriter for AI replies ----------
+        let typer;
+        function typeText(el, text) {
+            clearInterval(typer);
+            el.textContent = '';
+            let i = 0;
+            typer = setInterval(() => {
+                el.textContent = text.slice(0, ++i);
+                if (i >= text.length) clearInterval(typer);
+            }, 18);
+        }
 
-        // Category Filter buttons
-        document.querySelectorAll('.map-cat-filter').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.map-cat-filter').forEach(b => b.classList.remove('bg-amber-500', 'text-slate-950'));
-                btn.classList.add('bg-amber-500', 'text-slate-950');
-                const cat = btn.getAttribute('data-cat');
-                loadMapPoints(cat);
+        // =====================================================
+        // 1. MAP
+        // =====================================================
+        const colors = {
+            'mountains-and-viewpoints': '#164E63',
+            'sea-and-islands': '#06B6D4',
+            'adventures-and-valleys': '#38BDF8',
+            'coffee-and-farms': '#0e3b4d'
+        };
+        const map = L.map('fullSmartMap', { center: [17.15, 42.85], zoom: 9, zoomControl: false });
+        L.control.zoom({ position: 'bottomleft' }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap | منصة مَطَلّ' }).addTo(map);
+
+        const markersLayer = L.layerGroup().addTo(map);
+        const userLayer = L.layerGroup().addTo(map);
+        let points = [], currentCat = 'all', query = '', nearOrigin = null;
+        const RADIUS_KM = 20;
+
+        function distKm(a, b) {
+            const R = 6371, rad = d => d * Math.PI / 180;
+            const dLat = rad(b[0] - a[0]), dLng = rad(b[1] - a[1]);
+            const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a[0])) * Math.cos(rad(b[0])) * Math.sin(dLng / 2) ** 2;
+            return 2 * R * Math.asin(Math.sqrt(h));
+        }
+
+        function showPlace(pt) {
+            $('spTitle').textContent = pt.title;
+            $('spBadge').textContent = pt.category_name;
+            $('spRating').textContent = pt.rating;
+            $('spRegion').textContent = pt.region;
+            $('spLink').href = pt.url;
+            $('spImage').src = pt.image;
+            $('selectedPlaceCard').classList.remove('opacity-0', 'translate-y-6', 'pointer-events-none');
+        }
+        $('spClose').addEventListener('click', () => $('selectedPlaceCard').classList.add('opacity-0', 'translate-y-6', 'pointer-events-none'));
+
+        function render(fit = false) {
+            markersLayer.clearLayers();
+            const q = query.trim();
+            const visible = points.filter(p =>
+                (currentCat === 'all' || p.category_slug === currentCat) &&
+                (!q || (p.title + ' ' + p.region + ' ' + p.category_name).includes(q)) &&
+                (!nearOrigin || distKm(nearOrigin, [p.lat, p.lng]) <= RADIUS_KM)
+            );
+            visible.forEach(pt => {
+                const m = L.circleMarker([pt.lat, pt.lng], {
+                    radius: 10, fillColor: colors[pt.category_slug] || '#0891B2',
+                    color: '#ffffff', weight: 3, opacity: 1, fillOpacity: 0.95
+                }).addTo(markersLayer);
+                m.bindTooltip(pt.title, { direction: 'top', offset: [0, -8] });
+                m.on('click', () => showPlace(pt));
             });
-        });
+            if (fit && visible.length) map.flyToBounds(L.latLngBounds(visible.map(p => [p.lat, p.lng])).pad(0.25), { duration: 0.8 });
+            return visible;
+        }
 
-        // 2. AI Plan Generator
-        const generateBtn = document.getElementById('generateAiPlanBtn');
-        const aiPrompt = document.getElementById('aiUserPrompt');
-        const daysSelect = document.getElementById('aiDaysSelect');
-        const responseText = document.getElementById('aiResponseText');
-        const planDaysBadge = document.getElementById('planDaysBadge');
-        const itineraryContainer = document.getElementById('itineraryContainer');
-        let currentItineraryData = null;
-
-        generateBtn.addEventListener('click', () => {
-            generateBtn.disabled = true;
-            generateBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري المعالجة...';
-
-            const interests = Array.from(document.querySelectorAll('input[name="interest"]:checked')).map(cb => cb.value);
-
-            fetch('{{ route("map.ai-plan") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({
-                    prompt: aiPrompt.value,
-                    days: parseInt(daysSelect.value),
-                    interests: interests
-                })
-            })
+        fetch('{{ route("map.points") }}')
             .then(r => r.json())
-            .then(res => {
-                generateBtn.disabled = false;
-                generateBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> أنشئ الخطة الآن';
+            .then(res => { if (res.status === 'success' && res.data) { points = res.data; render(); } })
+            .catch(() => toast('تعذر تحميل نقاط الخريطة', 'err'));
 
-                if (res.status === 'success') {
-                    responseText.textContent = res.message;
-                    planDaysBadge.textContent = `${res.days_count} أيام`;
-                    currentItineraryData = res.itinerary;
+        document.querySelectorAll('.map-cat-filter').forEach(btn => btn.addEventListener('click', () => {
+            document.querySelectorAll('.map-cat-filter').forEach(b => b.classList.toggle('is-active', b === btn));
+            currentCat = btn.getAttribute('data-cat');
+            render(currentCat !== 'all');
+        }));
 
-                    // Rebuild Itinerary Cards
-                    itineraryContainer.innerHTML = '';
-                    Object.keys(res.itinerary).forEach((key, idx) => {
-                        const day = res.itinerary[key];
-                        const stopsList = day.stops.map(s => s.title).join(' · ');
-                        
-                        const dayCard = document.createElement('div');
-                        dayCard.className = 'bg-[#FAF8F5] rounded-2xl p-4 border border-slate-200 text-right space-y-2';
-                        dayCard.innerHTML = `
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-black text-amber-600 bg-amber-100/60 px-2 py-0.5 rounded">اليوم ${day.day_number}</span>
-                                <span class="text-[11px] text-slate-400 font-semibold">${day.title}</span>
-                            </div>
-                            <p class="text-xs font-semibold text-[#0A3847] leading-relaxed">
-                                ${stopsList}
-                            </p>
-                        `;
-                        itineraryContainer.appendChild(dayCard);
-                    });
-                }
-            })
-            .catch(err => {
-                generateBtn.disabled = false;
-                generateBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> أنشئ الخطة الآن';
-                console.error(err);
-            });
+        $('mapSearchInput').addEventListener('input', e => { query = e.target.value; render(); });
+
+        // Near me (20 km)
+        const locateBtn = $('locateNearMeBtn');
+        function setNear(pos, usedFallback) {
+            nearOrigin = pos;
+            userLayer.clearLayers();
+            L.circle(pos, { radius: RADIUS_KM * 1000, color: '#38BDF8', weight: 1.5, fillColor: '#06B6D4', fillOpacity: 0.08 }).addTo(userLayer);
+            L.circleMarker(pos, { radius: 8, fillColor: '#ffffff', color: '#06B6D4', weight: 4, fillOpacity: 1 }).addTo(userLayer);
+            const found = render(false);
+            map.flyTo(pos, 11, { duration: 0.8 });
+            locateBtn.innerHTML = '<i class="fa-solid fa-xmark"></i><span>إلغاء</span>';
+            toast((usedFallback ? 'تعذر تحديد موقعك، تم استخدام مركز مدينة جازان. ' : '') + `وجدنا ${found.length} موقعاً خلال ${RADIUS_KM} كم`);
+        }
+        locateBtn.addEventListener('click', () => {
+            if (nearOrigin) {
+                nearOrigin = null; userLayer.clearLayers(); render();
+                locateBtn.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i><span>موقعي</span>';
+                return;
+            }
+            const fallback = [16.8892, 42.5511];
+            if (!navigator.geolocation) return setNear(fallback, true);
+            navigator.geolocation.getCurrentPosition(
+                p => setNear([p.coords.latitude, p.coords.longitude], false),
+                () => setNear(fallback, true),
+                { timeout: 8000 }
+            );
         });
 
-        // 3. Save Trip Button
-        const saveTripBtn = document.getElementById('saveTripBtn');
-        saveTripBtn.addEventListener('click', () => {
-            saveTripBtn.disabled = true;
-            saveTripBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
+        // =====================================================
+        // 2. AI PLANNER
+        // =====================================================
+        const iconMap = { mountain: 'fa-mountain', coffee: 'fa-mug-hot', utensils: 'fa-utensils', camera: 'fa-camera', home: 'fa-house', landmark: 'fa-landmark', 'shopping-bag': 'fa-bag-shopping', anchor: 'fa-anchor', sun: 'fa-sun', eye: 'fa-eye' };
+        const genBtn = $('generateAiPlanBtn');
+        const container = $('itineraryContainer');
+        let currentPlan = null, currentMeta = { group_type: 'عائلة', interests: [] };
 
-            fetch('{{ route("map.save-trip") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({
-                    title: 'رحلة جازان المخصصة بالذكاء الاصطناعي',
-                    days_count: parseInt(daysSelect.value),
-                    itinerary: currentItineraryData || {
-                        day_1: ['مطل جبل حبس', 'مزرعة البن الخولاني', 'إقامة ريفية'],
-                        day_2: ['قرية العشة التراثية', 'وادي لجب']
-                    }
-                })
-            })
-            .then(r => r.json())
-            .then(res => {
-                saveTripBtn.disabled = false;
-                saveTripBtn.innerHTML = '<i class="fa-solid fa-check"></i> تم الحفظ!';
-                setTimeout(() => {
-                    saveTripBtn.innerHTML = '<i class="fa-solid fa-bookmark"></i> احفظ الخطة';
-                }, 3000);
-                alert(res.message);
-            })
-            .catch(err => {
-                saveTripBtn.disabled = false;
-                saveTripBtn.innerHTML = '<i class="fa-solid fa-bookmark"></i> احفظ الخطة';
-                console.error(err);
-            });
-        });
+        function renderItinerary(it) {
+            container.innerHTML = Object.values(it).map((day, i) => {
+                const title = (day.title || '').split(':').slice(1).join(':').trim() || day.title;
+                const stops = (day.stops || []).map(s => `
+                    <li class="relative pr-9 pb-4 last:pb-0">
+                        <span class="absolute right-0 top-0 w-7 h-7 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white text-[11px] flex items-center justify-center shadow shadow-[#06B6D4]/40"><i class="fa-solid ${iconMap[s.icon] || 'fa-location-dot'}"></i></span>
+                        <div class="flex items-center justify-between gap-2 mb-0.5">
+                            <span class="text-[11px] font-black text-[#38BDF8]">${esc(s.time)}</span>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/10 border border-white/15">${esc(s.tag)}</span>
+                        </div>
+                        <h5 class="font-black text-[13px] leading-snug">${esc(s.title)}</h5>
+                        <p class="text-[11px] text-sky-100/70 leading-relaxed mt-0.5">${esc(s.desc)}</p>
+                    </li>`).join('');
+                return `
+                    <details class="group rounded-2xl bg-white/10 border border-white/15 open:border-[#38BDF8]/50 transition" ${i === 0 ? 'open' : ''}>
+                        <summary class="flex items-center gap-2.5 p-3.5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                            <span class="mg-badge mg-badge-cyan shrink-0">اليوم ${esc(day.day_number)}</span>
+                            <span class="flex-1 text-xs font-black leading-snug text-right">${esc(title)}</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] text-[#38BDF8] transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <div class="px-3.5 pb-4">
+                            <p class="text-[11px] text-sky-100/75 leading-relaxed mb-4">${esc(day.summary)}</p>
+                            <div class="relative"><div class="absolute top-2 bottom-2 right-3.5 w-px bg-gradient-to-b from-[#06B6D4] to-[#38BDF8]/20"></div><ol>${stops}</ol></div>
+                        </div>
+                    </details>`;
+            }).join('');
+        }
 
-        // 4. Locate Near Me button
-        document.getElementById('locateNearMeBtn').addEventListener('click', () => {
-            map.flyTo([17.3, 43.0], 11);
+        async function generatePlan() {
+            genBtn.disabled = true;
+            genBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>جاري إعداد خطتك...</span>';
+            const interests = [...document.querySelectorAll('input[name="interest"]:checked')].map(c => c.value);
+            const group = $('aiGroupSelect').value;
+            try {
+                const r = await fetch('{{ route("map.ai-plan") }}', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': csrf },
+                    body: JSON.stringify({ prompt: $('aiUserPrompt').value, days: parseInt($('aiDaysSelect').value), group_type: group, interests })
+                });
+                const res = await r.json();
+                if (!r.ok || res.status !== 'success') throw new Error(res.message || 'تعذر إنشاء الخطة');
+                currentPlan = res.itinerary;
+                currentMeta = { group_type: group, interests };
+                $('planDaysBadge').textContent = `${res.days_count} أيام`;
+                renderItinerary(res.itinerary);
+                typeText($('aiResponseText'), res.message);
+            } catch (err) {
+                toast(err.message || 'حدث خطأ غير متوقع', 'err');
+                if (!currentPlan) container.innerHTML = '<div class="rounded-2xl bg-white/10 border border-white/15 p-5 text-center text-sm text-sky-100/80">تعذر تجهيز الخطة. اضغط «أنشئ الخطة الآن» للمحاولة مرة أخرى.</div>';
+            } finally {
+                genBtn.disabled = false;
+                genBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i><span>أنشئ الخطة الآن</span>';
+            }
+        }
+        genBtn.addEventListener('click', generatePlan);
+        generatePlan(); // build the first plan automatically so "save" always has real data
+
+        // =====================================================
+        // 3. SAVE TRIP
+        // =====================================================
+        const saveBtn = $('saveTripBtn');
+        saveBtn.addEventListener('click', async () => {
+            if (!currentPlan) return toast('أنشئ الخطة أولاً ثم احفظها', 'err');
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>جاري الحفظ...</span>';
+            try {
+                const r = await fetch('{{ route("map.save-trip") }}', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': csrf },
+                    body: JSON.stringify({
+                        title: 'رحلة جازان المخصصة بالذكاء الاصطناعي',
+                        days_count: Object.keys(currentPlan).length,
+                        group_type: currentMeta.group_type,
+                        interests: currentMeta.interests,
+                        itinerary: currentPlan
+                    })
+                });
+                const res = await r.json();
+                if (!r.ok) throw new Error(res.message || 'تعذر حفظ الخطة');
+                saveBtn.innerHTML = '<i class="fa-solid fa-bookmark"></i><span>تم الحفظ!</span>';
+                toast(res.message);
+            } catch (err) {
+                saveBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i><span>احفظ الخطة</span>';
+                toast(err.message, 'err');
+            } finally {
+                saveBtn.disabled = false;
+                setTimeout(() => { saveBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i><span>احفظ الخطة</span>'; }, 3000);
+            }
         });
     });
 </script>
