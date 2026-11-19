@@ -13,7 +13,11 @@ class EnsureUserIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        abort_unless($request->user()?->role === 'admin', 403);
+        if (! $request->user()) {
+            return redirect()->route('admin.login')->with('info', 'يرجى تسجيل الدخول للوصول إلى لوحة التحكم الإدارية.');
+        }
+
+        abort_unless($request->user()->role === 'admin', 403, 'غير مصرح لك بالوصول إلى هذه اللوحة الإدارية.');
 
         return $next($request);
     }

@@ -61,9 +61,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/account', [AccountController::class, 'index'])->name('account.index');
     Route::post('/account/profile', [AccountController::class, 'updateProfile'])->name('account.profile.update');
     Route::post('/account/bookings/{id}/cancel', [AccountController::class, 'cancelBooking'])->name('account.bookings.cancel');
+});
 
-    // Admin Dashboard (لوحة التحكم)
-    Route::prefix('admin')->middleware(EnsureUserIsAdmin::class)->group(function () {
+// Admin Portal & Power BI Analytics (منفصلة تماماً عن الموقع العام)
+Route::prefix('admin')->group(function () {
+    // Admin Authentication (تسجيل دخول وخروج الإدارة المنفصل)
+    Route::get('/login', [AdminDashboardController::class, 'showLogin'])->name('admin.login');
+    Route::post('/login', [AdminDashboardController::class, 'login'])->name('admin.login.submit');
+    Route::post('/logout', [AdminDashboardController::class, 'logout'])->name('admin.logout');
+
+    // Protected Admin Dashboard (محمي بصلاحيات المشرف)
+    Route::middleware(EnsureUserIsAdmin::class)->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.index');
         Route::post('/bookings/{id}/status', [AdminDashboardController::class, 'updateBookingStatus'])->name('admin.bookings.status');
         Route::post('/contacts/{id}/read', [AdminDashboardController::class, 'markContactRead'])->name('admin.contacts.read');

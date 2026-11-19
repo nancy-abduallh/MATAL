@@ -167,7 +167,43 @@ class MatalApplicationTest extends TestCase
         $response = $this->actingAs($admin)->get(route('admin.index'));
 
         $response->assertStatus(200);
-        $response->assertSee('لوحة الإدارة والتحكم');
+        $response->assertSee('لوحة مؤشرات الأداء والتحليلات');
+    }
+
+    public function test_admin_login_page_loads_and_guest_is_redirected(): void
+    {
+        // Login page loads
+        $response = $this->get(route('admin.login'));
+        $response->assertStatus(200);
+        $response->assertSee('تسجيل الدخول الإداري');
+
+        // Guest accessing /admin is redirected to /admin/login
+        $guestResponse = $this->get(route('admin.index'));
+        $guestResponse->assertRedirect(route('admin.login'));
+    }
+
+    public function test_admin_login_authenticates_admin_and_blocks_regular_user(): void
+    {
+        // Tourist cannot log in via admin login
+        $touristResponse = $this->post(route('admin.login.submit'), [
+            'email' => 'tourist@matal.sa',
+            'password' => 'password123',
+        ]);
+        $touristResponse->assertSessionHasErrors('email');
+        $this->assertGuest();
+
+        // Admin logs in successfully
+        $adminResponse = $this->post(route('admin.login.submit'), [
+            'email' => 'admin@matal.sa',
+            'password' => 'password123',
+        ]);
+        $adminResponse->assertRedirect(route('admin.index'));
+        $this->assertAuthenticated();
+
+        // Admin logout
+        $logoutResponse = $this->post(route('admin.logout'));
+        $logoutResponse->assertRedirect(route('admin.login'));
+        $this->assertGuest();
     }
 
     public function test_admin_can_update_booking_status_with_validation(): void
