@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Models\Booking;
 use App\Models\Destination;
 use App\Models\Event;
 use App\Models\TouristRoute;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -149,5 +151,41 @@ class MatalApplicationTest extends TestCase
         $response = $this->get(route('auth.demo', 'tourist'));
         $response->assertRedirect(route('account.index'));
         $this->assertAuthenticated();
+    }
+
+    public function test_regular_user_cannot_access_admin_dashboard(): void
+    {
+        $tourist = User::where('role', 'tourist')->first();
+        $response = $this->actingAs($tourist)->get(route('admin.index'));
+
+        $response->assertStatus(403);
+    }
+
+    public function test_admin_user_can_access_admin_dashboard(): void
+    {
+        $admin = User::where('role', 'admin')->first();
+        $response = $this->actingAs($admin)->get(route('admin.index'));
+
+        $response->assertStatus(200);
+        $response->assertSee('لوحة الإدارة والتحكم');
+    }
+
+    public function test_admin_can_update_booking_status_with_validation(): void
+    {
+        $admin = User::where('role', 'admin')->first();
+        $booking = Booking::first();
+
+        // Valid status update
+        $validResponse = $this->actingAs($admin)->post(route('admin.bookings.status', $booking->id), [
+            'status' => 'completed',
+        ]);
+        $validResponse->assertRedirect();
+        $this->assertEquals('completed', $booking->fresh()->status);
+
+        // Invalid status update rejected
+        $invalidResponse = $this->actingAs($admin)->post(route('admin.bookings.status', $booking->id), [
+            'status' => 'invalid_status_xyz',
+        ]);
+        $invalidResponse->assertSessionHasErrors('status');
     }
 }

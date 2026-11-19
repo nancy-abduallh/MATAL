@@ -49,7 +49,7 @@ class AdminDashboardController extends Controller
     public function updateBookingStatus(Request $request, int $id): RedirectResponse
     {
         $booking = Booking::findOrFail($id);
-        $status = $request->input('status', 'confirmed');
+        $status = $request->validate(['status' => 'required|in:confirmed,pending,completed,cancelled'])['status'];
         $booking->update(['status' => $status]);
 
         return back()->with('success', "تم تحديث حالة الحجز {$booking->booking_code} إلى {$status}");

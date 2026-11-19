@@ -11,6 +11,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SmartMapController;
 use App\Http\Controllers\TouristRouteController;
+use App\Http\Middleware\EnsureUserIsAdmin;
 use Illuminate\Support\Facades\Route;
 
 // Home & Overview
@@ -62,7 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/account/bookings/{id}/cancel', [AccountController::class, 'cancelBooking'])->name('account.bookings.cancel');
 
     // Admin Dashboard (لوحة التحكم)
-    Route::prefix('admin')->group(function () {
+    Route::prefix('admin')->middleware(EnsureUserIsAdmin::class)->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.index');
         Route::post('/bookings/{id}/status', [AdminDashboardController::class, 'updateBookingStatus'])->name('admin.bookings.status');
         Route::post('/contacts/{id}/read', [AdminDashboardController::class, 'markContactRead'])->name('admin.contacts.read');

@@ -82,6 +82,8 @@ class AuthController extends Controller
      */
     public function demoLogin(string $role): RedirectResponse
     {
+        abort_unless(app()->environment('local', 'testing'), 404);
+
         $email = match ($role) {
             'admin' => 'admin@matal.sa',
             'guide' => 'guide@matal.sa',

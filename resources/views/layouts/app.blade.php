@@ -92,10 +92,12 @@
                     <span class="announcement-text font-medium truncate">اكتشف مزارع البن الخولاني، جزر فرسان الفيروزية، وشقوق وادي لجب الأسطورية</span>
                 </div>
                 <div class="flex items-center gap-4 shrink-0">
+                    @if(app()->environment('local'))
                     <a href="{{ route('auth.demo', 'tourist') }}" class="announcement-link transition flex items-center gap-1 font-semibold">
                         <i class="fa-solid fa-bolt text-[#38BDF8]"></i> دخول تجريبي سريع
                     </a>
                     <span class="announcement-divider opacity-40">·</span>
+                    @endif
                     <span class="announcement-brand font-bold">www.matal.sa</span>
                 </div>
             </div>
@@ -227,6 +229,7 @@
         @yield('content')
     </main>
 
+    @unless(View::hasSection('hide_navbar') || request()->routeIs('login*'))
     <!-- ================= FOOTER ================= -->
     <footer class="relative bg-cover bg-center overflow-hidden text-white" style="background-image: url('/images/sunset_marine.jpg');">
         <div class="absolute inset-0 bg-gradient-to-b from-[#164E63]/92 via-[#0e3b4d]/94 to-[#072430]/98"></div>
@@ -308,6 +311,7 @@
             </div>
         </div>
     </footer>
+    @endunless
 
     <!-- Back to top -->
     <button type="button" id="backToTopBtn" class="fixed bottom-6 left-6 z-40 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#164E63] to-[#0e3b4d] text-[#38BDF8] border border-[#38BDF8]/40 shadow-xl shadow-[#072430]/40 flex items-center justify-center text-base opacity-0 translate-y-6 pointer-events-none transition-all duration-300 hover:scale-110 hover:border-[#38BDF8] hover:text-white cursor-pointer" aria-label="العودة لأعلى الصفحة">
