@@ -30,7 +30,7 @@
         </span>
     </div>
     <div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm mg-reveal" style="--d: .26s">
-        <i class="fa-solid fa-star text-[#38BDF8]"></i>
+        <i class="fa-solid fa-star"></i>
         <span class="font-black text-lg">{{ number_format($destination->rating, 1) }}</span>
         <span class="text-sky-100/80">({{ $destination->reviews_count }} تقييم)</span>
         <span class="opacity-40">·</span>
@@ -191,7 +191,7 @@
                         <div class="p-6 text-right flex-1 flex flex-col justify-center">
                             <span class="mg-badge mg-badge-cyan self-start mb-3">{{ $rr->category }}</span>
                             <h3 class="font-black text-white text-lg mb-1">{{ $rr->title }}</h3>
-                            <p class="text-xs text-sky-100/75 mb-3">{{ $rr->duration_text }} · <i class="fa-solid fa-star text-[#38BDF8]"></i> {{ number_format($rr->rating, 1) }}</p>
+                            <p class="text-xs text-sky-100/75 mb-3">{{ $rr->duration_text }} · <i class="fa-solid fa-star"></i> {{ number_format($rr->rating, 1) }}</p>
                             <span class="inline-flex items-center gap-2 text-[#38BDF8] font-bold text-sm">تفاصيل المسار <i class="fa-solid fa-arrow-left transition group-hover:-translate-x-1.5"></i></span>
                         </div>
                     </a>

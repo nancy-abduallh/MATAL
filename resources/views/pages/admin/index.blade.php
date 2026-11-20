@@ -147,7 +147,7 @@
             <div>
                 <div class="text-2xl font-black text-white tracking-tight flex items-center gap-1.5">
                     <span>{{ number_format($stats['avg_rating'], 2) }}</span>
-                    <span class="text-amber-400 text-base">★</span>
+                    <i class="fa-solid fa-star text-base"></i>
                 </div>
                 <div class="text-[11px] font-bold text-slate-400 mt-2">
                     من {{ $stats['total_reviews'] }} تقييم موثق

@@ -11,7 +11,7 @@
     image="/images/jazan_alreeth_viewpoint.jpg" :crumbs="['الوجهات والمعالم' => null]">
     <div class="mt-8 flex flex-wrap gap-3 mg-reveal" style="--d: .22s">
         <span class="mg-badge"><i class="fa-solid fa-location-dot text-[#38BDF8]"></i> {{ $destinations->total() }} وجهة</span>
-        <span class="mg-badge"><i class="fa-solid fa-star text-[#38BDF8]"></i> مرتبة حسب أعلى تقييم</span>
+        <span class="mg-badge"><i class="fa-solid fa-star"></i> مرتبة حسب أعلى تقييم</span>
     </div>
 </x-mg.page-hero>
 

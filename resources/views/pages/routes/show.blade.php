@@ -15,7 +15,7 @@
     </div>
     <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm mg-reveal" style="--d: .26s">
         <div class="flex items-center gap-2">
-            <i class="fa-solid fa-star text-[#38BDF8]"></i>
+            <i class="fa-solid fa-star"></i>
             <span class="font-black text-lg">{{ number_format($route->rating, 2) }}</span>
             <span class="text-sky-100/80">({{ $route->reviews_count }} تقييم)</span>
         </div>
@@ -162,7 +162,7 @@
                     <div class="mg-photo mg-photo-tint h-52 rounded-t-[1.75rem] rounded-b-none">
                         <img src="{{ $rel->image }}" alt="{{ $rel->title }}" loading="lazy">
                         <span class="mg-badge absolute top-4 right-4 z-10">{{ $rel->category }}</span>
-                        <span class="mg-badge absolute bottom-4 left-4 z-10"><i class="fa-solid fa-star text-[#38BDF8]"></i> {{ number_format($rel->rating, 1) }}</span>
+                        <span class="mg-badge absolute bottom-4 left-4 z-10"><i class="fa-solid fa-star"></i> {{ number_format($rel->rating, 1) }}</span>
                     </div>
                     <div class="p-6 text-right">
                         <h3 class="font-black text-white text-lg mb-1">{{ $rel->title }}</h3>

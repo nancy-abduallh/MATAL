@@ -323,7 +323,7 @@
                         <span class="mg-badge mg-badge-cyan absolute top-4 right-4 z-10">{{ $f['badge'] }}</span>
                         <div class="absolute bottom-4 inset-x-4 z-10 flex items-center justify-between">
                             <span class="mg-badge"><i class="fa-regular fa-clock"></i> {{ $f['meta'] }}</span>
-                            <span class="mg-badge"><i class="fa-solid fa-star text-[#38BDF8]"></i> {{ $f['rate'] }}</span>
+                            <span class="mg-badge"><i class="fa-solid fa-star"></i> {{ $f['rate'] }}</span>
                         </div>
                     </div>
                     <div class="p-6 flex flex-col flex-grow text-right">
@@ -369,7 +369,7 @@
                     </div>
                     <span class="mg-badge mg-badge-cyan absolute top-5 right-5 z-10">{{ $b['tag'] }}</span>
                     @if($b['rate'])
-                        <span class="mg-badge absolute top-5 left-5 z-10"><i class="fa-solid fa-star text-[#38BDF8]"></i> {{ $b['rate'] }}</span>
+                        <span class="mg-badge absolute top-5 left-5 z-10"><i class="fa-solid fa-star"></i> {{ $b['rate'] }}</span>
                     @endif
                     <div class="absolute inset-x-0 bottom-0 p-6 sm:p-8 text-right z-10">
                         <h3 class="text-xl sm:text-2xl font-black text-white mb-2">{{ $b['title'] }}</h3>
@@ -830,7 +830,7 @@
                     m.bindPopup(`
                         <div style="direction:rtl;text-align:right;font-family:'Tajawal','Amiri',serif,sans-serif;padding:4px;max-width:200px;">
                             <h4 style="margin:0;color:#164E63;font-weight:800;font-size:14px;">${pt.title}</h4>
-                            <div style="color:#0891B2;font-size:11px;margin-top:2px;font-weight:700;">${pt.region} · ⭐ ${pt.rating}</div>
+                            <div style="color:#0891B2;font-size:11px;margin-top:2px;font-weight:700;">${pt.region} · <i class="fa-solid fa-star"></i> ${pt.rating}</div>
                             <p style="color:#64748b;font-size:10px;margin:4px 0 6px;">${pt.tagline || ''}</p>
                             <a href="${pt.url}" style="color:#06B6D4;font-weight:800;font-size:11px;text-decoration:underline;">عرض التفاصيل والمسار ←</a>
                         </div>`);

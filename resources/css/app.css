@@ -1415,6 +1415,63 @@
   .mg-chip .mg-count { font-size: .68rem; padding: .1rem .5rem; border-radius: 9999px; background: rgba(6,182,212,.15); font-weight: 800; }
   .mg-chip.is-active .mg-count { background: rgba(255,255,255,.24); }
 
+  /* ---------- Realistic 3D Faceted Gold Stars & Ratings ---------- */
+  .mg-star,
+  i.fa-star,
+  .fa-solid.fa-star {
+    display: inline-block;
+    vertical-align: -0.06em;
+    background: linear-gradient(155deg, #FFFFFF 0%, #FEF08A 20%, #F59E0B 52%, #D97706 78%, #78350F 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    filter: drop-shadow(0 1px 1px rgba(120, 53, 15, 0.55)) drop-shadow(0 0 5px rgba(245, 158, 11, 0.55));
+    transition: transform .35s var(--mg-ease), filter .35s ease;
+  }
+  .mg-card:hover i.fa-star,
+  .group:hover i.fa-star,
+  .mg-star:hover,
+  i.fa-star:hover {
+    transform: scale(1.15) rotate(4deg);
+    filter: drop-shadow(0 1.5px 2px rgba(120, 53, 15, 0.65)) drop-shadow(0 0 8px rgba(245, 158, 11, 0.75));
+  }
+  .mg-star-empty,
+  i.fa-regular.fa-star,
+  .fa-regular.fa-star {
+    display: inline-block;
+    vertical-align: -0.06em;
+    background: linear-gradient(160deg, rgba(226, 232, 240, 0.95) 0%, rgba(148, 163, 184, 0.75) 60%, rgba(100, 116, 139, 0.65) 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    filter: drop-shadow(0 1px 1px rgba(7, 36, 48, 0.2));
+    opacity: 0.55;
+    transition: opacity .3s ease;
+  }
+  .mg-rating-capsule {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, rgba(254, 243, 199, 0.3) 0%, rgba(254, 243, 199, 0.1) 100%);
+    border: 1px solid rgba(245, 158, 11, 0.38);
+    box-shadow: 0 3px 10px -2px rgba(245, 158, 11, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    color: #92400E;
+    font-weight: 800;
+    font-size: 0.8rem;
+    line-height: 1;
+  }
+  .mg-bg-dark .mg-rating-capsule {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.06) 100%);
+    border-color: rgba(245, 158, 11, 0.45);
+    color: #FEF08A;
+    box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+
   /* ---------- Scroll reveal (only when JS is on) ----------
      Uses the individual `translate` / `scale` properties so it never fights the 3D tilt `transform` */
   .js .mg-reveal { opacity: 0; translate: 0 36px; transition: opacity .9s var(--mg-ease) var(--d, 0s), translate .9s var(--mg-ease) var(--d, 0s), scale .9s var(--mg-ease) var(--d, 0s); }

@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-[#164E63] to-[#0e3b4d] text-white font-black text-lg shadow-lg shadow-[#164E63]/30">
-            <i class="fa-solid fa-star text-[#38BDF8]"></i> {{ number_format($rating, 1) }}
+            <i class="fa-solid fa-star"></i> {{ number_format($rating, 1) }}
         </div>
     </div>
 
@@ -25,7 +25,15 @@
                 <div class="flex-grow min-w-0">
                     <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
                         <span class="font-black text-[#164E63] text-sm">{{ $rev->author_name }}</span>
-                        <span class="text-[#38BDF8] text-xs whitespace-nowrap">@for($i = 0; $i < $rev->rating; $i++)<i class="fa-solid fa-star"></i>@endfor</span>
+                        <span class="inline-flex items-center gap-0.5 text-xs whitespace-nowrap">
+                            @for($i = 1; $i <= 5; $i++)
+                                @if($i <= $rev->rating)
+                                    <i class="fa-solid fa-star"></i>
+                                @else
+                                    <i class="fa-regular fa-star opacity-40"></i>
+                                @endif
+                            @endfor
+                        </span>
                     </div>
                     <p class="text-sm text-[#183746]/80 leading-relaxed">{{ $rev->comment }}</p>
                 </div>

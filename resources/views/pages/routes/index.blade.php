@@ -54,7 +54,7 @@
                         </div>
                         <div class="absolute bottom-4 inset-x-4 z-10 flex items-center justify-between">
                             <span class="mg-badge"><i class="fa-regular fa-clock"></i> {{ $route->duration_text }}</span>
-                            <span class="mg-badge"><i class="fa-solid fa-star text-[#38BDF8]"></i> {{ number_format($route->rating, 1) }}</span>
+                            <span class="mg-badge"><i class="fa-solid fa-star"></i> {{ number_format($route->rating, 1) }}</span>
                         </div>
                     </a>
 

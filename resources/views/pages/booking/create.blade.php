@@ -175,7 +175,7 @@
                         <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-bold text-[#183746]/70 mb-5">
                             <span>{{ $item->duration_text ?? 'يوم واحد' }}</span><span class="text-[#06B6D4]">·</span>
                             <span>{{ $item->difficulty ?? 'متوسط' }}</span><span class="text-[#06B6D4]">·</span>
-                            <span><i class="fa-solid fa-star text-[#38BDF8]"></i> {{ number_format($item->rating ?? 4.8, 1) }}</span>
+                            <span><i class="fa-solid fa-star"></i> {{ number_format($item->rating ?? 4.8, 1) }}</span>
                         </div>
 
                         <div class="space-y-2.5 text-sm pb-5 mb-5 border-b border-dashed border-[#06B6D4]/30">

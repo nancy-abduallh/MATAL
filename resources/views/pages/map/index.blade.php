@@ -120,7 +120,7 @@
                             <div class="min-w-0 text-right flex flex-col">
                                 <span id="spBadge" class="mg-badge mg-badge-cyan self-start !text-[10px]">معلم</span>
                                 <h4 id="spTitle" class="font-black mt-1.5 leading-snug truncate">وادي لجب</h4>
-                                <div class="text-[11px] text-sky-100/80 mt-0.5"><i class="fa-solid fa-star text-[#38BDF8]"></i> <span id="spRating">4.8</span> · <span id="spRegion"></span></div>
+                                <div class="text-[11px] text-sky-100/80 mt-0.5"><i class="fa-solid fa-star"></i> <span id="spRating">4.8</span> · <span id="spRegion"></span></div>
                                 <a id="spLink" href="#" class="mt-auto text-[#38BDF8] hover:text-white font-black text-xs transition">عرض تفاصيل المعلم والقصة ←</a>
                             </div>
                         </div>
