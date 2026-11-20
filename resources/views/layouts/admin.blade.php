@@ -28,42 +28,59 @@
             color: #E2E8F0;
         }
 
-        /* Power BI Executive Aesthetics */
+        /* Power BI Executive Aesthetics - Realistic Tactile Depth */
         .pbi-card {
-            background: linear-gradient(135deg, rgba(14, 38, 55, 0.85) 0%, rgba(10, 26, 38, 0.95) 100%);
-            border: 1px solid rgba(6, 182, 212, 0.18);
-            border-radius: 1.25rem;
-            box-shadow: 0 16px 36px -12px rgba(7, 23, 34, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            background: linear-gradient(145deg, rgba(14, 42, 62, 0.92) 0%, rgba(8, 24, 36, 0.96) 100%);
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            border-radius: 1.35rem;
+            box-shadow: 
+                0 18px 44px -12px rgba(4, 15, 23, 0.85),
+                inset 0 1px 1px rgba(255, 255, 255, 0.12),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .pbi-card:hover {
-            border-color: rgba(6, 182, 212, 0.45);
-            box-shadow: 0 20px 42px -12px rgba(6, 182, 212, 0.16), 0 0 0 1px rgba(6, 182, 212, 0.25);
+            border-color: rgba(56, 189, 248, 0.55);
+            box-shadow: 
+                0 24px 54px -10px rgba(6, 182, 212, 0.22),
+                inset 0 1px 1.5px rgba(255, 255, 255, 0.22),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.5);
             transform: translateY(-2px);
         }
 
         .pbi-header-glass {
-            background: rgba(7, 23, 34, 0.85);
-            border-bottom: 1px solid rgba(6, 182, 212, 0.15);
-            backdrop-filter: blur(20px);
+            background: rgba(7, 23, 34, 0.88);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.18);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
         .pbi-sidebar {
             background: linear-gradient(180deg, #071722 0%, #0A1E2B 50%, #071520 100%);
-            border-left: 1px solid rgba(6, 182, 212, 0.16);
+            border-left: 1px solid rgba(6, 182, 212, 0.18);
+            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.3);
         }
 
         .pbi-pill {
-            background: rgba(6, 182, 212, 0.12);
-            border: 1px solid rgba(6, 182, 212, 0.25);
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(56, 189, 248, 0.08) 100%);
+            border: 1px solid rgba(6, 182, 212, 0.3);
             color: #38BDF8;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            transition: all 0.25s ease;
+        }
+        .pbi-pill:hover {
+            border-color: rgba(56, 189, 248, 0.5);
+            transform: translateY(-1px);
         }
         .pbi-pill-active {
-            background: linear-gradient(135deg, #0891B2 0%, #0284C7 100%);
+            background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.35) 0%, transparent 60%), linear-gradient(135deg, #0891B2 0%, #0284C7 100%);
             border-color: #38BDF8;
             color: #FFFFFF;
-            box-shadow: 0 0 16px rgba(6, 182, 212, 0.4);
+            box-shadow: 0 4px 18px rgba(6, 182, 212, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.6);
         }
 
         /* Custom Scrollbar for Power BI dashboard */

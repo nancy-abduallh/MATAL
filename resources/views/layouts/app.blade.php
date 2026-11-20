@@ -152,7 +152,7 @@
                         <a href="{{ route('login') }}" class="nav-login-link hidden sm:inline-block text-sm font-semibold transition px-2">تسجيل الدخول</a>
                     @endauth
 
-                    <a href="{{ route('booking.create') }}" class="hidden sm:inline-flex px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#38BDF8] hover:from-[#0891B2] hover:to-[#0284C7] text-white font-bold text-xs sm:text-sm shadow-md shadow-cyan-500/25 hover:shadow-cyan-500/40 transition transform hover:-translate-y-0.5 items-center gap-2">
+                    <a href="{{ route('booking.create') }}" class="mg-btn hidden sm:inline-flex !py-2 !px-4 sm:!py-2.5 sm:!px-5 !text-xs sm:!text-sm shrink-0">
                         <span>ابدأ رحلتك</span>
                         <i class="fa-solid fa-arrow-left text-xs"></i>
                     </a>

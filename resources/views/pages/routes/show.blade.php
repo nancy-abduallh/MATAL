@@ -58,7 +58,7 @@
                         <div class="space-y-5" data-stagger="0.1">
                             @foreach($route->stops as $index => $stop)
                                 <div class="mg-reveal mg-reveal-right relative pr-16 group">
-                                    <div class="absolute right-0 top-1 w-11 h-11 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white font-black flex items-center justify-center shadow-lg shadow-[#06B6D4]/40 ring-4 ring-white group-hover:scale-110 transition-transform duration-300">
+                                    <div class="mg-icon-tile !w-11 !h-11 !rounded-full absolute right-0 top-1 text-white font-black flex items-center justify-center ring-4 ring-white group-hover:scale-110 transition-transform duration-300">
                                         {{ $stop['step'] ?? ($index + 1) }}
                                     </div>
                                     <div class="p-5 rounded-2xl bg-[#F8FCFD] border border-[#06B6D4]/15 group-hover:border-[#06B6D4]/50 group-hover:-translate-x-1 group-hover:shadow-lg group-hover:shadow-[#06B6D4]/10 transition-all duration-300">
