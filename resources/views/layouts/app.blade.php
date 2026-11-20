@@ -128,8 +128,6 @@
 
                 <!-- Actions -->
                 <div class="flex items-center gap-2 sm:gap-4">
-                    <span class="nav-pill-btn hidden sm:inline-block text-xs font-bold px-2.5 py-1 rounded-lg border cursor-pointer transition">EN</span>
-
                     @auth
                         <div class="relative group hidden sm:block">
                             <a href="{{ route('account.index') }}" class="nav-pill-btn flex items-center gap-2 px-3 py-1.5 rounded-full text-sm border transition">
