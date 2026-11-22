@@ -415,10 +415,10 @@
                     </linearGradient>
                 </defs>
             </svg>
-            <div class="relative grid grid-cols-4 sm:grid-cols-7 gap-2 sm:gap-3">
+            <div class="relative flex sm:grid sm:grid-cols-7 overflow-x-auto no-scrollbar gap-2 sm:gap-3 pb-2.5 sm:pb-0 -mx-3 px-3 sm:mx-0 sm:px-0">
                 @foreach($stations as $i => $st)
                     <button type="button" data-station="{{ $i }}" aria-label="{{ $st['title'] }}"
-                            class="mg-station mg-card-glass rounded-2xl p-2.5 sm:p-3 text-center cursor-pointer {{ $i === 0 ? 'is-active' : '' }}">
+                            class="mg-station mg-card-glass rounded-2xl p-2.5 sm:p-3 text-center cursor-pointer shrink-0 w-24 sm:w-auto {{ $i === 0 ? 'is-active' : '' }}">
                         <div class="w-9 h-9 sm:w-11 sm:h-11 mx-auto mb-2 rounded-full bg-white/10 flex items-center justify-center text-sm sm:text-base"><i class="fa-solid {{ $st['icon'] }}"></i></div>
                         <div class="text-[10px] font-black opacity-70">0{{ $st['step'] }}</div>
                         <div class="text-[11px] sm:text-xs font-bold leading-tight mt-0.5 line-clamp-2">{{ $st['title'] }}</div>
@@ -486,7 +486,7 @@
         <x-mg.section-head eyebrow="استكشاف جغرافي تفاعلي حي" icon="fa-map-location-dot" title="الخريطة السياحية الذكية"
             text="استعرض شبكة الوجهات المتصلة وتعرّف على المعالم القريبة من مسارك في آنٍ واحد مع بيانات الارتفاع والتقييمات." />
 
-        <div class="flex flex-wrap items-center justify-center gap-2.5 mb-8 mg-reveal">
+        <div class="flex items-center sm:justify-center overflow-x-auto no-scrollbar gap-2 sm:gap-2.5 mb-6 sm:mb-8 pb-2 sm:pb-0 mg-reveal -mx-3 px-3 sm:mx-0 sm:px-0">
             @foreach($mapFilters as $i => $mf)
                 <button type="button" data-map-filter="{{ $mf[0] }}" class="map-filter-btn mg-chip {{ $i === 0 ? 'is-active' : '' }}">
                     <i class="fa-solid {{ $mf[3] }}"></i><span>{{ $mf[1] }}</span><span class="mg-count">{{ $mf[2] }}</span>

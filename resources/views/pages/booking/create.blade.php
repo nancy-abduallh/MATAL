@@ -55,7 +55,7 @@
             <input type="hidden" name="bookable_id" value="{{ $item->id }}">
 
             {{-- STEP 1 · Details --}}
-            <div data-step="1" class="rounded-[2rem] bg-white border border-[#06B6D4]/15 shadow-xl shadow-[#164E63]/5 p-7 sm:p-9 mg-reveal">
+            <div data-step="1" class="rounded-[2rem] bg-white border border-[#06B6D4]/15 shadow-xl shadow-[#164E63]/5 p-5 sm:p-9 mg-reveal">
                 <div class="flex items-center gap-4 mb-7">
                     <span class="mg-icon-tile"><i class="fa-solid fa-calendar-check"></i></span>
                     <div><h2 class="text-xl font-black text-[#164E63]">تفاصيل الرحلة</h2><p class="text-xs text-[#183746]/65 mt-0.5">اختر الموعد وأضف تجارب مميزة</p></div>
@@ -87,7 +87,7 @@
             </div>
 
             {{-- STEP 2 · Guests --}}
-            <div data-step="2" class="rounded-[2rem] bg-white border border-[#06B6D4]/15 shadow-xl shadow-[#164E63]/5 p-7 sm:p-9 mg-reveal">
+            <div data-step="2" class="rounded-[2rem] bg-white border border-[#06B6D4]/15 shadow-xl shadow-[#164E63]/5 p-5 sm:p-9 mg-reveal">
                 <div class="flex items-center gap-4 mb-7">
                     <span class="mg-icon-tile mg-icon-tile-dark"><i class="fa-solid fa-user-group"></i></span>
                     <div><h2 class="text-xl font-black text-[#164E63]">بيانات الزوار</h2><p class="text-xs text-[#183746]/65 mt-0.5">عدد المسافرين وبيانات التواصل</p></div>
@@ -134,7 +134,7 @@
             </div>
 
             {{-- STEP 3 · Payment --}}
-            <div data-step="3" class="rounded-[2rem] bg-white border border-[#06B6D4]/15 shadow-xl shadow-[#164E63]/5 p-7 sm:p-9 mg-reveal">
+            <div data-step="3" class="rounded-[2rem] bg-white border border-[#06B6D4]/15 shadow-xl shadow-[#164E63]/5 p-5 sm:p-9 mg-reveal">
                 <div class="flex items-center gap-4 mb-7">
                     <span class="mg-icon-tile"><i class="fa-solid fa-wallet"></i></span>
                     <div><h2 class="text-xl font-black text-[#164E63]">طريقة الدفع</h2><p class="text-xs text-[#183746]/65 mt-0.5">اختر الوسيلة الأنسب لك</p></div>

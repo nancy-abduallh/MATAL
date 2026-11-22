@@ -23,15 +23,28 @@
 
     <div class="relative z-[2] max-w-[96rem] mx-auto">
 
-        <div class="text-center mb-8 mg-reveal">
+        <div class="text-center mb-6 sm:mb-8 mg-reveal">
             <span class="mg-eyebrow"><i class="fa-solid fa-wand-magic-sparkles"></i> الخريطة الذكية ومخطط الرحلات</span>
-            <h1 class="mg-title mt-4 !text-3xl sm:!text-4xl">استكشف جازان على الخريطة، وصمّم رحلتك في ثوانٍ</h1>
+            <h1 class="mg-title mt-3 sm:mt-4 !text-2xl sm:!text-3xl lg:!text-4xl">استكشف جازان على الخريطة، وصمّم رحلتك في ثوانٍ</h1>
+        </div>
+
+        {{-- Mobile Panel Switcher (Native App Tabs) --}}
+        <div class="lg:hidden flex items-center p-1 rounded-2xl bg-white/10 border border-white/15 mb-4 text-xs font-bold gap-1 text-white">
+            <a href="#mapSection" class="flex-1 py-2.5 text-center rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#38BDF8] text-[#072430] font-black shadow-sm flex items-center justify-center gap-1.5 active:scale-95 transition">
+                <i class="fa-solid fa-map"></i><span>الخريطة</span>
+            </a>
+            <a href="#aiPlannerPanel" class="flex-1 py-2.5 text-center rounded-xl bg-white/5 hover:bg-white/10 transition flex items-center justify-center gap-1.5 active:scale-95">
+                <i class="fa-solid fa-wand-magic-sparkles text-[#38BDF8]"></i><span>المخطط</span>
+            </a>
+            <a href="#planPanel" class="flex-1 py-2.5 text-center rounded-xl bg-white/5 hover:bg-white/10 transition flex items-center justify-center gap-1.5 active:scale-95">
+                <i class="fa-solid fa-list-check text-[#38BDF8]"></i><span>الخطة</span>
+            </a>
         </div>
 
         <div class="grid lg:grid-cols-[21rem_minmax(0,1fr)_21rem] gap-4 lg:h-[calc(100vh-15rem)] lg:min-h-[660px]">
 
             {{-- ============ AI PLANNER (right in RTL) ============ --}}
-            <aside class="mg-card-glass rounded-3xl p-5 flex flex-col gap-4 lg:overflow-y-auto order-2 lg:order-none mg-reveal mg-reveal-left">
+            <aside id="aiPlannerPanel" class="mg-card-glass rounded-3xl p-5 flex flex-col gap-4 lg:overflow-y-auto order-2 lg:order-none mg-reveal mg-reveal-left scroll-mt-24">
                 <div class="flex items-center gap-3">
                     <span class="mg-icon-tile !w-11 !h-11 !text-base"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
                     <div>
@@ -92,7 +105,7 @@
             </aside>
 
             {{-- ============ MAP (center) ============ --}}
-            <main class="relative order-1 lg:order-none h-[30rem] lg:h-auto rounded-3xl p-1.5 bg-gradient-to-r from-[#164E63] via-[#06B6D4] to-[#38BDF8] shadow-2xl shadow-[#06B6D4]/20 mg-reveal mg-reveal-scale">
+            <main id="mapSection" class="relative order-1 lg:order-none h-[30rem] lg:h-auto rounded-3xl p-1.5 bg-gradient-to-r from-[#164E63] via-[#06B6D4] to-[#38BDF8] shadow-2xl shadow-[#06B6D4]/20 mg-reveal mg-reveal-scale scroll-mt-24">
                 <div class="relative h-full rounded-[1.4rem] overflow-hidden isolate bg-[#E0F2FE]">
                     <div id="fullSmartMap" class="absolute inset-0"></div>
 
@@ -103,7 +116,7 @@
                             <input type="text" id="mapSearchInput" placeholder="ابحث عن موقع، أو اضغط «موقعي» لعرض ما حولك (20 كم)..." class="flex-1 min-w-0 bg-transparent text-sm text-[#183746] placeholder:text-[#164E63]/50 focus:outline-none py-2">
                             <button type="button" id="locateNearMeBtn" class="mg-btn !py-2 !px-4 !text-xs !rounded-xl shrink-0"><i class="fa-solid fa-location-crosshairs"></i><span>موقعي</span></button>
                         </div>
-                        <div class="flex flex-wrap gap-1.5">
+                        <div class="flex items-center overflow-x-auto no-scrollbar gap-1.5 pb-1">
                             @foreach($mapCats as $i => $c)
                                 <button type="button" data-cat="{{ $c[0] }}" class="map-cat-filter mg-chip !text-xs !px-3 !py-1.5 shadow-md shadow-[#072430]/15 {{ $i === 0 ? 'is-active' : '' }}">
                                     <span class="w-2.5 h-2.5 rounded-full border border-[#164E63]/30" style="background: {{ $c[2] }};"></span>{{ $c[1] }}
@@ -129,7 +142,7 @@
             </main>
 
             {{-- ============ YOUR PLAN (left in RTL) ============ --}}
-            <aside class="mg-card-glass rounded-3xl p-5 flex flex-col gap-4 order-3 lg:order-none lg:min-h-0 mg-reveal mg-reveal-right">
+            <aside id="planPanel" class="mg-card-glass rounded-3xl p-5 flex flex-col gap-4 order-3 lg:order-none lg:min-h-0 mg-reveal mg-reveal-right scroll-mt-24">
                 <div class="flex items-center justify-between gap-3">
                     <div class="flex items-center gap-3">
                         <span class="mg-icon-tile mg-icon-tile-dark !w-11 !h-11 !text-base"><i class="fa-solid fa-list-check"></i></span>

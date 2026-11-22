@@ -163,48 +163,123 @@
         </div>
     </header>
 
-    <!-- ================= MOBILE DRAWER ================= -->
-    <div id="mobileDrawerOverlay" class="fixed inset-0 bg-[#072430]/70 backdrop-blur-sm z-50 transition-opacity duration-300 opacity-0 pointer-events-none lg:hidden"></div>
+    <!-- ================= MOBILE DRAWER (NATIVE APP SHEET) ================= -->
+    <div id="mobileDrawerOverlay" class="fixed inset-0 bg-[#072430]/75 backdrop-blur-md z-50 transition-opacity duration-300 opacity-0 pointer-events-none lg:hidden"></div>
 
-    <div id="mobileDrawer" class="fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-white z-50 shadow-2xl flex flex-col justify-between transition-transform duration-300 ease-in-out transform translate-x-full lg:hidden border-l border-[#06B6D4]/20">
-        <div class="p-5 border-b border-[#06B6D4]/15 flex items-center justify-between bg-gradient-to-r from-[#E0F2FE] to-white">
-            <a href="{{ route('home') }}"><img src="/images/matal_official_logo.png" alt="مَطَلّ MATAL" class="h-11 w-auto"></a>
-            <button type="button" id="mobileDrawerCloseBtn" class="w-10 h-10 rounded-xl bg-white text-[#164E63] hover:bg-[#E0F2FE] flex items-center justify-center transition shadow-sm" aria-label="إغلاق القائمة">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
+    <div id="mobileDrawer" class="fixed top-0 right-0 bottom-0 w-84 max-w-[88vw] bg-white z-50 shadow-2xl rounded-l-[2rem] flex flex-col justify-between transition-transform duration-300 ease-in-out transform translate-x-full lg:hidden border-l border-[#06B6D4]/30 overflow-hidden">
+        
+        <!-- Header & Profile Card -->
+        <div class="p-5 border-b border-[#06B6D4]/15 bg-gradient-to-br from-[#E0F2FE] via-white to-[#F0F9FF]">
+            <div class="flex items-center justify-between mb-4">
+                <a href="{{ route('home') }}" class="flex items-center gap-2">
+                    <img src="/images/matal_official_logo.png" alt="مَطَلّ MATAL" class="h-10 w-auto">
+                    <span class="text-xs font-black text-[#164E63] tracking-wider font-heading">مَطَلّ جازان</span>
+                </a>
+                <button type="button" id="mobileDrawerCloseBtn" class="w-9 h-9 rounded-xl bg-white/90 text-[#164E63] hover:bg-[#E0F2FE] hover:text-[#0891B2] flex items-center justify-center transition shadow-sm border border-[#06B6D4]/20 active:scale-95" aria-label="إغلاق القائمة">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+
+            @auth
+                <!-- Authenticated User Card -->
+                <div class="p-3.5 rounded-2xl bg-white/90 border border-[#06B6D4]/25 shadow-sm flex items-center gap-3">
+                    <span class="w-11 h-11 shrink-0 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white font-black flex items-center justify-center text-sm shadow-md shadow-[#06B6D4]/30 ring-2 ring-white">
+                        {{ mb_substr(Auth::user()->name, 0, 1) }}
+                    </span>
+                    <div class="min-w-0 flex-1 text-right">
+                        <div class="flex items-center justify-between">
+                            <span class="font-black text-sm text-[#164E63] truncate">{{ Auth::user()->name }}</span>
+                            @if(Auth::user()->role === 'admin')
+                                <span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-700 border border-cyan-500/25">إدارة</span>
+                            @else
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700">سائح</span>
+                            @endif
+                        </div>
+                        <span class="text-[11px] text-[#164E63]/60 truncate block">{{ Auth::user()->email }}</span>
+                    </div>
+                </div>
+            @else
+                <!-- Guest Welcome Card -->
+                <div class="p-3.5 rounded-2xl bg-white/90 border border-[#06B6D4]/20 shadow-sm text-right">
+                    <p class="text-xs font-black text-[#164E63] mb-1">مرحباً بك في منصة مَطَلّ</p>
+                    <p class="text-[11px] text-[#183746]/70 leading-relaxed mb-3">سجّل دخولك لحفظ مساراتك وحجز تجاربك السياحية الذكية.</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="{{ route('login') }}" class="py-2 px-3 rounded-xl bg-gradient-to-r from-[#164E63] to-[#0e3b4d] text-white font-bold text-center text-xs shadow-sm active:scale-95 transition">تسجيل الدخول</a>
+                        <a href="{{ route('auth.demo', 'tourist') }}" class="py-2 px-3 rounded-xl bg-[#06B6D4]/15 border border-[#06B6D4]/35 text-[#0891B2] font-black text-center text-xs flex items-center justify-center gap-1 active:scale-95 transition">
+                            <i class="fa-solid fa-bolt text-[#06B6D4]"></i> تجربة سريعة
+                        </a>
+                    </div>
+                </div>
+            @endauth
         </div>
 
-        <div class="flex-grow overflow-y-auto p-4 space-y-1 text-sm font-semibold">
+        <!-- Navigation Links (App Menu Style) -->
+        <div class="flex-grow overflow-y-auto p-4 space-y-1.5 text-sm font-semibold">
+            <span class="block text-[11px] font-extrabold uppercase tracking-wider text-[#0891B2] px-2 mb-2">الأقسام والاستكشاف</span>
+            
             @foreach($nav as $item)
-                <a href="{{ route($item['route']) }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition {{ request()->routeIs($item['match']) ? 'bg-gradient-to-r from-[#164E63] to-[#0e3b4d] text-white font-bold shadow-md' : 'text-[#183746] hover:bg-[#E0F2FE]' }}">
-                    <i class="fa-solid {{ $item['icon'] }} w-5 text-center {{ request()->routeIs($item['match']) ? 'text-[#38BDF8]' : 'text-[#06B6D4]' }}"></i>
-                    <span>{{ $item['full'] }}</span>
+                @php $active = request()->routeIs($item['match']); @endphp
+                <a href="{{ route($item['route']) }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-2xl transition-all duration-200 active:scale-98 {{ $active ? 'bg-gradient-to-r from-[#164E63] to-[#0e3b4d] text-white font-bold shadow-md shadow-[#164E63]/25' : 'text-[#183746] hover:bg-[#E0F2FE]/70' }}">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-xl flex items-center justify-center text-xs {{ $active ? 'bg-white/15 text-[#38BDF8]' : 'bg-[#E0F2FE] text-[#06B6D4]' }}">
+                            <i class="fa-solid {{ $item['icon'] }}"></i>
+                        </span>
+                        <span>{{ $item['full'] }}</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-left text-[10px] {{ $active ? 'text-[#38BDF8]' : 'opacity-30' }}"></i>
                 </a>
                 @if($item['route'] === 'map.index')
-                    <a href="{{ route('map.index') }}#aiPlanner" class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#0891B2] hover:bg-[#E0F2FE] transition">
-                        <i class="fa-solid fa-wand-magic-sparkles w-5 text-center text-[#06B6D4]"></i>
-                        <span>مخطط الرحلات (AI)</span>
+                    <a href="{{ route('map.index') }}#aiPlanner" class="flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-[#0891B2] bg-[#06B6D4]/10 hover:bg-[#06B6D4]/20 border border-[#06B6D4]/25 transition font-bold active:scale-98">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white flex items-center justify-center text-xs shadow-sm">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            </span>
+                            <span>مخطط الرحلات بالذكاء الاصطناعي</span>
+                        </div>
+                        <span class="px-2 py-0.5 rounded-full bg-[#06B6D4] text-white text-[9px] font-black">جديد</span>
                     </a>
                 @endif
             @endforeach
-        </div>
 
-        <div class="p-4 border-t border-[#06B6D4]/15 space-y-2.5 bg-[#E0F2FE]/50">
-            <a href="{{ route('booking.create') }}" class="mg-btn w-full">
-                <span>ابدأ رحلتك الآن</span><i class="fa-solid fa-arrow-left text-xs"></i>
-            </a>
             @auth
-                <a href="{{ route('account.index') }}" class="w-full py-2.5 px-4 rounded-xl bg-white border border-[#06B6D4]/30 text-[#164E63] font-bold text-center flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-user text-[#06B6D4]"></i><span>لوحة حسابي ({{ Auth::user()->name }})</span>
-                </a>
-            @else
-                <div class="grid grid-cols-2 gap-2">
-                    <a href="{{ route('login') }}" class="py-2.5 px-3 rounded-xl bg-white border border-[#06B6D4]/30 text-[#164E63] font-semibold text-center text-xs">تسجيل الدخول</a>
-                    <a href="{{ route('auth.demo', 'tourist') }}" class="py-2.5 px-3 rounded-xl bg-[#06B6D4]/10 border border-[#06B6D4]/40 text-[#164E63] font-semibold text-center text-xs flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-bolt text-[#06B6D4]"></i> تجربة سريعة
+                <div class="pt-3 border-t border-[#06B6D4]/15 mt-3">
+                    <span class="block text-[11px] font-extrabold uppercase tracking-wider text-[#0891B2] px-2 mb-2">إدارة الحساب</span>
+                    <a href="{{ route('account.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-[#164E63] hover:bg-[#E0F2FE]/70 transition font-bold">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-xl bg-[#E0F2FE] text-[#06B6D4] flex items-center justify-center text-xs"><i class="fa-solid fa-user"></i></span>
+                            <span>لوحة حسابي والحجوزات</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-left text-[10px] opacity-30"></i>
                     </a>
+                    @if(Auth::user()->role === 'admin')
+                        <a href="{{ route('admin.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-[#164E63] hover:bg-[#E0F2FE]/70 transition font-black">
+                            <div class="flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-700 flex items-center justify-center text-xs"><i class="fa-solid fa-chart-line"></i></span>
+                                <span>لوحة القيادة والتحليلات</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-left text-[10px] opacity-30"></i>
+                        </a>
+                    @endif
+                    <form action="{{ route('logout') }}" method="POST" class="mt-1">
+                        @csrf
+                        <button type="submit" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-rose-600 hover:bg-rose-50 transition text-right font-bold text-xs">
+                            <span class="w-8 h-8 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-xs"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                            <span>تسجيل الخروج</span>
+                        </button>
+                    </form>
                 </div>
             @endauth
+        </div>
+
+        <!-- Quick Action & Footer -->
+        <div class="p-4 border-t border-[#06B6D4]/15 space-y-2.5 bg-gradient-to-t from-[#E0F2FE]/60 to-white pb-[max(1rem,env(safe-area-inset-bottom))]">
+            <a href="{{ route('booking.create') }}" class="mg-btn w-full !py-3 !text-sm shadow-lg shadow-[#06B6D4]/25">
+                <span>ابدأ رحلتك الآن</span><i class="fa-solid fa-arrow-left text-xs"></i>
+            </a>
+            <div class="pt-2 flex items-center justify-between text-[11px] text-[#164E63]/60 px-1 font-bold">
+                <span>منصة مَطَلّ للسياحة</span>
+                <span class="text-[#0891B2]">الإصدار 2.4 · 2026</span>
+            </div>
         </div>
     </div>
     @endunless
@@ -223,7 +298,7 @@
     @endif
 
     <!-- ================= PAGE CONTENT ================= -->
-    <main class="flex-grow">
+    <main class="flex-grow pb-20 lg:pb-0">
         @yield('content')
     </main>
 
@@ -312,9 +387,79 @@
     @endunless
 
     <!-- Back to top -->
-    <button type="button" id="backToTopBtn" class="fixed bottom-6 left-6 z-40 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#164E63] to-[#0e3b4d] text-[#38BDF8] border border-[#38BDF8]/40 shadow-xl shadow-[#072430]/40 flex items-center justify-center text-base opacity-0 translate-y-6 pointer-events-none transition-all duration-300 hover:scale-110 hover:border-[#38BDF8] hover:text-white cursor-pointer" aria-label="العودة لأعلى الصفحة">
+    <button type="button" id="backToTopBtn" class="fixed bottom-20 left-4 sm:bottom-24 sm:left-6 lg:bottom-6 lg:left-6 z-40 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#164E63] to-[#0e3b4d] text-[#38BDF8] border border-[#38BDF8]/40 shadow-xl shadow-[#072430]/40 flex items-center justify-center text-base opacity-0 translate-y-6 pointer-events-none transition-all duration-300 hover:scale-110 hover:border-[#38BDF8] hover:text-white cursor-pointer" aria-label="العودة لأعلى الصفحة">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
+
+    @unless(View::hasSection('hide_navbar') || request()->routeIs('login*') || request()->routeIs('admin*'))
+    <!-- ================= NATIVE MOBILE BOTTOM APP BAR (DOCK) ================= -->
+    <nav id="mobileBottomNav" class="fixed bottom-0 inset-x-0 z-40 lg:hidden bg-white/95 backdrop-blur-xl border-t border-[#06B6D4]/25 shadow-[0_-8px_25px_rgba(7,36,48,0.08)] pb-[max(0.25rem,env(safe-area-inset-bottom))] transition-all duration-300">
+        <div class="grid grid-cols-5 h-16 items-center px-1 max-w-md mx-auto relative">
+
+            <!-- Tab 1: Home -->
+            <a href="{{ route('home') }}" class="flex flex-col items-center justify-center gap-1 py-1 text-center transition-all duration-200 active:scale-90 {{ request()->routeIs('home') ? 'text-[#0891B2] font-black' : 'text-[#183746]/65 hover:text-[#0891B2]' }}">
+                <span class="relative flex items-center justify-center w-6 h-6">
+                    <i class="fa-solid fa-house text-lg"></i>
+                    @if(request()->routeIs('home'))
+                        <span class="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-[#06B6D4]"></span>
+                    @endif
+                </span>
+                <span class="text-[10px] tracking-tight">الرئيسية</span>
+            </a>
+
+            <!-- Tab 2: Routes -->
+            <a href="{{ route('routes.index') }}" class="flex flex-col items-center justify-center gap-1 py-1 text-center transition-all duration-200 active:scale-90 {{ request()->routeIs('routes.*') ? 'text-[#0891B2] font-black' : 'text-[#183746]/65 hover:text-[#0891B2]' }}">
+                <span class="relative flex items-center justify-center w-6 h-6">
+                    <i class="fa-solid fa-route text-lg"></i>
+                    @if(request()->routeIs('routes.*'))
+                        <span class="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-[#06B6D4]"></span>
+                    @endif
+                </span>
+                <span class="text-[10px] tracking-tight">المسارات</span>
+            </a>
+
+            <!-- Tab 3: Center Elevated Action (Smart Map & AI Planner) -->
+            <div class="flex flex-col items-center justify-center relative -top-3">
+                <a href="{{ route('map.index') }}" class="relative group flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-tr from-[#164E63] via-[#0891B2] to-[#06B6D4] text-white shadow-lg shadow-cyan-500/40 border-[3px] border-white transition-all duration-300 active:scale-90 ring-2 ring-[#06B6D4]/30">
+                    <i class="fa-solid fa-wand-magic-sparkles text-lg animate-pulse"></i>
+                </a>
+                <span class="text-[9px] font-black text-[#164E63] mt-0.5">الخريطة والـ AI</span>
+            </div>
+
+            <!-- Tab 4: Destinations -->
+            <a href="{{ route('destinations.index') }}" class="flex flex-col items-center justify-center gap-1 py-1 text-center transition-all duration-200 active:scale-90 {{ request()->routeIs('destinations.*') ? 'text-[#0891B2] font-black' : 'text-[#183746]/65 hover:text-[#0891B2]' }}">
+                <span class="relative flex items-center justify-center w-6 h-6">
+                    <i class="fa-solid fa-mountain-sun text-lg"></i>
+                    @if(request()->routeIs('destinations.*'))
+                        <span class="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-[#06B6D4]"></span>
+                    @endif
+                </span>
+                <span class="text-[10px] tracking-tight">الوجهات</span>
+            </a>
+
+            <!-- Tab 5: Profile / Login -->
+            @auth
+                <a href="{{ route('account.index') }}" class="flex flex-col items-center justify-center gap-1 py-1 text-center transition-all duration-200 active:scale-90 {{ request()->routeIs('account.*') ? 'text-[#0891B2] font-black' : 'text-[#183746]/65 hover:text-[#0891B2]' }}">
+                    <span class="relative flex items-center justify-center w-6 h-6">
+                        <span class="w-5 h-5 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white font-bold flex items-center justify-center text-[9px]">{{ mb_substr(Auth::user()->name, 0, 1) }}</span>
+                        @if(request()->routeIs('account.*'))
+                            <span class="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-[#06B6D4]"></span>
+                        @endif
+                    </span>
+                    <span class="text-[10px] tracking-tight">حسابي</span>
+                </a>
+            @else
+                <a href="{{ route('login') }}" class="flex flex-col items-center justify-center gap-1 py-1 text-center transition-all duration-200 active:scale-90 {{ request()->routeIs('login*') ? 'text-[#0891B2] font-black' : 'text-[#183746]/65 hover:text-[#0891B2]' }}">
+                    <span class="relative flex items-center justify-center w-6 h-6">
+                        <i class="fa-regular fa-user text-lg"></i>
+                    </span>
+                    <span class="text-[10px] tracking-tight">دخول</span>
+                </a>
+            @endauth
+
+        </div>
+    </nav>
+    @endunless
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>

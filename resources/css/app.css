@@ -1118,7 +1118,7 @@
   }
 
   /* ---------- Section scaffolding ---------- */
-  .mg-section { position: relative; overflow: hidden; padding: clamp(4rem, 8vw, 7.5rem) 1rem; }
+  .mg-section { position: relative; overflow: hidden; padding: clamp(2.75rem, 6vw, 7rem) 1rem; }
   .mg-wrap { position: relative; z-index: 2; max-width: 80rem; margin-inline: auto; }
   .mg-bg-light { background: var(--mg-grad-soft); color: var(--mg-teal); }
   .mg-bg-white { background: #fff; color: var(--mg-teal); }
@@ -1233,9 +1233,9 @@
     padding: 0 !important;
     transform: translateY(1px);
   }
-  .mg-title { font-weight: 900; line-height: 1.2; font-size: clamp(1.75rem, 4.2vw, 3.1rem); color: var(--mg-deep); }
+  .mg-title { font-weight: 900; line-height: 1.25; font-size: clamp(1.5rem, 5.5vw, 3rem); color: var(--mg-deep); }
   .mg-bg-dark .mg-title { color: #fff; }
-  .mg-lead { max-width: 42rem; margin-inline: auto; line-height: 1.9; font-size: clamp(.95rem, 1.6vw, 1.1rem); color: rgba(24,55,70,.78); }
+  .mg-lead { max-width: 42rem; margin-inline: auto; line-height: 1.85; font-size: clamp(.88rem, 2.5vw, 1.08rem); color: rgba(24,55,70,.78); }
   .mg-bg-dark .mg-lead { color: rgba(224,242,254,.82); }
   .mg-text-grad {
     background: linear-gradient(90deg, #06B6D4, #38BDF8, #06B6D4); background-size: 200% auto;
@@ -1740,6 +1740,92 @@
   .pbi-card [class*="bg-purple-500/15"] i,
   .pbi-card [class*="bg-sky-500/15"] i {
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+  }
+
+  /* ---------- Native Mobile Application Polish & Responsiveness ---------- */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Safe Area Insets for mobile displays (iPhone Notch & Dynamic Island) */
+  .safe-area-bottom {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+  }
+  .safe-area-top {
+    padding-top: max(0.5rem, env(safe-area-inset-top, 0px));
+  }
+
+  /* Native Mobile App Dock / Bottom Bar */
+  #mobileBottomNav {
+    box-shadow: 0 -4px 25px -2px rgba(7, 36, 48, 0.09), 0 -1px 3px rgba(6, 182, 212, 0.15);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+
+  /* Mobile App Drawer & Overlays */
+  #mobileDrawer {
+    box-shadow: -10px 0 40px rgba(7, 36, 48, 0.35);
+    will-change: transform;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Touch ergonomics and haptic-like active states */
+  @media (max-width: 768px) {
+    /* Prevent blue tap highlights and accidental text selection */
+    body {
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    .mg-btn, .mg-btn-ghost, .mg-btn-dark, .mg-chip, .map-cat-filter, .mg-station, #mobileBottomNav a {
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    /* Spring-like tactile press feedback */
+    .mg-btn:active, .mg-btn-ghost:active, .mg-btn-dark:active {
+      transform: scale(0.96) !important;
+      transition: transform 0.1s ease !important;
+    }
+
+    .mg-card:active {
+      transform: scale(0.985);
+      transition: transform 0.15s ease;
+    }
+
+    /* Prevent mobile browser font autoscaling & Safari auto-zoom on inputs */
+    input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="number"], select, textarea {
+      font-size: 16px !important;
+    }
+
+    /* Ensure comfortable finger touch targets (>= 44px) */
+    .mg-btn, .mg-btn-ghost, .mg-btn-dark {
+      min-height: 44px;
+    }
+    
+    .mg-chip {
+      min-height: 38px;
+    }
+
+    /* Mobile scroll snap utility */
+    .mg-snap-x {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .mg-snap-x::-webkit-scrollbar {
+      display: none;
+    }
+    .mg-snap-x > * {
+      scroll-snap-align: center;
+      flex-shrink: 0;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
