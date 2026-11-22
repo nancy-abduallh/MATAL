@@ -55,61 +55,61 @@
     <!-- Central Card with Professional Background Image (Mobile & Desktop) -->
     <div class="relative z-10 w-full max-w-5xl rounded-3xl lg:rounded-[2.5rem] overflow-hidden border border-white/30 shadow-[0_30px_90px_rgba(0,0,0,0.65)] grid grid-cols-1 lg:grid-cols-12 my-auto bg-cover bg-center" style="background-image: url('/images/aldarb_viewpoint_hd.jpg');">
         
-        <!-- Deep Oceanic Frosted Glass Overlay across the Card -->
-        <div class="absolute inset-0 bg-gradient-to-tr from-[#072430]/95 via-[#0e3b4d]/92 to-[#164E63]/88 backdrop-blur-xl"></div>
-        <div class="absolute inset-0 bg-black/25"></div>
+        <!-- Deep Oceanic Frosted Glass Overlay across the Card (Allows scenic background to show through beautifully) -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[#072430]/82 via-[#0b3342]/70 to-[#072430]/88 backdrop-blur-[2px]"></div>
+        <div class="absolute inset-0 bg-black/15 pointer-events-none"></div>
 
         <!-- ================= FORM PANEL (7 COLS ON DESKTOP, FULL ON MOBILE) ================= -->
-        <div class="relative z-10 lg:col-span-7 p-6 sm:p-10 lg:p-12 flex flex-col justify-between order-1">
+        <div class="relative z-10 lg:col-span-7 p-5 sm:p-10 lg:p-12 flex flex-col justify-between order-1">
             
             <div>
                 <!-- Top Brand & Return Link -->
-                <div class="flex items-center justify-between mb-6 sm:mb-8">
+                <div class="flex items-center justify-between mb-5 sm:mb-8">
                     <a href="{{ route('home') }}" class="flex items-center gap-2.5 group" title="الصفحة الرئيسية">
-                        <img src="/images/matal_logo_white_text.png" alt="مَطَلّ MATAL" class="h-12 sm:h-14 w-auto drop-shadow-lg transform transition duration-300 group-hover:scale-105">
+                        <img src="/images/matal_logo_white_text.png" alt="مَطَلّ MATAL" class="h-11 sm:h-14 w-auto drop-shadow-xl transform transition duration-300 group-hover:scale-105">
                     </a>
-                    <a href="{{ route('home') }}" class="group inline-flex items-center gap-2 text-xs sm:text-sm font-black text-white bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/35 transition px-4 py-1.5 rounded-full shadow-sm">
+                    <a href="{{ route('home') }}" class="group inline-flex items-center gap-2 text-xs sm:text-sm font-black text-white bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/35 transition px-3.5 py-1.5 rounded-full shadow-md">
                         <span>العودة للرئيسية</span>
                         <i class="fa-solid fa-arrow-left text-[11px] text-[#38BDF8] transition group-hover:-translate-x-1"></i>
                     </a>
                 </div>
 
                 <!-- Headline -->
-                <h1 class="text-2xl sm:text-3xl font-black text-white mb-1.5 font-heading drop-shadow-md">
-                    مرحباً بك في <span class="text-[#38BDF8] drop-shadow-[0_2px_10px_rgba(56,189,248,0.5)]">مَطَلّ</span>
+                <h1 class="text-2xl sm:text-3xl font-black text-white mb-1.5 font-heading drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                    مرحباً بك في <span class="text-[#38BDF8] drop-shadow-[0_2px_12px_rgba(56,189,248,0.6)]">مَطَلّ</span>
                 </h1>
-                <p class="text-xs sm:text-sm text-sky-100/90 leading-relaxed mb-6 font-semibold drop-shadow-sm">
+                <p class="text-xs sm:text-sm text-sky-100 font-bold leading-relaxed mb-5 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
                     سجّل دخولك لحفظ مساراتك، تخطيط رحلاتك، وإدارة حجوزاتك بكل سهولة.
                 </p>
 
                 <!-- High-Contrast Segmented Tabs Switcher -->
-                <div class="relative grid grid-cols-2 p-1.5 rounded-2xl bg-[#072430]/70 backdrop-blur-xl border border-white/25 mb-6 text-xs sm:text-sm font-black shadow-inner">
+                <div class="relative grid grid-cols-2 p-1.5 rounded-2xl bg-[#051c26]/90 backdrop-blur-md border border-white/30 mb-5 text-xs sm:text-sm font-black shadow-lg">
                     <span id="tabIndicator" class="absolute top-1.5 bottom-1.5 right-1.5 w-[calc(50%-0.375rem)] rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#38BDF8] shadow-lg shadow-cyan-500/40 transition-transform duration-500 ease-out" style="transform: {{ $register ? 'translateX(-100%)' : 'translateX(0)' }};"></span>
-                    <button type="button" id="tabLoginBtn" class="relative z-10 py-2.5 transition-colors duration-300 cursor-pointer {{ $register ? 'text-white/80 font-bold' : 'text-[#072430] font-black' }}">تسجيل الدخول</button>
-                    <button type="button" id="tabRegisterBtn" class="relative z-10 py-2.5 transition-colors duration-300 cursor-pointer {{ $register ? 'text-[#072430] font-black' : 'text-white/80 font-bold' }}">إنشاء حساب جديد</button>
+                    <button type="button" id="tabLoginBtn" class="relative z-10 py-2.5 transition-colors duration-300 cursor-pointer {{ $register ? 'text-white/90 font-bold' : 'text-[#072430] font-black' }}">تسجيل الدخول</button>
+                    <button type="button" id="tabRegisterBtn" class="relative z-10 py-2.5 transition-colors duration-300 cursor-pointer {{ $register ? 'text-[#072430] font-black' : 'text-white/90 font-bold' }}">إنشاء حساب جديد</button>
                 </div>
 
                 <!-- ============ LOGIN FORM ============ -->
                 <form id="loginFormBlock" action="{{ route('login.submit') }}" method="POST" class="space-y-4 sm:space-y-5 {{ $register ? 'hidden' : 'mg-fade-up' }}">
                     @csrf
                     <div>
-                        <label class="block text-xs sm:text-sm font-black text-white mb-1.5 drop-shadow-sm" for="login_email">
+                        <label class="block text-xs sm:text-sm font-black text-white mb-1.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" for="login_email">
                             البريد الإلكتروني <span class="text-[#38BDF8] font-black">*</span>
                         </label>
                         <div class="relative">
                             <i class="fa-regular fa-envelope absolute right-4 top-1/2 -translate-y-1/2 text-[#0891B2] text-base pointer-events-none z-10"></i>
-                            <input id="login_email" type="email" name="email" value="{{ old('email', $isLocal ? 'tourist@matal.sa' : '') }}" required placeholder="yourname@domain.com" class="w-full bg-white/95 focus:bg-white text-[#164E63] font-bold text-sm sm:text-base rounded-2xl border-2 border-white shadow-md focus:border-[#38BDF8] focus:ring-4 focus:ring-[#38BDF8]/25 transition duration-200 !pr-11 !pl-4 py-3 placeholder-[#164E63]/45" dir="ltr" style="text-align: right;">
+                            <input id="login_email" type="email" name="email" value="{{ old('email', $isLocal ? 'tourist@matal.sa' : '') }}" required placeholder="yourname@domain.com" class="w-full bg-white text-[#164E63] font-bold text-sm sm:text-base rounded-2xl border-2 border-white shadow-lg shadow-black/20 focus:border-[#38BDF8] focus:ring-4 focus:ring-[#38BDF8]/30 transition duration-200 !pr-11 !pl-4 py-3 placeholder-[#164E63]/45" dir="ltr" style="text-align: right;">
                         </div>
                         @if(!$register && $errors->has('email'))<p class="{{ $errorText }}">{{ $errors->first('email') }}</p>@endif
                     </div>
                     
                     <div>
-                        <label class="block text-xs sm:text-sm font-black text-white mb-1.5 drop-shadow-sm" for="login_password">
+                        <label class="block text-xs sm:text-sm font-black text-white mb-1.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" for="login_password">
                             كلمة المرور <span class="text-[#38BDF8] font-black">*</span>
                         </label>
                         <div class="relative">
                             <i class="fa-solid fa-lock absolute right-4 top-1/2 -translate-y-1/2 text-[#0891B2] text-base pointer-events-none z-10"></i>
-                            <input id="login_password" type="password" name="password" @if($isLocal) value="password123" @endif required placeholder="••••••••" class="w-full bg-white/95 focus:bg-white text-[#164E63] font-bold text-sm sm:text-base rounded-2xl border-2 border-white shadow-md focus:border-[#38BDF8] focus:ring-4 focus:ring-[#38BDF8]/25 transition duration-200 !pr-11 !pl-12 py-3 placeholder-[#164E63]/45" dir="ltr" style="text-align: right;">
+                            <input id="login_password" type="password" name="password" @if($isLocal) value="password123" @endif required placeholder="••••••••" class="w-full bg-white text-[#164E63] font-bold text-sm sm:text-base rounded-2xl border-2 border-white shadow-lg shadow-black/20 focus:border-[#38BDF8] focus:ring-4 focus:ring-[#38BDF8]/30 transition duration-200 !pr-11 !pl-12 py-3 placeholder-[#164E63]/45" dir="ltr" style="text-align: right;">
                             <button type="button" data-toggle-pw="login_password" class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-xl text-[#164E63]/70 hover:text-[#0891B2] hover:bg-[#E0F2FE] transition flex items-center justify-center cursor-pointer z-10" aria-label="إظهار كلمة المرور">
                                 <i class="fa-regular fa-eye text-sm"></i>
                             </button>
@@ -118,11 +118,11 @@
                     </div>
 
                     <div class="flex items-center justify-between text-xs sm:text-sm pt-1">
-                        <label class="inline-flex items-center gap-2 cursor-pointer text-white font-bold select-none drop-shadow-sm">
+                        <label class="inline-flex items-center gap-2 cursor-pointer text-white font-bold select-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                             <input type="checkbox" name="remember" class="w-4 h-4 rounded accent-[#06B6D4] cursor-pointer">
                             <span>تذكرني على هذا الجهاز</span>
                         </label>
-                        <a href="{{ route('contact') }}" class="font-black text-[#38BDF8] hover:text-white transition drop-shadow-sm">نسيت كلمة المرور؟</a>
+                        <a href="{{ route('contact') }}" class="font-black text-[#38BDF8] hover:text-white transition drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">نسيت كلمة المرور؟</a>
                     </div>
 
                     <button type="submit" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#06B6D4] via-[#0891B2] to-[#38BDF8] hover:from-[#0891B2] hover:to-[#06B6D4] text-white font-black text-sm sm:text-base shadow-xl shadow-cyan-500/40 border border-white/40 transition-all duration-300 transform active:scale-98 flex items-center justify-center gap-2 cursor-pointer">
@@ -137,60 +137,60 @@
                     <input type="hidden" name="_form" value="register">
                     
                     <div>
-                        <label class="block text-xs sm:text-sm font-black text-white mb-1.5 drop-shadow-sm" for="reg_name">
+                        <label class="block text-xs sm:text-sm font-black text-white mb-1.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" for="reg_name">
                             الاسم الكامل <span class="text-[#38BDF8] font-black">*</span>
                         </label>
                         <div class="relative">
                             <i class="fa-regular fa-user absolute right-4 top-1/2 -translate-y-1/2 text-[#0891B2] text-base pointer-events-none z-10"></i>
-                            <input id="reg_name" type="text" name="name" value="{{ $register ? old('name') : '' }}" required placeholder="الاسم ثلاثي" class="w-full bg-white/95 focus:bg-white text-[#164E63] font-bold text-sm sm:text-base rounded-2xl border-2 border-white shadow-md focus:border-[#38BDF8] focus:ring-4 focus:ring-[#38BDF8]/25 transition duration-200 !pr-11 !pl-4 py-3 placeholder-[#164E63]/45">
+                            <input id="reg_name" type="text" name="name" value="{{ $register ? old('name') : '' }}" required placeholder="الاسم ثلاثي" class="w-full bg-white text-[#164E63] font-bold text-sm sm:text-base rounded-2xl border-2 border-white shadow-lg shadow-black/20 focus:border-[#38BDF8] focus:ring-4 focus:ring-[#38BDF8]/30 transition duration-200 !pr-11 !pl-4 py-3 placeholder-[#164E63]/45">
                         </div>
                         @if($register && $errors->has('name'))<p class="{{ $errorText }}">{{ $errors->first('name') }}</p>@endif
                     </div>
 
                     <div>
-                        <label class="block text-xs sm:text-sm font-black text-white mb-1.5 drop-shadow-sm" for="reg_email">
+                        <label class="block text-xs sm:text-sm font-black text-white mb-1.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" for="reg_email">
                             البريد الإلكتروني <span class="text-[#38BDF8] font-black">*</span>
                         </label>
                         <div class="relative">
                             <i class="fa-regular fa-envelope absolute right-4 top-1/2 -translate-y-1/2 text-[#0891B2] text-base pointer-events-none z-10"></i>
-                            <input id="reg_email" type="email" name="email" value="{{ $register ? old('email') : '' }}" required placeholder="example@domain.com" class="w-full bg-white/95 focus:bg-white text-[#164E63] font-bold text-sm sm:text-base rounded-2xl border-2 border-white shadow-md focus:border-[#38BDF8] focus:ring-4 focus:ring-[#38BDF8]/25 transition duration-200 !pr-11 !pl-4 py-3 placeholder-[#164E63]/45" dir="ltr" style="text-align: right;">
+                            <input id="reg_email" type="email" name="email" value="{{ $register ? old('email') : '' }}" required placeholder="example@domain.com" class="w-full bg-white text-[#164E63] font-bold text-sm sm:text-base rounded-2xl border-2 border-white shadow-lg shadow-black/20 focus:border-[#38BDF8] focus:ring-4 focus:ring-[#38BDF8]/30 transition duration-200 !pr-11 !pl-4 py-3 placeholder-[#164E63]/45" dir="ltr" style="text-align: right;">
                         </div>
                         @if($register && $errors->has('email'))<p class="{{ $errorText }}">{{ $errors->first('email') }}</p>@endif
                     </div>
 
                     <div>
-                        <label class="block text-xs sm:text-sm font-black text-white mb-1.5 drop-shadow-sm" for="reg_phone">
-                            رقم الجوال <span class="text-sky-200/70 font-semibold">(اختياري)</span>
+                        <label class="block text-xs sm:text-sm font-black text-white mb-1.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" for="reg_phone">
+                            رقم الجوال <span class="text-sky-200/90 font-bold">(اختياري)</span>
                         </label>
                         <div class="relative">
                             <i class="fa-solid fa-mobile-screen absolute right-4 top-1/2 -translate-y-1/2 text-[#0891B2] text-base pointer-events-none z-10"></i>
-                            <input id="reg_phone" type="tel" name="phone" value="{{ $register ? old('phone') : '' }}" placeholder="05XXXXXXXX" class="w-full bg-white/95 focus:bg-white text-[#164E63] font-bold text-sm sm:text-base rounded-2xl border-2 border-white shadow-md focus:border-[#38BDF8] focus:ring-4 focus:ring-[#38BDF8]/25 transition duration-200 !pr-11 !pl-4 py-3 placeholder-[#164E63]/45" dir="ltr" style="text-align: right;">
+                            <input id="reg_phone" type="tel" name="phone" value="{{ $register ? old('phone') : '' }}" placeholder="05XXXXXXXX" class="w-full bg-white text-[#164E63] font-bold text-sm sm:text-base rounded-2xl border-2 border-white shadow-lg shadow-black/20 focus:border-[#38BDF8] focus:ring-4 focus:ring-[#38BDF8]/30 transition duration-200 !pr-11 !pl-4 py-3 placeholder-[#164E63]/45" dir="ltr" style="text-align: right;">
                         </div>
                         @if($register && $errors->has('phone'))<p class="{{ $errorText }}">{{ $errors->first('phone') }}</p>@endif
                     </div>
 
                     <div class="grid sm:grid-cols-2 gap-3 sm:gap-4">
                         <div>
-                            <label class="block text-xs sm:text-sm font-black text-white mb-1.5 drop-shadow-sm" for="reg_password">
+                            <label class="block text-xs sm:text-sm font-black text-white mb-1.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" for="reg_password">
                                 كلمة المرور <span class="text-[#38BDF8] font-black">*</span>
                             </label>
                             <div class="relative">
-                                <input id="reg_password" type="password" name="password" required placeholder="••••••••" class="w-full bg-white/95 focus:bg-white text-[#164E63] font-bold text-sm sm:text-base rounded-2xl border-2 border-white shadow-md focus:border-[#38BDF8] focus:ring-4 focus:ring-[#38BDF8]/25 transition duration-200 !pl-11 !pr-4 py-3 placeholder-[#164E63]/45" dir="ltr" style="text-align: right;">
+                                <input id="reg_password" type="password" name="password" required placeholder="••••••••" class="w-full bg-white text-[#164E63] font-bold text-sm sm:text-base rounded-2xl border-2 border-white shadow-lg shadow-black/20 focus:border-[#38BDF8] focus:ring-4 focus:ring-[#38BDF8]/30 transition duration-200 !pl-11 !pr-4 py-3 placeholder-[#164E63]/45" dir="ltr" style="text-align: right;">
                                 <button type="button" data-toggle-pw="reg_password" class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-xl text-[#164E63]/70 hover:text-[#0891B2] hover:bg-[#E0F2FE] transition flex items-center justify-center cursor-pointer z-10" aria-label="إظهار كلمة المرور">
                                     <i class="fa-regular fa-eye text-sm"></i>
                                 </button>
                             </div>
                             <div id="pwBars" class="mt-2 grid grid-cols-4 gap-1.5" aria-hidden="true">
-                                @for($i = 0; $i < 4; $i++)<span class="h-1.5 rounded-full bg-white/20 transition-colors duration-300"></span>@endfor
+                                @for($i = 0; $i < 4; $i++)<span class="h-1.5 rounded-full bg-white/30 transition-colors duration-300"></span>@endfor
                             </div>
-                            <p id="pwHint" class="mt-1 text-[11px] font-bold text-sky-100/80 drop-shadow-sm">6 أحرف على الأقل</p>
+                            <p id="pwHint" class="mt-1 text-[11px] font-bold text-sky-100 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">6 أحرف على الأقل</p>
                             @if($register && $errors->has('password'))<p class="{{ $errorText }}">{{ $errors->first('password') }}</p>@endif
                         </div>
                         <div>
-                            <label class="block text-xs sm:text-sm font-black text-white mb-1.5 drop-shadow-sm" for="reg_password2">
+                            <label class="block text-xs sm:text-sm font-black text-white mb-1.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" for="reg_password2">
                                 تأكيد كلمة المرور <span class="text-[#38BDF8] font-black">*</span>
                             </label>
-                            <input id="reg_password2" type="password" name="password_confirmation" required placeholder="••••••••" class="w-full bg-white/95 focus:bg-white text-[#164E63] font-bold text-sm sm:text-base rounded-2xl border-2 border-white shadow-md focus:border-[#38BDF8] focus:ring-4 focus:ring-[#38BDF8]/25 transition duration-200 px-4 py-3 placeholder-[#164E63]/45" dir="ltr" style="text-align: right;">
+                            <input id="reg_password2" type="password" name="password_confirmation" required placeholder="••••••••" class="w-full bg-white text-[#164E63] font-bold text-sm sm:text-base rounded-2xl border-2 border-white shadow-lg shadow-black/20 focus:border-[#38BDF8] focus:ring-4 focus:ring-[#38BDF8]/30 transition duration-200 px-4 py-3 placeholder-[#164E63]/45" dir="ltr" style="text-align: right;">
                         </div>
                     </div>
 
@@ -202,12 +202,12 @@
 
                 <!-- Divider -->
                 <div class="relative my-5 sm:my-6">
-                    <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-white/20"></div></div>
-                    <div class="relative flex justify-center"><span class="px-4 py-0.5 rounded-full bg-[#072430]/80 text-xs font-black text-sky-100 border border-white/15 drop-shadow-sm">أو</span></div>
+                    <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-white/25"></div></div>
+                    <div class="relative flex justify-center"><span class="px-4 py-0.5 rounded-full bg-[#072430]/90 text-xs font-black text-white border border-white/20 shadow-md">أو</span></div>
                 </div>
 
                 <!-- Google Sign-In -->
-                <button type="button" disabled class="w-full flex items-center justify-center gap-3 py-3 rounded-2xl bg-white/95 border-2 border-white text-[#164E63] font-black text-xs sm:text-sm shadow-md cursor-not-allowed">
+                <button type="button" disabled class="w-full flex items-center justify-center gap-3 py-3 rounded-2xl bg-white border-2 border-white text-[#164E63] font-black text-xs sm:text-sm shadow-lg cursor-not-allowed">
                     <i class="fa-brands fa-google text-rose-500 text-base"></i>
                     <span>المتابعة عبر Google</span>
                     <span class="px-2 py-0.5 rounded-full bg-[#E0F2FE] text-[#0891B2] text-[10px] font-black border border-[#06B6D4]/30">قريباً</span>
@@ -217,12 +217,12 @@
             <!-- Fast Demo Accounts (Testing Only) -->
             @if($isLocal)
             <div class="mt-6 pt-5 border-t border-white/20">
-                <span class="block text-xs font-black text-white mb-2.5 text-center drop-shadow-sm">
+                <span class="block text-xs font-black text-white mb-2.5 text-center drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                     <i class="fa-solid fa-bolt text-[#38BDF8]"></i> حسابات تجريبية للاختبار السريع (بنقرة واحدة)
                 </span>
                 <div class="grid grid-cols-3 gap-2">
                     @foreach($demo as $d)
-                        <a href="{{ route('auth.demo', $d[0]) }}" class="flex flex-col items-center gap-1.5 p-2.5 rounded-2xl bg-white/95 hover:bg-white border-2 border-white hover:border-[#38BDF8] shadow-md hover:shadow-cyan-500/25 transition-all duration-200 text-center active:scale-95 group">
+                        <a href="{{ route('auth.demo', $d[0]) }}" class="flex flex-col items-center gap-1.5 p-2.5 rounded-2xl bg-white hover:bg-white border-2 border-white hover:border-[#38BDF8] shadow-lg hover:shadow-cyan-500/25 transition-all duration-200 text-center active:scale-95 group">
                             <span class="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#0891B2] to-[#38BDF8] text-white flex items-center justify-center text-xs shadow-sm group-hover:scale-105 transition">
                                 <i class="fa-solid {{ $d[2] }}"></i>
                             </span>
