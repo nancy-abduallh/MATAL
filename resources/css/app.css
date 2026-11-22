@@ -1766,11 +1766,12 @@
     -webkit-backdrop-filter: blur(20px) saturate(180%);
   }
 
-  /* Mobile App Drawer & Overlays */
-  #mobileDrawer {
-    box-shadow: -10px 0 40px rgba(7, 36, 48, 0.35);
-    will-change: transform;
-    -webkit-overflow-scrolling: touch;
+  /* Nav Dropdown Menus (Mobile & Desktop) */
+  .nav-dropdown-menu.is-open {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    pointer-events: auto !important;
   }
 
   /* Touch ergonomics and haptic-like active states */

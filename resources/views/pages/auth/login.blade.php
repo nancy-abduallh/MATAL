@@ -212,6 +212,12 @@
         tabLogin.addEventListener('click', () => show('login'));
         tabRegister.addEventListener('click', () => show('register'));
 
+        // Handle URL tab switching (e.g. ?tab=register or #register)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('tab') === 'register' || window.location.hash === '#register') {
+            show('register');
+        }
+
         // Show / hide password
         document.querySelectorAll('[data-toggle-pw]').forEach(btn => btn.addEventListener('click', () => {
             const input = document.getElementById(btn.dataset.togglePw);

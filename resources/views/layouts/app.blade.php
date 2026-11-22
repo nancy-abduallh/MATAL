@@ -127,161 +127,113 @@
                 </nav>
 
                 <!-- Actions -->
-                <div class="flex items-center gap-2 sm:gap-4">
+                <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
                     @auth
-                        <div class="relative group hidden sm:block">
-                            <a href="{{ route('account.index') }}" class="nav-pill-btn flex items-center gap-2 px-3 py-1.5 rounded-full text-sm border transition">
-                                <span class="w-7 h-7 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white font-bold flex items-center justify-center text-xs">{{ mb_substr(Auth::user()->name, 0, 1) }}</span>
-                                <span class="max-w-[90px] truncate font-medium">{{ Auth::user()->name }}</span>
-                                <i class="fa-solid fa-chevron-down text-xs opacity-75"></i>
-                            </a>
-                            <div class="absolute left-0 mt-2 w-52 bg-white rounded-2xl shadow-2xl shadow-[#164E63]/20 border border-[#06B6D4]/20 py-2 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 text-[#183746] text-sm z-50">
-                                <a href="{{ route('account.index') }}" class="flex items-center gap-2 px-4 py-2.5 hover:bg-[#E0F2FE] transition"><i class="fa-solid fa-user text-[#06B6D4]"></i> حسابي</a>
+                        <!-- User Profile Dropdown (Mobile & Desktop) -->
+                        <div class="relative group" id="navUserMenuContainer">
+                            <button type="button" id="navUserMenuBtn" class="nav-pill-btn flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full text-xs sm:text-sm border transition cursor-pointer select-none active:scale-95" aria-expanded="false" aria-haspopup="true">
+                                <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white font-black flex items-center justify-center text-[10px] sm:text-xs shadow-sm">{{ mb_substr(Auth::user()->name, 0, 1) }}</span>
+                                <span class="max-w-[65px] xs:max-w-[90px] sm:max-w-[110px] truncate font-bold text-xs sm:text-sm">{{ Auth::user()->name }}</span>
+                                <i class="fa-solid fa-chevron-down text-[9px] sm:text-xs opacity-75 transition-transform duration-200" id="navUserMenuChevron"></i>
+                            </button>
+                            
+                            <div id="navUserDropdown" class="nav-dropdown-menu absolute left-0 mt-2 w-56 sm:w-64 bg-white rounded-2xl shadow-2xl shadow-[#164E63]/25 border border-[#06B6D4]/25 py-2 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 text-[#183746] text-xs sm:text-sm z-50 overflow-hidden text-right">
+                                <!-- User Header -->
+                                <div class="px-4 py-2.5 bg-gradient-to-br from-[#E0F2FE]/70 via-[#F0F9FF] to-white border-b border-[#06B6D4]/15 mb-1">
+                                    <div class="flex items-center justify-between gap-2">
+                                        <span class="font-black text-xs text-[#164E63] truncate">{{ Auth::user()->name }}</span>
+                                        @if(Auth::user()->role === 'admin')
+                                            <span class="text-[9px] font-black px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-700 border border-cyan-500/25">إدارة</span>
+                                        @else
+                                            <span class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700">سائح</span>
+                                        @endif
+                                    </div>
+                                    <span class="text-[10px] text-[#164E63]/70 truncate block mt-0.5" dir="ltr" style="text-align: right;">{{ Auth::user()->email }}</span>
+                                </div>
+
+                                <!-- Links -->
+                                <a href="{{ route('account.index') }}" class="flex items-center gap-2.5 px-4 py-2 hover:bg-[#E0F2FE] text-xs font-bold text-[#164E63] transition">
+                                    <i class="fa-solid fa-user text-[#06B6D4] text-xs"></i>
+                                    <span>حسابي والحجوزات</span>
+                                </a>
                                 @if(Auth::user()->role === 'admin')
-                                    <a href="{{ route('admin.index') }}" class="flex items-center gap-2 px-4 py-2.5 hover:bg-[#E0F2FE] text-[#164E63] font-bold transition"><i class="fa-solid fa-chart-line text-[#06B6D4]"></i> لوحة التحكم</a>
+                                    <a href="{{ route('admin.index') }}" class="flex items-center gap-2.5 px-4 py-2 hover:bg-[#E0F2FE] text-xs font-black text-[#0891B2] transition">
+                                        <i class="fa-solid fa-chart-line text-[#0891B2] text-xs"></i>
+                                        <span>لوحة تحكم الإدارة (Power BI)</span>
+                                    </a>
                                 @endif
-                                <form action="{{ route('logout') }}" method="POST" class="border-t border-[#06B6D4]/15 mt-1">
+                                <a href="{{ route('booking.create') }}" class="flex items-center gap-2.5 px-4 py-2 hover:bg-[#E0F2FE] text-xs font-semibold text-[#164E63] transition">
+                                    <i class="fa-solid fa-ticket text-[#06B6D4] text-xs"></i>
+                                    <span>حجز رحلة جديدة</span>
+                                </a>
+                                <a href="{{ route('about') }}" class="flex items-center gap-2.5 px-4 py-2 hover:bg-[#E0F2FE] text-xs font-semibold text-[#164E63] transition">
+                                    <i class="fa-solid fa-circle-info text-[#06B6D4] text-xs"></i>
+                                    <span>من نحن</span>
+                                </a>
+                                <a href="{{ route('contact') }}" class="flex items-center gap-2.5 px-4 py-2 hover:bg-[#E0F2FE] text-xs font-semibold text-[#164E63] transition">
+                                    <i class="fa-solid fa-envelope text-[#06B6D4] text-xs"></i>
+                                    <span>تواصل معنا</span>
+                                </a>
+
+                                <form action="{{ route('logout') }}" method="POST" class="border-t border-[#06B6D4]/15 mt-1 pt-1">
                                     @csrf
-                                    <button type="submit" class="w-full text-right flex items-center gap-2 px-4 py-2.5 text-[#164E63] hover:bg-[#E0F2FE] transition"><i class="fa-solid fa-arrow-right-from-bracket text-[#06B6D4]"></i> تسجيل الخروج</button>
+                                    <button type="submit" class="w-full text-right flex items-center gap-2.5 px-4 py-2 text-rose-600 hover:bg-rose-50 text-xs font-black transition cursor-pointer">
+                                        <i class="fa-solid fa-arrow-right-from-bracket text-xs"></i>
+                                        <span>تسجيل الخروج</span>
+                                    </button>
                                 </form>
                             </div>
                         </div>
                     @else
-                        <a href="{{ route('login') }}" class="nav-login-link hidden sm:inline-block text-sm font-semibold transition px-2">تسجيل الدخول</a>
+                        <!-- Guest Auth & Action Links -->
+                        <a href="{{ route('login') }}" class="nav-login-link text-xs sm:text-sm font-bold transition px-2 sm:px-3 py-1.5 rounded-xl border border-transparent hover:border-[#06B6D4]/30 active:scale-95 shrink-0">
+                            <span class="xs:hidden">دخول</span>
+                            <span class="hidden xs:inline">تسجيل الدخول</span>
+                        </a>
+
+                        <a href="{{ route('login') }}?tab=register#register" class="nav-pill-btn text-xs sm:text-sm font-bold transition px-2.5 sm:px-3.5 py-1.5 rounded-xl border border-[#06B6D4]/35 text-[#0891B2] hover:bg-[#06B6D4]/10 active:scale-95 shrink-0 flex items-center gap-1">
+                            <span>حساب جديد</span>
+                        </a>
+
+                        <!-- Guest Quick Links / More (About, Contact, Demo) -->
+                        <div class="relative group shrink-0" id="navGuestMoreContainer">
+                            <button type="button" id="navGuestMoreBtn" class="nav-pill-btn w-8 h-8 sm:w-9 sm:h-9 rounded-xl border flex items-center justify-center text-xs transition cursor-pointer select-none active:scale-95" aria-label="روابط إضافية" aria-expanded="false" aria-haspopup="true">
+                                <i class="fa-solid fa-ellipsis-vertical text-xs"></i>
+                            </button>
+                            <div id="navGuestMoreDropdown" class="nav-dropdown-menu absolute left-0 mt-2 w-48 sm:w-52 bg-white rounded-2xl shadow-2xl shadow-[#164E63]/25 border border-[#06B6D4]/25 py-2 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 text-[#183746] text-xs sm:text-sm z-50 overflow-hidden text-right">
+                                <a href="{{ route('about') }}" class="flex items-center gap-2.5 px-4 py-2 hover:bg-[#E0F2FE] font-bold text-[#164E63] transition">
+                                    <i class="fa-solid fa-circle-info text-[#06B6D4] text-xs"></i>
+                                    <span>من نحن</span>
+                                </a>
+                                <a href="{{ route('contact') }}" class="flex items-center gap-2.5 px-4 py-2 hover:bg-[#E0F2FE] font-bold text-[#164E63] transition">
+                                    <i class="fa-solid fa-envelope text-[#06B6D4] text-xs"></i>
+                                    <span>تواصل معنا</span>
+                                </a>
+                                <a href="{{ route('events.index') }}" class="flex items-center gap-2.5 px-4 py-2 hover:bg-[#E0F2FE] font-bold text-[#164E63] transition">
+                                    <i class="fa-solid fa-calendar-days text-[#06B6D4] text-xs"></i>
+                                    <span>الفعاليات</span>
+                                </a>
+                                @if(app()->environment('local'))
+                                    <div class="border-t border-[#06B6D4]/15 mt-1 pt-1">
+                                        <a href="{{ route('auth.demo', 'tourist') }}" class="flex items-center gap-2.5 px-4 py-2 hover:bg-[#E0F2FE] font-black text-[#0891B2] transition">
+                                            <i class="fa-solid fa-bolt text-[#06B6D4] text-xs"></i>
+                                            <span>دخول تجريبي سريع</span>
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                     @endauth
 
-                    <a href="{{ route('booking.create') }}" class="mg-btn hidden sm:inline-flex !py-2 !px-4 sm:!py-2.5 sm:!px-5 !text-xs sm:!text-sm shrink-0">
+                    <!-- Universal CTA: Start Trip (ابدأ رحلتك) -->
+                    <a href="{{ route('booking.create') }}" class="mg-btn !py-1.5 !px-2.5 sm:!py-2.5 sm:!px-5 !text-xs sm:!text-sm shrink-0 flex items-center gap-1.5 shadow-md shadow-cyan-500/20 active:scale-95">
                         <span>ابدأ رحلتك</span>
-                        <i class="fa-solid fa-arrow-left text-xs"></i>
+                        <i class="fa-solid fa-arrow-left text-[10px] sm:text-xs hidden xs:inline"></i>
                     </a>
-
-                    <button type="button" id="mobileMenuBtn" class="nav-hamburger-btn lg:hidden w-11 h-11 rounded-xl flex items-center justify-center transition border" aria-label="فتح القائمة الرئيسية">
-                        <i class="fa-solid fa-bars text-xl"></i>
-                    </button>
                 </div>
             </div>
         </div>
     </header>
-
-    <!-- ================= MOBILE DRAWER (NATIVE APP SHEET) ================= -->
-    <div id="mobileDrawerOverlay" class="fixed inset-0 bg-[#072430]/75 backdrop-blur-md z-50 transition-opacity duration-300 opacity-0 pointer-events-none lg:hidden"></div>
-
-    <div id="mobileDrawer" class="fixed top-0 right-0 bottom-0 w-84 max-w-[88vw] bg-white z-50 shadow-2xl rounded-l-[2rem] flex flex-col justify-between transition-transform duration-300 ease-in-out transform translate-x-full lg:hidden border-l border-[#06B6D4]/30 overflow-hidden">
-        
-        <!-- Header & Profile Card -->
-        <div class="p-5 border-b border-[#06B6D4]/15 bg-gradient-to-br from-[#E0F2FE] via-white to-[#F0F9FF]">
-            <div class="flex items-center justify-between mb-4">
-                <a href="{{ route('home') }}" class="flex items-center gap-2">
-                    <img src="/images/matal_official_logo.png" alt="مَطَلّ MATAL" class="h-10 w-auto">
-                    <span class="text-xs font-black text-[#164E63] tracking-wider font-heading">مَطَلّ جازان</span>
-                </a>
-                <button type="button" id="mobileDrawerCloseBtn" class="w-9 h-9 rounded-xl bg-white/90 text-[#164E63] hover:bg-[#E0F2FE] hover:text-[#0891B2] flex items-center justify-center transition shadow-sm border border-[#06B6D4]/20 active:scale-95" aria-label="إغلاق القائمة">
-                    <i class="fa-solid fa-xmark text-base"></i>
-                </button>
-            </div>
-
-            @auth
-                <!-- Authenticated User Card -->
-                <div class="p-3.5 rounded-2xl bg-white/90 border border-[#06B6D4]/25 shadow-sm flex items-center gap-3">
-                    <span class="w-11 h-11 shrink-0 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white font-black flex items-center justify-center text-sm shadow-md shadow-[#06B6D4]/30 ring-2 ring-white">
-                        {{ mb_substr(Auth::user()->name, 0, 1) }}
-                    </span>
-                    <div class="min-w-0 flex-1 text-right">
-                        <div class="flex items-center justify-between">
-                            <span class="font-black text-sm text-[#164E63] truncate">{{ Auth::user()->name }}</span>
-                            @if(Auth::user()->role === 'admin')
-                                <span class="text-[10px] font-black px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-700 border border-cyan-500/25">إدارة</span>
-                            @else
-                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700">سائح</span>
-                            @endif
-                        </div>
-                        <span class="text-[11px] text-[#164E63]/60 truncate block">{{ Auth::user()->email }}</span>
-                    </div>
-                </div>
-            @else
-                <!-- Guest Welcome Card -->
-                <div class="p-3.5 rounded-2xl bg-white/90 border border-[#06B6D4]/20 shadow-sm text-right">
-                    <p class="text-xs font-black text-[#164E63] mb-1">مرحباً بك في منصة مَطَلّ</p>
-                    <p class="text-[11px] text-[#183746]/70 leading-relaxed mb-3">سجّل دخولك لحفظ مساراتك وحجز تجاربك السياحية الذكية.</p>
-                    <div class="grid grid-cols-2 gap-2">
-                        <a href="{{ route('login') }}" class="py-2 px-3 rounded-xl bg-gradient-to-r from-[#164E63] to-[#0e3b4d] text-white font-bold text-center text-xs shadow-sm active:scale-95 transition">تسجيل الدخول</a>
-                        <a href="{{ route('auth.demo', 'tourist') }}" class="py-2 px-3 rounded-xl bg-[#06B6D4]/15 border border-[#06B6D4]/35 text-[#0891B2] font-black text-center text-xs flex items-center justify-center gap-1 active:scale-95 transition">
-                            <i class="fa-solid fa-bolt text-[#06B6D4]"></i> تجربة سريعة
-                        </a>
-                    </div>
-                </div>
-            @endauth
-        </div>
-
-        <!-- Navigation Links (App Menu Style) -->
-        <div class="flex-grow overflow-y-auto p-4 space-y-1.5 text-sm font-semibold">
-            <span class="block text-[11px] font-extrabold uppercase tracking-wider text-[#0891B2] px-2 mb-2">الأقسام والاستكشاف</span>
-            
-            @foreach($nav as $item)
-                @php $active = request()->routeIs($item['match']); @endphp
-                <a href="{{ route($item['route']) }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-2xl transition-all duration-200 active:scale-98 {{ $active ? 'bg-gradient-to-r from-[#164E63] to-[#0e3b4d] text-white font-bold shadow-md shadow-[#164E63]/25' : 'text-[#183746] hover:bg-[#E0F2FE]/70' }}">
-                    <div class="flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-xl flex items-center justify-center text-xs {{ $active ? 'bg-white/15 text-[#38BDF8]' : 'bg-[#E0F2FE] text-[#06B6D4]' }}">
-                            <i class="fa-solid {{ $item['icon'] }}"></i>
-                        </span>
-                        <span>{{ $item['full'] }}</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-left text-[10px] {{ $active ? 'text-[#38BDF8]' : 'opacity-30' }}"></i>
-                </a>
-                @if($item['route'] === 'map.index')
-                    <a href="{{ route('map.index') }}#aiPlanner" class="flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-[#0891B2] bg-[#06B6D4]/10 hover:bg-[#06B6D4]/20 border border-[#06B6D4]/25 transition font-bold active:scale-98">
-                        <div class="flex items-center gap-3">
-                            <span class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white flex items-center justify-center text-xs shadow-sm">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i>
-                            </span>
-                            <span>مخطط الرحلات بالذكاء الاصطناعي</span>
-                        </div>
-                        <span class="px-2 py-0.5 rounded-full bg-[#06B6D4] text-white text-[9px] font-black">جديد</span>
-                    </a>
-                @endif
-            @endforeach
-
-            @auth
-                <div class="pt-3 border-t border-[#06B6D4]/15 mt-3">
-                    <span class="block text-[11px] font-extrabold uppercase tracking-wider text-[#0891B2] px-2 mb-2">إدارة الحساب</span>
-                    <a href="{{ route('account.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-[#164E63] hover:bg-[#E0F2FE]/70 transition font-bold">
-                        <div class="flex items-center gap-3">
-                            <span class="w-8 h-8 rounded-xl bg-[#E0F2FE] text-[#06B6D4] flex items-center justify-center text-xs"><i class="fa-solid fa-user"></i></span>
-                            <span>لوحة حسابي والحجوزات</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-left text-[10px] opacity-30"></i>
-                    </a>
-                    @if(Auth::user()->role === 'admin')
-                        <a href="{{ route('admin.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-[#164E63] hover:bg-[#E0F2FE]/70 transition font-black">
-                            <div class="flex items-center gap-3">
-                                <span class="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-700 flex items-center justify-center text-xs"><i class="fa-solid fa-chart-line"></i></span>
-                                <span>لوحة القيادة والتحليلات</span>
-                            </div>
-                            <i class="fa-solid fa-chevron-left text-[10px] opacity-30"></i>
-                        </a>
-                    @endif
-                    <form action="{{ route('logout') }}" method="POST" class="mt-1">
-                        @csrf
-                        <button type="submit" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-rose-600 hover:bg-rose-50 transition text-right font-bold text-xs">
-                            <span class="w-8 h-8 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-xs"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
-                            <span>تسجيل الخروج</span>
-                        </button>
-                    </form>
-                </div>
-            @endauth
-        </div>
-
-        <!-- Quick Action & Footer -->
-        <div class="p-4 border-t border-[#06B6D4]/15 space-y-2.5 bg-gradient-to-t from-[#E0F2FE]/60 to-white pb-[max(1rem,env(safe-area-inset-bottom))]">
-            <a href="{{ route('booking.create') }}" class="mg-btn w-full !py-3 !text-sm shadow-lg shadow-[#06B6D4]/25">
-                <span>ابدأ رحلتك الآن</span><i class="fa-solid fa-arrow-left text-xs"></i>
-            </a>
-            <div class="pt-2 flex items-center justify-between text-[11px] text-[#164E63]/60 px-1 font-bold">
-                <span>منصة مَطَلّ للسياحة</span>
-                <span class="text-[#0891B2]">الإصدار 2.4 · 2026</span>
-            </div>
-        </div>
-    </div>
     @endunless
 
     <!-- ================= TOASTS ================= -->
@@ -467,25 +419,16 @@
                 <span class="text-[10px] tracking-tight">الوجهات</span>
             </a>
 
-            <!-- Tab 5: Profile / Login -->
-            @auth
-                <a href="{{ route('account.index') }}" class="flex flex-col items-center justify-center gap-1 py-1 text-center transition-all duration-200 active:scale-90 {{ request()->routeIs('account.*') ? 'text-[#0891B2] font-black' : 'text-[#183746]/65 hover:text-[#0891B2]' }}">
-                    <span class="relative flex items-center justify-center w-6 h-6">
-                        <span class="w-5 h-5 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white font-bold flex items-center justify-center text-[9px]">{{ mb_substr(Auth::user()->name, 0, 1) }}</span>
-                        @if(request()->routeIs('account.*'))
-                            <span class="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-[#06B6D4]"></span>
-                        @endif
-                    </span>
-                    <span class="text-[10px] tracking-tight">حسابي</span>
-                </a>
-            @else
-                <a href="{{ route('login') }}" class="flex flex-col items-center justify-center gap-1 py-1 text-center transition-all duration-200 active:scale-90 {{ request()->routeIs('login*') ? 'text-[#0891B2] font-black' : 'text-[#183746]/65 hover:text-[#0891B2]' }}">
-                    <span class="relative flex items-center justify-center w-6 h-6">
-                        <i class="fa-regular fa-user text-lg"></i>
-                    </span>
-                    <span class="text-[10px] tracking-tight">دخول</span>
-                </a>
-            @endauth
+            <!-- Tab 5: Events (الفعاليات) -->
+            <a href="{{ route('events.index') }}" class="flex flex-col items-center justify-center gap-1 py-1 text-center transition-all duration-200 active:scale-90 {{ request()->routeIs('events.*') ? 'text-[#0891B2] font-black' : 'text-[#183746]/65 hover:text-[#0891B2]' }}">
+                <span class="relative flex items-center justify-center w-6 h-6">
+                    <i class="fa-solid fa-calendar-days text-lg"></i>
+                    @if(request()->routeIs('events.*'))
+                        <span class="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-[#06B6D4]"></span>
+                    @endif
+                </span>
+                <span class="text-[10px] tracking-tight">الفعاليات</span>
+            </a>
 
         </div>
     </nav>
@@ -494,7 +437,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-    <!-- Navbar scroll, mobile drawer, toasts -->
+    <!-- Navbar scroll, dropdowns, toasts -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const mainHeader = document.getElementById('mainHeader');
@@ -507,32 +450,64 @@
             window.addEventListener('scroll', handleNavbarScroll, { passive: true });
             handleNavbarScroll();
 
-            const btn = document.getElementById('mobileMenuBtn');
-            const closeBtn = document.getElementById('mobileDrawerCloseBtn');
-            const drawer = document.getElementById('mobileDrawer');
-            const overlay = document.getElementById('mobileDrawerOverlay');
+            // Mobile & Desktop Dropdowns toggle handling
+            function setupDropdown(btnId, dropdownId, chevronId, containerId) {
+                const btn = document.getElementById(btnId);
+                const dropdown = document.getElementById(dropdownId);
+                const chevron = chevronId ? document.getElementById(chevronId) : null;
 
-            function openDrawer() {
-                if (!drawer || !overlay) return;
-                overlay.classList.remove('opacity-0', 'pointer-events-none');
-                overlay.classList.add('opacity-100');
-                drawer.classList.remove('translate-x-full');
-                drawer.classList.add('translate-x-0');
-                document.body.style.overflow = 'hidden';
+                if (!btn || !dropdown) return;
+
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isOpen = dropdown.classList.contains('is-open');
+                    
+                    // Close all other dropdowns first
+                    document.querySelectorAll('.nav-dropdown-menu.is-open').forEach(d => {
+                        if (d !== dropdown) {
+                            d.classList.remove('is-open', '!opacity-100', '!visible', '!translate-y-0');
+                        }
+                    });
+
+                    if (isOpen) {
+                        dropdown.classList.remove('is-open', '!opacity-100', '!visible', '!translate-y-0');
+                        btn.setAttribute('aria-expanded', 'false');
+                        if (chevron) chevron.classList.remove('rotate-180');
+                    } else {
+                        dropdown.classList.add('is-open', '!opacity-100', '!visible', '!translate-y-0');
+                        btn.setAttribute('aria-expanded', 'true');
+                        if (chevron) chevron.classList.add('rotate-180');
+                    }
+                });
             }
-            function closeDrawer() {
-                if (!drawer || !overlay) return;
-                overlay.classList.remove('opacity-100');
-                overlay.classList.add('opacity-0', 'pointer-events-none');
-                drawer.classList.remove('translate-x-0');
-                drawer.classList.add('translate-x-full');
-                document.body.style.overflow = '';
-            }
-            if (btn) btn.addEventListener('click', openDrawer);
-            if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-            if (overlay) overlay.addEventListener('click', closeDrawer);
-            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
-            if (drawer) drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+
+            setupDropdown('navUserMenuBtn', 'navUserDropdown', 'navUserMenuChevron', 'navUserMenuContainer');
+            setupDropdown('navGuestMoreBtn', 'navGuestMoreDropdown', null, 'navGuestMoreContainer');
+
+            // Close dropdowns on click outside or escape key
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#navUserMenuContainer') && !e.target.closest('#navGuestMoreContainer')) {
+                    document.querySelectorAll('.nav-dropdown-menu.is-open').forEach(d => {
+                        d.classList.remove('is-open', '!opacity-100', '!visible', '!translate-y-0');
+                    });
+                    const ch = document.getElementById('navUserMenuChevron');
+                    if (ch) ch.classList.remove('rotate-180');
+                    const userBtn = document.getElementById('navUserMenuBtn');
+                    if (userBtn) userBtn.setAttribute('aria-expanded', 'false');
+                    const guestBtn = document.getElementById('navGuestMoreBtn');
+                    if (guestBtn) guestBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.nav-dropdown-menu.is-open').forEach(d => {
+                        d.classList.remove('is-open', '!opacity-100', '!visible', '!translate-y-0');
+                    });
+                    const ch = document.getElementById('navUserMenuChevron');
+                    if (ch) ch.classList.remove('rotate-180');
+                }
+            });
 
             // Toasts: auto-dismiss + manual close
             const dismiss = el => { el.classList.add('is-leaving'); setTimeout(() => el.remove(), 500); };

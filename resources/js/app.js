@@ -1,13 +1,5 @@
 // MATAL Application Core Interactive Scripts
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Mobile Menu Toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-    }
 
     // 2. Interactive Hero Image Slider
     const heroSlides = document.querySelectorAll('.hero-slide');
