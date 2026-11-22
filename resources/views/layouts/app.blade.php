@@ -127,14 +127,14 @@
                 </nav>
 
                 <!-- Actions -->
-                <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
+                <div class="flex items-center gap-2 sm:gap-3 shrink-0">
                     @auth
                         <!-- User Profile Dropdown (Mobile & Desktop) -->
                         <div class="relative group" id="navUserMenuContainer">
-                            <button type="button" id="navUserMenuBtn" class="nav-pill-btn flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full text-xs sm:text-sm border transition cursor-pointer select-none active:scale-95" aria-expanded="false" aria-haspopup="true">
-                                <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white font-black flex items-center justify-center text-[10px] sm:text-xs shadow-sm">{{ mb_substr(Auth::user()->name, 0, 1) }}</span>
-                                <span class="max-w-[65px] xs:max-w-[90px] sm:max-w-[110px] truncate font-bold text-xs sm:text-sm">{{ Auth::user()->name }}</span>
-                                <i class="fa-solid fa-chevron-down text-[9px] sm:text-xs opacity-75 transition-transform duration-200" id="navUserMenuChevron"></i>
+                            <button type="button" id="navUserMenuBtn" class="nav-pill-btn flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-full text-xs sm:text-sm border transition cursor-pointer select-none active:scale-95 shadow-sm" aria-expanded="false" aria-haspopup="true">
+                                <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-tr from-[#0891B2] via-[#06B6D4] to-[#38BDF8] text-white font-black flex items-center justify-center text-xs shadow-md shadow-cyan-500/35 border border-white/40">{{ mb_substr(Auth::user()->name, 0, 1) }}</span>
+                                <span class="max-w-[75px] sm:max-w-[110px] truncate font-bold text-xs sm:text-sm">{{ Auth::user()->name }}</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] sm:text-xs opacity-75 transition-transform duration-200" id="navUserMenuChevron"></i>
                             </button>
                             
                             <div id="navUserDropdown" class="nav-dropdown-menu absolute left-0 mt-2 w-56 sm:w-64 bg-white rounded-2xl shadow-2xl shadow-[#164E63]/25 border border-[#06B6D4]/25 py-2 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 text-[#183746] text-xs sm:text-sm z-50 overflow-hidden text-right">
@@ -186,18 +186,19 @@
                         </div>
                     @else
                         <!-- Guest Login Icon Button -->
-                        <a href="{{ route('login') }}" class="nav-pill-btn flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-full text-xs sm:text-sm border transition cursor-pointer select-none active:scale-95 shrink-0 group" aria-label="تسجيل الدخول" title="تسجيل الدخول">
-                            <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white flex items-center justify-center text-[10px] sm:text-xs shadow-sm group-hover:scale-105 transition">
+                        <a href="{{ route('login') }}" class="nav-pill-btn flex items-center gap-2 px-3 py-1.5 rounded-full text-xs sm:text-sm border transition cursor-pointer select-none active:scale-95 shrink-0 group shadow-sm" aria-label="تسجيل الدخول" title="تسجيل الدخول">
+                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-tr from-[#0891B2] via-[#06B6D4] to-[#38BDF8] text-white flex items-center justify-center text-xs shadow-md shadow-cyan-500/35 border border-white/40 group-hover:scale-105 transition">
                                 <i class="fa-solid fa-arrow-right-to-bracket"></i>
                             </span>
-                            <span class="font-bold text-xs sm:text-sm hidden xs:inline">تسجيل الدخول</span>
+                            <span class="font-bold text-xs sm:hidden text-inherit">دخول</span>
+                            <span class="font-bold text-sm hidden sm:inline text-inherit">تسجيل الدخول</span>
                         </a>
                     @endauth
 
                     <!-- Universal CTA: Start Trip (ابدأ رحلتك) -->
-                    <a href="{{ route('booking.create') }}" class="mg-btn !py-1.5 !px-2.5 sm:!py-2.5 sm:!px-5 !text-xs sm:!text-sm shrink-0 flex items-center gap-1.5 shadow-md shadow-cyan-500/20 active:scale-95">
+                    <a href="{{ route('booking.create') }}" class="mg-btn !py-1.5 !px-3 sm:!py-2 sm:!px-5 !text-xs sm:!text-sm shrink-0 flex items-center gap-1.5 shadow-md shadow-cyan-500/25 active:scale-95">
                         <span>ابدأ رحلتك</span>
-                        <i class="fa-solid fa-arrow-left text-[10px] sm:text-xs hidden xs:inline"></i>
+                        <i class="fa-solid fa-arrow-left text-[10px] sm:text-xs"></i>
                     </a>
                 </div>
             </div>
@@ -371,7 +372,7 @@
 
             <!-- Tab 3: Center Elevated Action (Smart Map & AI Planner) -->
             <div class="flex flex-col items-center justify-center relative -top-3">
-                <a href="{{ route('map.index') }}" class="relative group flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-tr from-[#164E63] via-[#0891B2] to-[#06B6D4] text-white shadow-lg shadow-cyan-500/40 border-[3px] border-white transition-all duration-300 active:scale-90 ring-2 ring-[#06B6D4]/30">
+                <a href="{{ route('map.index') }}" class="ai-fab-btn relative group flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-tr from-[#164E63] via-[#0891B2] to-[#06B6D4] text-white shadow-xl shadow-cyan-500/50 border-[3px] border-white transition-all duration-300 active:scale-90 ring-2 ring-[#06B6D4]/35" title="الخريطة الذكية ومخطط الرحلات">
                     <i class="fa-solid fa-wand-magic-sparkles text-lg animate-pulse"></i>
                 </a>
                 <span class="text-[9px] font-black text-[#164E63] mt-0.5">الخريطة والـ AI</span>

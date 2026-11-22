@@ -75,7 +75,7 @@
                             </div>
                             <input type="text" name="q" placeholder="ابحث عن وجهة، شاطئ، مزرعة بن، أو مسار..." class="w-full bg-transparent text-white placeholder-sky-100/70 focus:outline-none text-xs sm:text-sm px-1 py-1">
                         </div>
-                        <button type="submit" class="w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#38BDF8] hover:from-[#0891B2] hover:to-[#0284C7] text-white font-bold text-xs sm:text-sm shadow-md shadow-cyan-500/30 transition transform hover:scale-105 shrink-0 flex items-center justify-center gap-2">
+                        <button type="submit" class="mg-btn w-full sm:w-auto !py-2.5 sm:!py-3 !px-5 sm:!px-7 !text-xs sm:!text-sm shrink-0 flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/35">
                             <span>ابحث الآن</span>
                             <i class="fa-solid fa-arrow-left text-xs"></i>
                         </button>
