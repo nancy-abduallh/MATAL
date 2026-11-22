@@ -323,9 +323,9 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12" data-stagger="0.1">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12" data-stagger="0.1">
                 <!-- Brand -->
-                <div class="space-y-4 mg-reveal">
+                <div class="space-y-4 mg-reveal pb-6 md:pb-0 border-b border-white/10 md:border-b-0">
                     <img src="/images/matal_logo_white_text.png" alt="مَطَلّ MATAL" class="h-16 sm:h-20 w-auto drop-shadow-md">
                     <p class="text-sky-100/80 text-sm leading-relaxed">منصة رقمية لاكتشاف جازان من أعاليها إلى سواحلها. نجمع المسارات السياحية والتجارب الثقافية الأصيلة في تجربة فريدة تلهمك في كل خطوة.</p>
                     <div class="pt-2 flex items-center gap-3 text-sky-200 text-lg">
@@ -337,39 +337,69 @@
                     </div>
                 </div>
 
-                <!-- Routes -->
-                <div class="mg-reveal">
-                    <h3 class="text-base font-bold text-[#38BDF8] mb-5 flex items-center gap-2 font-heading"><i class="fa-solid fa-route text-[#06B6D4]"></i> المسارات السياحية</h3>
-                    <ul class="space-y-3 text-sm text-sky-100/85">
-                        @foreach($footRoutes as $r)
-                            <li><a href="{{ route('routes.show', $r[0]) }}" class="group hover:text-[#38BDF8] hover:-translate-x-1 transition-all duration-300 flex items-center gap-2"><i class="fa-solid fa-chevron-left text-[10px] text-[#06B6D4] group-hover:translate-x-[-3px] transition"></i> {{ $r[1] }}</a></li>
-                        @endforeach
-                    </ul>
+                <!-- Routes (Collapsible on mobile) -->
+                <div class="mg-reveal border-b border-white/10 pb-4 md:border-b-0 md:pb-0 footer-acc">
+                    <button type="button" class="w-full flex items-center justify-between py-2.5 md:py-0 text-right cursor-pointer md:cursor-default footer-acc-btn group" aria-expanded="false">
+                        <h3 class="text-base font-bold text-[#38BDF8] md:mb-5 flex items-center gap-2 font-heading">
+                            <i class="fa-solid fa-route text-[#06B6D4]"></i>
+                            <span>المسارات السياحية</span>
+                        </h3>
+                        <span class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-xs text-[#38BDF8] md:hidden transition-transform duration-300 footer-acc-icon">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </span>
+                    </button>
+                    <div class="footer-acc-body hidden md:block pt-3 md:pt-0">
+                        <ul class="space-y-3 text-sm text-sky-100/85">
+                            @foreach($footRoutes as $r)
+                                <li><a href="{{ route('routes.show', $r[0]) }}" class="group hover:text-[#38BDF8] hover:-translate-x-1 transition-all duration-300 flex items-center gap-2"><i class="fa-solid fa-chevron-left text-[10px] text-[#06B6D4] group-hover:translate-x-[-3px] transition"></i> {{ $r[1] }}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
 
-                <!-- Explore -->
-                <div class="mg-reveal">
-                    <h3 class="text-base font-bold text-[#38BDF8] mb-5 flex items-center gap-2 font-heading"><i class="fa-solid fa-compass text-[#06B6D4]"></i> استكشف جازان</h3>
-                    <ul class="space-y-3 text-sm text-sky-100/85">
-                        @foreach($footLinks as $l)
-                            <li><a href="{{ $l[0] }}" class="group hover:text-[#38BDF8] hover:-translate-x-1 transition-all duration-300 flex items-center gap-2"><i class="fa-solid fa-chevron-left text-[10px] text-[#06B6D4]"></i> {{ $l[1] }}</a></li>
-                        @endforeach
-                    </ul>
+                <!-- Explore (Collapsible on mobile) -->
+                <div class="mg-reveal border-b border-white/10 pb-4 md:border-b-0 md:pb-0 footer-acc">
+                    <button type="button" class="w-full flex items-center justify-between py-2.5 md:py-0 text-right cursor-pointer md:cursor-default footer-acc-btn group" aria-expanded="false">
+                        <h3 class="text-base font-bold text-[#38BDF8] md:mb-5 flex items-center gap-2 font-heading">
+                            <i class="fa-solid fa-compass text-[#06B6D4]"></i>
+                            <span>استكشف جازان</span>
+                        </h3>
+                        <span class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-xs text-[#38BDF8] md:hidden transition-transform duration-300 footer-acc-icon">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </span>
+                    </button>
+                    <div class="footer-acc-body hidden md:block pt-3 md:pt-0">
+                        <ul class="space-y-3 text-sm text-sky-100/85">
+                            @foreach($footLinks as $l)
+                                <li><a href="{{ $l[0] }}" class="group hover:text-[#38BDF8] hover:-translate-x-1 transition-all duration-300 flex items-center gap-2"><i class="fa-solid fa-chevron-left text-[10px] text-[#06B6D4]"></i> {{ $l[1] }}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
 
-                <!-- App -->
-                <div class="mg-reveal">
-                    <h3 class="text-base font-bold text-[#38BDF8] mb-5 flex items-center gap-2 font-heading"><i class="fa-solid fa-mobile-screen text-[#06B6D4]"></i> تطبيق الجوال</h3>
-                    <p class="text-sky-100/80 text-sm leading-relaxed mb-4">حمّل تطبيق مَطَلّ واستمتع بالإرشاد الصوتي ثلاثي الأبعاد والواقع المعزز في كل مسار.</p>
-                    <div class="flex flex-col gap-3">
-                        <a href="#" class="group flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/15 hover:border-[#38BDF8]/60 hover:-translate-y-1 transition-all duration-300">
-                            <i class="fa-brands fa-apple text-2xl group-hover:scale-110 transition text-sky-200"></i>
-                            <div class="text-right"><div class="text-[10px] text-sky-200/70">تحميل من</div><div class="text-xs font-bold text-white">App Store</div></div>
-                        </a>
-                        <a href="#" class="group flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/15 hover:border-[#38BDF8]/60 hover:-translate-y-1 transition-all duration-300">
-                            <i class="fa-brands fa-google-play text-xl group-hover:scale-110 transition text-sky-200"></i>
-                            <div class="text-right"><div class="text-[10px] text-sky-200/70">متاح على</div><div class="text-xs font-bold text-white">Google Play</div></div>
-                        </a>
+                <!-- App (Collapsible on mobile) -->
+                <div class="mg-reveal border-b border-white/10 pb-4 md:border-b-0 md:pb-0 footer-acc">
+                    <button type="button" class="w-full flex items-center justify-between py-2.5 md:py-0 text-right cursor-pointer md:cursor-default footer-acc-btn group" aria-expanded="false">
+                        <h3 class="text-base font-bold text-[#38BDF8] md:mb-5 flex items-center gap-2 font-heading">
+                            <i class="fa-solid fa-mobile-screen text-[#06B6D4]"></i>
+                            <span>تطبيق الجوال</span>
+                        </h3>
+                        <span class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-xs text-[#38BDF8] md:hidden transition-transform duration-300 footer-acc-icon">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </span>
+                    </button>
+                    <div class="footer-acc-body hidden md:block pt-3 md:pt-0">
+                        <p class="text-sky-100/80 text-sm leading-relaxed mb-4">حمّل تطبيق مَطَلّ واستمتع بالإرشاد الصوتي ثلاثي الأبعاد والواقع المعزز في كل مسار.</p>
+                        <div class="flex flex-col gap-3">
+                            <a href="#" class="group flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/15 hover:border-[#38BDF8]/60 hover:-translate-y-1 transition-all duration-300">
+                                <i class="fa-brands fa-apple text-2xl group-hover:scale-110 transition text-sky-200"></i>
+                                <div class="text-right"><div class="text-[10px] text-sky-200/70">تحميل من</div><div class="text-xs font-bold text-white">App Store</div></div>
+                            </a>
+                            <a href="#" class="group flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/15 hover:border-[#38BDF8]/60 hover:-translate-y-1 transition-all duration-300">
+                                <i class="fa-brands fa-google-play text-xl group-hover:scale-110 transition text-sky-200"></i>
+                                <div class="text-right"><div class="text-[10px] text-sky-200/70">متاح على</div><div class="text-xs font-bold text-white">Google Play</div></div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -510,6 +540,21 @@
                 setTimeout(() => dismiss(t), 6500 + i * 600);
                 const c = t.querySelector('[data-close-toast]');
                 if (c) c.addEventListener('click', () => dismiss(t));
+            });
+
+            // Mobile Footer Collapsible Accordion (< 768px)
+            document.querySelectorAll('.footer-acc-btn').forEach(fBtn => {
+                fBtn.addEventListener('click', () => {
+                    if (window.innerWidth >= 768) return; // Desktop is always open
+                    const parent = fBtn.closest('.footer-acc');
+                    const body = parent.querySelector('.footer-acc-body');
+                    const icon = parent.querySelector('.footer-acc-icon');
+                    const isOpening = body.classList.contains('hidden');
+
+                    body.classList.toggle('hidden', !isOpening);
+                    if (icon) icon.classList.toggle('rotate-180', isOpening);
+                    fBtn.setAttribute('aria-expanded', isOpening ? 'true' : 'false');
+                });
             });
         });
     </script>

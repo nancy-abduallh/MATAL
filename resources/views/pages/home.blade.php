@@ -113,6 +113,74 @@
                     </div>
                 </div>
 
+                <!-- Mobile 3-Card Showcase Carousel (Professional Native App Style) -->
+                <div class="lg:hidden w-full pt-4 sm:pt-6">
+                    <div class="flex items-center justify-between mb-3 text-xs text-sky-100 font-bold px-1">
+                        <span class="inline-flex items-center gap-1.5 text-sky-200">
+                            <i class="fa-solid fa-sparkles text-[#38BDF8]"></i>
+                            <span>وجهات ومسارات أيقونية</span>
+                        </span>
+                        <span class="text-[11px] text-sky-200/70 flex items-center gap-1">
+                            <span>اسحب للمزيد</span>
+                            <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-3 -mx-4 px-4 sm:mx-0 sm:px-0">
+                        
+                        <!-- Mobile Card 1: الجبال والمطلات (Featured Centerpiece) -->
+                        <a href="{{ route('routes.show', 'mountains-viewpoints-route') }}" class="group relative shrink-0 w-60 h-76 rounded-3xl overflow-hidden glass-ocean-overlay border border-white/40 shadow-2xl snap-center active:scale-95 transition-all duration-300">
+                            <img src="/images/al_dharb_viewpoint.jpg" alt="الجبال والمطلات" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#164E63]/95 via-[#164E63]/30 to-black/20"></div>
+                            <div class="absolute top-3.5 right-3.5">
+                                <span class="px-2.5 py-1 bg-cyan-600/90 text-white text-[10px] font-bold rounded-lg backdrop-blur-md shadow-sm">
+                                    <i class="fa-solid fa-cloud"></i> فوق السحاب
+                                </span>
+                            </div>
+                            <div class="absolute bottom-4 inset-x-4 text-center">
+                                <span class="inline-block px-3 py-0.5 bg-[#38BDF8] text-[#164E63] text-[11px] font-black rounded-full mb-1">المسار الأيقوني</span>
+                                <h3 class="text-white font-black text-lg font-heading">الجبال والمطلات</h3>
+                                <p class="text-sky-100/90 text-[11px] mt-0.5">فيفا والداير والريث</p>
+                                <div class="text-amber-300 text-xs flex items-center justify-center gap-1 mt-1 font-bold">
+                                    <i class="fa-solid fa-star text-amber-400"></i>
+                                    <span>4.88 (184 تقييم)</span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Mobile Card 2: وادي لجب -->
+                        <a href="{{ route('destinations.show', 'wadi-lajab-canyon') }}" class="group relative shrink-0 w-52 h-76 rounded-3xl overflow-hidden glass-ocean-overlay border border-white/30 shadow-xl snap-center active:scale-95 transition-all duration-300">
+                            <img src="/images/wadi_lajab.jpg" alt="وادي لجب" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#164E63]/95 via-transparent to-black/20"></div>
+                            <div class="absolute bottom-4 inset-x-4 text-center">
+                                <span class="inline-block px-3 py-0.5 bg-[#06B6D4] text-white text-[11px] font-bold rounded-full mb-1">مسار المغامرات</span>
+                                <h3 class="text-white font-bold text-base font-heading">وادي لجب</h3>
+                                <p class="text-sky-100/80 text-[11px] mt-0.5">شقوق وشلالات مائية</p>
+                                <div class="text-amber-300 text-xs flex items-center justify-center gap-1 mt-1 font-semibold">
+                                    <i class="fa-solid fa-star text-amber-400"></i>
+                                    <span>4.90</span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Mobile Card 3: جزر فرسان -->
+                        <a href="{{ route('destinations.show', 'farasan-islands-beaches') }}" class="group relative shrink-0 w-52 h-76 rounded-3xl overflow-hidden glass-ocean-overlay border border-white/30 shadow-xl snap-center active:scale-95 transition-all duration-300">
+                            <img src="/images/farasan_islands.jpg" alt="جزر فرسان" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#164E63]/95 via-transparent to-black/20"></div>
+                            <div class="absolute bottom-4 inset-x-4 text-center">
+                                <span class="inline-block px-3 py-0.5 bg-[#06B6D4] text-white text-[11px] font-bold rounded-full mb-1">البحر والجزر</span>
+                                <h3 class="text-white font-bold text-base font-heading">جزر فرسان</h3>
+                                <p class="text-sky-100/80 text-[11px] mt-0.5">شواطئ وشعب مرجانية</p>
+                                <div class="text-amber-300 text-xs flex items-center justify-center gap-1 mt-1 font-semibold">
+                                    <i class="fa-solid fa-star text-amber-400"></i>
+                                    <span>4.92</span>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
             </div>
 
             <!-- Left Column: 3D Floating Perspective Showcase Cards (Desktop Only) -->
