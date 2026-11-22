@@ -185,44 +185,13 @@
                             </div>
                         </div>
                     @else
-                        <!-- Guest Auth & Action Links -->
-                        <a href="{{ route('login') }}" class="nav-login-link text-xs sm:text-sm font-bold transition px-2 sm:px-3 py-1.5 rounded-xl border border-transparent hover:border-[#06B6D4]/30 active:scale-95 shrink-0">
-                            <span class="xs:hidden">دخول</span>
-                            <span class="hidden xs:inline">تسجيل الدخول</span>
+                        <!-- Guest Login Icon Button -->
+                        <a href="{{ route('login') }}" class="nav-pill-btn flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-full text-xs sm:text-sm border transition cursor-pointer select-none active:scale-95 shrink-0 group" aria-label="تسجيل الدخول" title="تسجيل الدخول">
+                            <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br from-[#06B6D4] to-[#38BDF8] text-white flex items-center justify-center text-[10px] sm:text-xs shadow-sm group-hover:scale-105 transition">
+                                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                            </span>
+                            <span class="font-bold text-xs sm:text-sm hidden xs:inline">تسجيل الدخول</span>
                         </a>
-
-                        <a href="{{ route('login') }}?tab=register#register" class="nav-pill-btn text-xs sm:text-sm font-bold transition px-2.5 sm:px-3.5 py-1.5 rounded-xl border border-[#06B6D4]/35 text-[#0891B2] hover:bg-[#06B6D4]/10 active:scale-95 shrink-0 flex items-center gap-1">
-                            <span>حساب جديد</span>
-                        </a>
-
-                        <!-- Guest Quick Links / More (About, Contact, Demo) -->
-                        <div class="relative group shrink-0" id="navGuestMoreContainer">
-                            <button type="button" id="navGuestMoreBtn" class="nav-pill-btn w-8 h-8 sm:w-9 sm:h-9 rounded-xl border flex items-center justify-center text-xs transition cursor-pointer select-none active:scale-95" aria-label="روابط إضافية" aria-expanded="false" aria-haspopup="true">
-                                <i class="fa-solid fa-ellipsis-vertical text-xs"></i>
-                            </button>
-                            <div id="navGuestMoreDropdown" class="nav-dropdown-menu absolute left-0 mt-2 w-48 sm:w-52 bg-white rounded-2xl shadow-2xl shadow-[#164E63]/25 border border-[#06B6D4]/25 py-2 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 text-[#183746] text-xs sm:text-sm z-50 overflow-hidden text-right">
-                                <a href="{{ route('about') }}" class="flex items-center gap-2.5 px-4 py-2 hover:bg-[#E0F2FE] font-bold text-[#164E63] transition">
-                                    <i class="fa-solid fa-circle-info text-[#06B6D4] text-xs"></i>
-                                    <span>من نحن</span>
-                                </a>
-                                <a href="{{ route('contact') }}" class="flex items-center gap-2.5 px-4 py-2 hover:bg-[#E0F2FE] font-bold text-[#164E63] transition">
-                                    <i class="fa-solid fa-envelope text-[#06B6D4] text-xs"></i>
-                                    <span>تواصل معنا</span>
-                                </a>
-                                <a href="{{ route('events.index') }}" class="flex items-center gap-2.5 px-4 py-2 hover:bg-[#E0F2FE] font-bold text-[#164E63] transition">
-                                    <i class="fa-solid fa-calendar-days text-[#06B6D4] text-xs"></i>
-                                    <span>الفعاليات</span>
-                                </a>
-                                @if(app()->environment('local'))
-                                    <div class="border-t border-[#06B6D4]/15 mt-1 pt-1">
-                                        <a href="{{ route('auth.demo', 'tourist') }}" class="flex items-center gap-2.5 px-4 py-2 hover:bg-[#E0F2FE] font-black text-[#0891B2] transition">
-                                            <i class="fa-solid fa-bolt text-[#06B6D4] text-xs"></i>
-                                            <span>دخول تجريبي سريع</span>
-                                        </a>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
                     @endauth
 
                     <!-- Universal CTA: Start Trip (ابدأ رحلتك) -->
@@ -482,11 +451,10 @@
             }
 
             setupDropdown('navUserMenuBtn', 'navUserDropdown', 'navUserMenuChevron', 'navUserMenuContainer');
-            setupDropdown('navGuestMoreBtn', 'navGuestMoreDropdown', null, 'navGuestMoreContainer');
 
             // Close dropdowns on click outside or escape key
             document.addEventListener('click', (e) => {
-                if (!e.target.closest('#navUserMenuContainer') && !e.target.closest('#navGuestMoreContainer')) {
+                if (!e.target.closest('#navUserMenuContainer')) {
                     document.querySelectorAll('.nav-dropdown-menu.is-open').forEach(d => {
                         d.classList.remove('is-open', '!opacity-100', '!visible', '!translate-y-0');
                     });
@@ -494,8 +462,6 @@
                     if (ch) ch.classList.remove('rotate-180');
                     const userBtn = document.getElementById('navUserMenuBtn');
                     if (userBtn) userBtn.setAttribute('aria-expanded', 'false');
-                    const guestBtn = document.getElementById('navGuestMoreBtn');
-                    if (guestBtn) guestBtn.setAttribute('aria-expanded', 'false');
                 }
             });
 
