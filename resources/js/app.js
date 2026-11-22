@@ -62,6 +62,111 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 2.1. Mobile 3D Moving Hero Cards Showcase (Professional Living Motion Design)
+    const mobileStage = document.getElementById('mobileHeroStage');
+    const mobileCards = document.querySelectorAll('.mobile-moving-card');
+    const mobilePills = document.querySelectorAll('.mobile-hero-pill');
+
+    if (mobileStage && mobileCards.length === 3) {
+        let activeIdx = 0;
+        let autoRotateTimer = null;
+
+        function updateCardPositions(newIdx) {
+            activeIdx = (newIdx + 3) % 3;
+
+            mobileCards.forEach(card => {
+                const cardIdx = parseInt(card.getAttribute('data-card-index'), 10);
+                card.classList.remove('mobile-card-pos-center', 'mobile-card-pos-left', 'mobile-card-pos-right');
+
+                if (cardIdx === activeIdx) {
+                    card.classList.add('mobile-card-pos-center');
+                } else if (cardIdx === (activeIdx + 1) % 3) {
+                    card.classList.add('mobile-card-pos-right');
+                } else {
+                    card.classList.add('mobile-card-pos-left');
+                }
+            });
+
+            mobilePills.forEach((pill, idx) => {
+                const isActive = idx === activeIdx;
+                pill.classList.toggle('is-active', isActive);
+                if (isActive) {
+                    pill.classList.remove('text-sky-100/70', 'bg-white/10', 'border-white/15');
+                } else {
+                    pill.classList.add('text-sky-100/70', 'bg-white/10', 'border-white/15');
+                }
+            });
+        }
+
+        function startAutoRotate() {
+            stopAutoRotate();
+            autoRotateTimer = setInterval(() => {
+                updateCardPositions(activeIdx + 1);
+            }, 4200);
+        }
+
+        function stopAutoRotate() {
+            if (autoRotateTimer) {
+                clearInterval(autoRotateTimer);
+                autoRotateTimer = null;
+            }
+        }
+
+        // Tap interactions
+        mobileCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                const cardIdx = parseInt(card.getAttribute('data-card-index'), 10);
+                if (cardIdx !== activeIdx) {
+                    e.preventDefault();
+                    stopAutoRotate();
+                    updateCardPositions(cardIdx);
+                    startAutoRotate();
+                } else {
+                    const href = card.getAttribute('data-href');
+                    if (href) {
+                        window.location.href = href;
+                    }
+                }
+            });
+        });
+
+        // Pill clicks
+        mobilePills.forEach((pill, idx) => {
+            pill.addEventListener('click', () => {
+                stopAutoRotate();
+                updateCardPositions(idx);
+                startAutoRotate();
+            });
+        });
+
+        // Touch Swipe Gestures
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        mobileStage.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            stopAutoRotate();
+        }, { passive: true });
+
+        mobileStage.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchEndX - touchStartX;
+            if (Math.abs(diff) > 40) {
+                // In RTL: swipe right moves to previous, swipe left moves to next
+                if (diff > 0) {
+                    updateCardPositions(activeIdx - 1);
+                } else {
+                    updateCardPositions(activeIdx + 1);
+                }
+            }
+            startAutoRotate();
+        }, { passive: true });
+
+        // Initialize positions and start ambient rotation
+        updateCardPositions(0);
+        startAutoRotate();
+    }
+
     // 3. 3D Interactive Tilt & Depth Effect for Modern Luxury Cards
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
         const tiltElements = document.querySelectorAll('[data-tilt], .tilt-card');

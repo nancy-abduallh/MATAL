@@ -113,71 +113,134 @@
                     </div>
                 </div>
 
-                <!-- Mobile 3-Card Showcase Carousel (Professional Native App Style) -->
+                <!-- Mobile 3D Moving Showcase (Professional Living Motion Design) -->
                 <div class="lg:hidden w-full pt-4 sm:pt-6">
                     <div class="flex items-center justify-between mb-3 text-xs text-sky-100 font-bold px-1">
-                        <span class="inline-flex items-center gap-1.5 text-sky-200">
-                            <i class="fa-solid fa-sparkles text-[#38BDF8]"></i>
-                            <span>وجهات ومسارات أيقونية</span>
+                        <span class="inline-flex items-center gap-2 text-sky-200">
+                            <span class="relative flex h-2.5 w-2.5">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#38BDF8] opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#06B6D4]"></span>
+                            </span>
+                            <span>تجارب جازان الأيقونية</span>
                         </span>
-                        <span class="text-[11px] text-sky-200/70 flex items-center gap-1">
-                            <span>اسحب للمزيد</span>
-                            <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                        <span class="text-[11px] text-[#38BDF8] font-bold flex items-center gap-1.5 bg-white/10 px-2.5 py-0.5 rounded-full border border-white/15">
+                            <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i>
+                            <span>تفاعل حي</span>
                         </span>
                     </div>
-                    
-                    <div class="flex items-center gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-3 -mx-4 px-4 sm:mx-0 sm:px-0">
+
+                    <!-- 3D Spatial Floating Stage -->
+                    <div id="mobileHeroStage" class="relative w-full h-[290px] sm:h-[320px] my-2 select-none flex items-center justify-center overflow-visible">
                         
-                        <!-- Mobile Card 1: الجبال والمطلات (Featured Centerpiece) -->
-                        <a href="{{ route('routes.show', 'mountains-viewpoints-route') }}" class="group relative shrink-0 w-60 h-76 rounded-3xl overflow-hidden glass-ocean-overlay border border-white/40 shadow-2xl snap-center active:scale-95 transition-all duration-300">
-                            <img src="/images/al_dharb_viewpoint.jpg" alt="الجبال والمطلات" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#164E63]/95 via-[#164E63]/30 to-black/20"></div>
-                            <div class="absolute top-3.5 right-3.5">
-                                <span class="px-2.5 py-1 bg-cyan-600/90 text-white text-[10px] font-bold rounded-lg backdrop-blur-md shadow-sm">
-                                    <i class="fa-solid fa-cloud"></i> فوق السحاب
-                                </span>
-                            </div>
-                            <div class="absolute bottom-4 inset-x-4 text-center">
-                                <span class="inline-block px-3 py-0.5 bg-[#38BDF8] text-[#164E63] text-[11px] font-black rounded-full mb-1">المسار الأيقوني</span>
-                                <h3 class="text-white font-black text-lg font-heading">الجبال والمطلات</h3>
-                                <p class="text-sky-100/90 text-[11px] mt-0.5">فيفا والداير والريث</p>
-                                <div class="text-amber-300 text-xs flex items-center justify-center gap-1 mt-1 font-bold">
-                                    <i class="fa-solid fa-star text-amber-400"></i>
-                                    <span>4.88 (184 تقييم)</span>
+                        <!-- Card 0: الجبال والمطلات (Centerpiece) -->
+                        <div class="mobile-moving-card mobile-card-pos-center" data-card-index="0" data-href="{{ route('routes.show', 'mountains-viewpoints-route') }}">
+                            <div class="mobile-card-inner w-[190px] sm:w-[210px] h-[270px] sm:h-[295px] relative rounded-3xl overflow-hidden glass-ocean-overlay border transition-all duration-500">
+                                <img src="/images/al_dharb_viewpoint.jpg" alt="الجبال والمطلات" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#0e3b4d]/95 via-[#164E63]/35 to-black/20"></div>
+                                <div class="mobile-card-sheen"></div>
+                                
+                                <div class="absolute top-3 right-3 z-10">
+                                    <span class="px-2.5 py-0.5 bg-cyan-600/90 text-white text-[10px] font-bold rounded-lg backdrop-blur-md shadow-sm flex items-center gap-1">
+                                        <i class="fa-solid fa-cloud text-[9px]"></i> فوق السحاب
+                                    </span>
+                                </div>
+
+                                <div class="absolute bottom-3.5 inset-x-3.5 text-center z-10">
+                                    <span class="inline-block px-2.5 py-0.5 bg-[#38BDF8] text-[#164E63] text-[10px] font-black rounded-full mb-1 shadow-sm">المسار الأيقوني</span>
+                                    <h3 class="text-white font-black text-base sm:text-lg font-heading leading-snug">الجبال والمطلات</h3>
+                                    <p class="text-sky-100/90 text-[10px] sm:text-[11px] mt-0.5">فيفا والداير والريث</p>
+                                    <div class="text-amber-300 text-[11px] flex items-center justify-center gap-1 mt-1 font-bold">
+                                        <i class="fa-solid fa-star text-amber-400 text-xs"></i>
+                                        <span>4.88 (184 تقييم)</span>
+                                    </div>
+                                    <div class="mobile-card-cta mt-2 opacity-100 transition-opacity duration-300">
+                                        <span class="text-[10px] font-black text-white bg-white/20 hover:bg-[#06B6D4] px-3 py-1 rounded-full border border-white/30 inline-flex items-center gap-1.5 backdrop-blur-sm shadow-sm">
+                                            <span>استكشف المسار</span>
+                                            <i class="fa-solid fa-arrow-left text-[9px]"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
 
-                        <!-- Mobile Card 2: وادي لجب -->
-                        <a href="{{ route('destinations.show', 'wadi-lajab-canyon') }}" class="group relative shrink-0 w-52 h-76 rounded-3xl overflow-hidden glass-ocean-overlay border border-white/30 shadow-xl snap-center active:scale-95 transition-all duration-300">
-                            <img src="/images/wadi_lajab.jpg" alt="وادي لجب" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#164E63]/95 via-transparent to-black/20"></div>
-                            <div class="absolute bottom-4 inset-x-4 text-center">
-                                <span class="inline-block px-3 py-0.5 bg-[#06B6D4] text-white text-[11px] font-bold rounded-full mb-1">مسار المغامرات</span>
-                                <h3 class="text-white font-bold text-base font-heading">وادي لجب</h3>
-                                <p class="text-sky-100/80 text-[11px] mt-0.5">شقوق وشلالات مائية</p>
-                                <div class="text-amber-300 text-xs flex items-center justify-center gap-1 mt-1 font-semibold">
-                                    <i class="fa-solid fa-star text-amber-400"></i>
-                                    <span>4.90</span>
+                        <!-- Card 1: وادي لجب -->
+                        <div class="mobile-moving-card mobile-card-pos-right" data-card-index="1" data-href="{{ route('destinations.show', 'wadi-lajab-canyon') }}">
+                            <div class="mobile-card-inner w-[190px] sm:w-[210px] h-[270px] sm:h-[295px] relative rounded-3xl overflow-hidden glass-ocean-overlay border transition-all duration-500">
+                                <img src="/images/wadi_lajab.jpg" alt="وادي لجب" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#0e3b4d]/95 via-[#164E63]/35 to-black/20"></div>
+                                <div class="mobile-card-sheen"></div>
+
+                                <div class="absolute top-3 right-3 z-10">
+                                    <span class="px-2.5 py-0.5 bg-emerald-600/90 text-white text-[10px] font-bold rounded-lg backdrop-blur-md shadow-sm flex items-center gap-1">
+                                        <i class="fa-solid fa-compass text-[9px]"></i> مغامرة فريدة
+                                    </span>
+                                </div>
+
+                                <div class="absolute bottom-3.5 inset-x-3.5 text-center z-10">
+                                    <span class="inline-block px-2.5 py-0.5 bg-[#06B6D4] text-white text-[10px] font-black rounded-full mb-1 shadow-sm">مسار المغامرات</span>
+                                    <h3 class="text-white font-black text-base sm:text-lg font-heading leading-snug">وادي لجب</h3>
+                                    <p class="text-sky-100/90 text-[10px] sm:text-[11px] mt-0.5">شقوق وشلالات مائية</p>
+                                    <div class="text-amber-300 text-[11px] flex items-center justify-center gap-1 mt-1 font-bold">
+                                        <i class="fa-solid fa-star text-amber-400 text-xs"></i>
+                                        <span>4.90 (142 تقييم)</span>
+                                    </div>
+                                    <div class="mobile-card-cta mt-2 opacity-100 transition-opacity duration-300">
+                                        <span class="text-[10px] font-black text-white bg-white/20 hover:bg-[#06B6D4] px-3 py-1 rounded-full border border-white/30 inline-flex items-center gap-1.5 backdrop-blur-sm shadow-sm">
+                                            <span>استكشف الوجهة</span>
+                                            <i class="fa-solid fa-arrow-left text-[9px]"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
 
-                        <!-- Mobile Card 3: جزر فرسان -->
-                        <a href="{{ route('destinations.show', 'farasan-islands-beaches') }}" class="group relative shrink-0 w-52 h-76 rounded-3xl overflow-hidden glass-ocean-overlay border border-white/30 shadow-xl snap-center active:scale-95 transition-all duration-300">
-                            <img src="/images/farasan_islands.jpg" alt="جزر فرسان" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#164E63]/95 via-transparent to-black/20"></div>
-                            <div class="absolute bottom-4 inset-x-4 text-center">
-                                <span class="inline-block px-3 py-0.5 bg-[#06B6D4] text-white text-[11px] font-bold rounded-full mb-1">البحر والجزر</span>
-                                <h3 class="text-white font-bold text-base font-heading">جزر فرسان</h3>
-                                <p class="text-sky-100/80 text-[11px] mt-0.5">شواطئ وشعب مرجانية</p>
-                                <div class="text-amber-300 text-xs flex items-center justify-center gap-1 mt-1 font-semibold">
-                                    <i class="fa-solid fa-star text-amber-400"></i>
-                                    <span>4.92</span>
+                        <!-- Card 2: جزر فرسان -->
+                        <div class="mobile-moving-card mobile-card-pos-left" data-card-index="2" data-href="{{ route('destinations.show', 'farasan-islands-beaches') }}">
+                            <div class="mobile-card-inner w-[190px] sm:w-[210px] h-[270px] sm:h-[295px] relative rounded-3xl overflow-hidden glass-ocean-overlay border transition-all duration-500">
+                                <img src="/images/farasan_islands.jpg" alt="جزر فرسان" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#0e3b4d]/95 via-[#164E63]/35 to-black/20"></div>
+                                <div class="mobile-card-sheen"></div>
+
+                                <div class="absolute top-3 right-3 z-10">
+                                    <span class="px-2.5 py-0.5 bg-sky-600/90 text-white text-[10px] font-bold rounded-lg backdrop-blur-md shadow-sm flex items-center gap-1">
+                                        <i class="fa-solid fa-water text-[9px]"></i> سحر الفيروز
+                                    </span>
+                                </div>
+
+                                <div class="absolute bottom-3.5 inset-x-3.5 text-center z-10">
+                                    <span class="inline-block px-2.5 py-0.5 bg-[#06B6D4] text-white text-[10px] font-black rounded-full mb-1 shadow-sm">البحر والجزر</span>
+                                    <h3 class="text-white font-black text-base sm:text-lg font-heading leading-snug">جزر فرسان</h3>
+                                    <p class="text-sky-100/90 text-[10px] sm:text-[11px] mt-0.5">شواطئ وشعب مرجانية</p>
+                                    <div class="text-amber-300 text-[11px] flex items-center justify-center gap-1 mt-1 font-bold">
+                                        <i class="fa-solid fa-star text-amber-400 text-xs"></i>
+                                        <span>4.92 (198 تقييم)</span>
+                                    </div>
+                                    <div class="mobile-card-cta mt-2 opacity-100 transition-opacity duration-300">
+                                        <span class="text-[10px] font-black text-white bg-white/20 hover:bg-[#06B6D4] px-3 py-1 rounded-full border border-white/30 inline-flex items-center gap-1.5 backdrop-blur-sm shadow-sm">
+                                            <span>استكشف الوجهة</span>
+                                            <i class="fa-solid fa-arrow-left text-[9px]"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
 
+                    </div>
+
+                    <!-- Interactive Switcher Pills (Touch-Friendly Controls) -->
+                    <div id="mobileHeroPills" class="flex items-center justify-center gap-1.5 sm:gap-2 pt-1 pb-1">
+                        <button type="button" class="mobile-hero-pill is-active px-3 py-1.5 rounded-full text-[11px] font-bold transition-all duration-300 flex items-center gap-1.5" data-pill-index="0">
+                            <i class="fa-solid fa-mountain text-xs"></i>
+                            <span>الجبال والمطلات</span>
+                        </button>
+                        <button type="button" class="mobile-hero-pill px-3 py-1.5 rounded-full text-[11px] font-bold transition-all duration-300 flex items-center gap-1.5 text-sky-100/70 hover:text-white bg-white/10 border border-white/15" data-pill-index="1">
+                            <i class="fa-solid fa-water text-xs"></i>
+                            <span>وادي لجب</span>
+                        </button>
+                        <button type="button" class="mobile-hero-pill px-3 py-1.5 rounded-full text-[11px] font-bold transition-all duration-300 flex items-center gap-1.5 text-sky-100/70 hover:text-white bg-white/10 border border-white/15" data-pill-index="2">
+                            <i class="fa-solid fa-umbrella-beach text-xs"></i>
+                            <span>جزر فرسان</span>
+                        </button>
                     </div>
                 </div>
 
